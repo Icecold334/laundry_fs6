@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
 <style>
@@ -74,7 +74,7 @@
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         transform: scale(0);
         transition: .5s ease-in-out;
-        transition-delay: 1s;
+        transition-delay: 0.5s;
     }
 
     .input-group {
@@ -393,29 +393,29 @@
                         </p>
                     </div>
                 </div>
-
             </div>
             <!-- END SIGN UP -->
             <!-- SIGN IN -->
             <div class="col align-items-center flex-col sign-in">
                 <div class="form-wrapper align-items-center">
-                    <div class="form sign-in">
+                    <form action="/login" method="post" class="form sign-in">
+                        @csrf
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username">
+                            <input type="text" placeholder="Username" name="username" autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
+                            <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
-                        <button>
+                        <button type="submit">
                             Sign in
                         </button>
-                        <p>
+                        {{-- <p>
                             <b>
                                 Forgot password?
                             </b>
-                        </p>
+                        </p> --}}
                         <p>
                             <span>
                                 Don't have an account?
@@ -424,7 +424,7 @@
                                 Sign up here
                             </b>
                         </p>
-                    </div>
+                    </form>
                 </div>
                 <div class="form-wrapper">
 
