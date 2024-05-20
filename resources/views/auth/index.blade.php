@@ -363,24 +363,29 @@
             <!-- SIGN UP -->
             <div class="col align-items-center flex-col sign-up">
                 <div class="form-wrapper align-items-center">
-                    <div class="form sign-up">
+                    <form action="/register" method="post" class="form sign-up">
+                        @csrf
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username">
+                            <input type="text" placeholder="Name" name="name" autocomplete="off">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" placeholder="Username" name="username" autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bx-mail-send'></i>
-                            <input type="email" placeholder="Email">
+                            <input type="email" placeholder="Email" name="email" autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
+                            <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Confirm password">
+                            <input type="password" placeholder="Confirm password" name="password_confirmation" autocomplete="off">
                         </div>
-                        <button>
+                        <button type="submit">
                             Sign up
                         </button>
                         <p>
@@ -391,7 +396,7 @@
                                 Sign in here
                             </b>
                         </p>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- END SIGN UP -->
