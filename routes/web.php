@@ -1,16 +1,21 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FuncController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'index')->middleware('guest');
+    Route::post('/login', 'login')->name('login');
+    Route::get('/logout', 'logout')->middleware('auth');
+    Route::get('/register', 'register')->middleware('guest');
+    Route::post('/register', 'register')->middleware('guest')->name('register');
+});
 
-Route::get('/login', [AuthController::class, 'index'])->middleware('guest');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
-Route::post('/register', [AuthController::class, 'register'])->middleware('guest')->name('register');
+Route::resource('/products', ProductsController::class)->middleware('auth');

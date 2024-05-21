@@ -11,8 +11,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
     :root {
-        --primary-color: #4EA685;
-        --secondary-color: #57B894;
+        --primary-color: #4e73df;
+        --secondary-color: #858796;
         --black: #000000;
         --white: #ffffff;
         --gray: #efefef;
