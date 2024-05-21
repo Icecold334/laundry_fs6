@@ -11,11 +11,16 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
+    <!-- Nav Item -->
     <li class="nav-item {{ Request::is('dashboard*') ? 'active ' : '' }}">
         <a class="nav-link " href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
+    </li>
+    <li class="nav-item {{ Request::is('products*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/products">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Produk</span></a>
     </li>
 
     <!-- Divider -->

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,20 +18,27 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+
+
+        $credentials = Validator::make($request->all(), [
             'username' => ['required'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if ($credentials->fails()) {
+            return back()->with('login', 'errors')->onlyInput('username');
+        }
+        $data = [
+            'username' => $request->input('username'),
+            'password' => $request->input('password'),
+        ];
+        if (Auth::attempt($data)) {
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
         }
 
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ])->onlyInput('username');
+        return back()->with('login', 'errors')->onlyInput('username');
     }
 
     // logout the user
@@ -44,21 +52,29 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
+
+        $credentials = Validator::make($request->all(), [
             'name' => ['required'],
             'username' => ['required', 'unique:users'],
             'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'username' => $validatedData['username'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'password' => ['required', 'confirmed'],
         ]);
 
 
-        return redirect('/login');
+
+        if ($credentials->fails()) {
+            return back()->with('register', 'errors')->onlyInput('username', 'name', 'email');
+        }
+        $data = [
+            'name' => $request->input('name'),
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+
+        $user = User::create($data);
+
+
+        return redirect('/login')->with('daftar', 'success');
     }
 }

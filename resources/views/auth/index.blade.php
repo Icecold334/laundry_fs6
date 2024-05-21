@@ -8,6 +8,7 @@
     <title>Login</title>
 </head>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
     :root {
         --primary-color: #4EA685;
@@ -357,7 +358,9 @@
 </style>
 
 <body>
-    <div id="container" class="container">
+    <div id="container"
+        class="container @if (session('login')) sign-in @elseif (session('register')) sign-up @endif">
+
         <!-- FORM SECTION -->
         <div class="row">
             <!-- SIGN UP -->
@@ -367,15 +370,19 @@
                         @csrf
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Name" name="name" autocomplete="off">
+                            <input type="text" placeholder="Name" name="name" value="{{ old('name') }}"
+                                autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username" name="username" autocomplete="off">
+                            <input type="text" placeholder="Username" name="username"
+                                @if (session('register')) value="{{ old('username') }}" @endif
+                                autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bx-mail-send'></i>
-                            <input type="email" placeholder="Email" name="email" autocomplete="off">
+                            <input type="text" placeholder="Email" name="email" value="{{ old('email') }}"
+                                autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
@@ -383,7 +390,8 @@
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Confirm password" name="password_confirmation" autocomplete="off">
+                            <input type="password" placeholder="Confirm password" name="password_confirmation"
+                                autocomplete="off">
                         </div>
                         <button type="submit">
                             Sign up
@@ -407,7 +415,9 @@
                         @csrf
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username" name="username" autocomplete="off">
+                            <input type="text" placeholder="Username" name="username"
+                                @if (session('login')) value="{{ old('username') }}" @endif
+                                autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
@@ -469,7 +479,63 @@
         </div>
         <!-- END CONTENT SECTION -->
     </div>
-
+    @if (session('login'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "Login gagal!"
+            });
+        </script>
+    @endif
+    @if (session('register'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "Registrasi gagal!"
+            });
+        </script>
+    @endif
+    @if (session('daftar'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "Registrasi berhasil!"
+            });
+        </script>
+    @endif
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -485,10 +551,13 @@
         container.classList.toggle('sign-in')
         container.classList.toggle('sign-up')
     }
-
-    setTimeout(() => {
-        container.classList.add('sign-in')
-    }, 200)
 </script>
+@if (!session('login') && !session('register'))
+    <script>
+        setTimeout(() => {
+            container.classList.add('sign-in')
+        }, 200)
+    </script>
+@endif
 
 </html>

@@ -25,6 +25,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    {{--  create bootstrap breadcumb --}}
 
                     <!-- Main Content -->
                     @yield('content')
