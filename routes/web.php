@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuncController;
+use App\Http\Controllers\PeopleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,3 +20,4 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/products', ProductsController::class)->middleware('auth');
+Route::resource('/people', PeopleController::class)->middleware('auth');

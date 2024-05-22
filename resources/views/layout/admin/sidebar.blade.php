@@ -21,6 +21,11 @@
             <i class="fa-solid fa-hands-holding"></i>
             <span>Layanan</span></a>
     </li>
+    <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/people">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Karyawan</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
