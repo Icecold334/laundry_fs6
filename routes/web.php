@@ -18,6 +18,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->middleware('guest')->name('register');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('auth');

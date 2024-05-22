@@ -88,12 +88,12 @@ class PeopleController extends Controller
      */
     public function update(Request $request, User $person)
     {
+        $ruleusername = $request->username != $person->username ? ['required', 'string', 'max:255', 'unique:users'] : ['required', 'string', 'max:255'];
+        $ruleemail = $request->email != $person->email ? ['required', 'string', 'email', 'max:255', 'unique:users'] : ['required', 'string', 'email', 'max:255'];
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            // 'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'max:255'],
-            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'username' => $ruleusername,
+            'email' => $ruleemail,
         ]);
 
         if ($credentials->fails()) {
