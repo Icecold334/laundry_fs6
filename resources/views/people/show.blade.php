@@ -10,6 +10,10 @@
                     <div class="card-text">
                         <table>
                             <tr>
+                                <td colspan="3"><img src="{{ asset('storage/people/' . $user->img) }}" alt=""
+                                        class="img-thumbnail"></td>
+                            </tr>
+                            <tr>
                                 <td>Nama</td>
                                 <td>:</td>
                                 <td>{{ $user->name }}</td>

@@ -11,7 +11,8 @@ class UpdateProductsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // return false;
+        return true;
     }
 
     /**

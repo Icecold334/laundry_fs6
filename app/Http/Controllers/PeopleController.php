@@ -20,7 +20,6 @@ class PeopleController extends Controller
         ];
         return view('people.index', $data);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -43,7 +42,6 @@ class PeopleController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
-
         if ($credentials->fails()) {
             return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email');
         }
@@ -88,6 +86,7 @@ class PeopleController extends Controller
      */
     public function update(Request $request, User $person)
     {
+        // validation
         $ruleusername = $request->username != $person->username ? ['required', 'string', 'max:255', 'unique:users'] : ['required', 'string', 'max:255'];
         $ruleemail = $request->email != $person->email ? ['required', 'string', 'email', 'max:255', 'unique:users'] : ['required', 'string', 'email', 'max:255'];
         $credentials = Validator::make($request->all(), [

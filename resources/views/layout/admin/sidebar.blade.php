@@ -26,6 +26,11 @@
             <i class="fa-solid fa-people-group"></i>
             <span>Karyawan</span></a>
     </li>
+    <li class="nav-item {{ Request::is('orders*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/orders">
+            <i class="fa-solid fa-people-carry-box"></i>
+            <span>Pesanan</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
