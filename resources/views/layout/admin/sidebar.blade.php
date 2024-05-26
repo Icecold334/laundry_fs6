@@ -21,11 +21,13 @@
             <i class="fa-solid fa-hands-holding"></i>
             <span>Layanan</span></a>
     </li>
-    <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
-        <a class="nav-link " href="/people">
-            <i class="fa-solid fa-people-group"></i>
-            <span>Karyawan</span></a>
-    </li>
+    @can('superadmin')
+        <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
+            <a class="nav-link " href="/people">
+                <i class="fa-solid fa-people-group"></i>
+                <span>Karyawan</span></a>
+        </li>
+    @endcan
     <li class="nav-item {{ Request::is('orders*') ? 'active ' : '' }}">
         <a class="nav-link " href="/orders">
             <i class="fa-solid fa-people-carry-box"></i>

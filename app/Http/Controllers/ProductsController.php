@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
@@ -24,8 +25,11 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request, Products $product)
     {
+        if ($request->user()->cannot('create', $product)) {
+            abort(403);
+        }
         // create a new resource
         $data = [
             'title' => 'Layanan',

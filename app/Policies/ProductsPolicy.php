@@ -2,9 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Products;
 use App\Models\User;
+use App\Models\Products;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsPolicy
 {
@@ -29,7 +30,7 @@ class ProductsPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role == 1;
     }
 
     /**

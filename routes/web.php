@@ -21,5 +21,5 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/products', ProductsController::class)->middleware('auth');
-Route::resource('/people', PeopleController::class)->middleware('auth');
+Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
