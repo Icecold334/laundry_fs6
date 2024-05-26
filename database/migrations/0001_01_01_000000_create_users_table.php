@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('img')->default('default_pict.svg');
             $table->string('email')->unique();
+            $table->string('phone');
             $table->string('password');
             $table->integer('role')->default(3);
             $table->integer('status')->default(1);

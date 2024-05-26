@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Orders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Products;
@@ -21,14 +22,24 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'role' => 1,
             'email' => 'adminadmin@gmail.com',
+            'phone' => '088888888888',
             'password' => Hash::make('admin')
         ]);
         User::factory()->create([
-            'name' => 'Fauzan',
-            'username' => 'fauzan',
+            'name' => 'Staff',
+            'username' => 'staff',
+            'role' => 2,
+            'email' => 'staff@example.com',
+            'phone' => '088888888888',
+            'password' => Hash::make('staff')
+        ]);
+        User::factory()->create([
+            'name' => 'User',
+            'username' => 'user',
             'role' => 3,
-            'email' => 'fauzanimam334@gmail.com',
-            'password' => Hash::make('fau')
+            'email' => 'user@example.com',
+            'phone' => '088888888888',
+            'password' => Hash::make('user')
         ]);
         Products::factory()->create([
             'name' => 'Reguler',
@@ -43,6 +54,15 @@ class DatabaseSeeder extends Seeder
             'duration' => 1,
             'code' => 'INS',
             'description' => 'Paket Cuci + Setrika 1 Hari'
+        ]);
+        Orders::factory()->create([
+            'code' => 'INS000001',
+            'product_id' => 2,
+            'user_id' => 3,
+            'quantity' => 3,
+            'total' => 21000,
+            'before' => 0,
+            'after' => 0
         ]);
     }
 }

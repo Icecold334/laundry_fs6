@@ -385,6 +385,11 @@
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
+                            <i class='bx bx-mail-send'></i>
+                            <input type="text" placeholder="Phone Number" name="phone" value="{{ old('phone') }}"
+                                autocomplete="off">
+                        </div>
+                        <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
                             <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
