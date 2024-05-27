@@ -9,10 +9,12 @@
 </head>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"
+    ></script>
 <style>
     :root {
-        --primary-color: #4e73df;
-        --secondary-color: #858796;
+        --primary-color: #114cff;
+        --secondary-color: #98a4fc;
         --black: #000000;
         --white: #ffffff;
         --gray: #efefef;
@@ -89,10 +91,10 @@
         top: 50%;
         left: 1rem;
         transform: translateY(-50%);
-        font-size: 1.4rem;
+        font-size: 1rem;
         color: var(--gray-2);
+        opacity: 0.7;
     }
-
     .input-group input {
         width: 100%;
         padding: 1rem 3rem;
@@ -214,14 +216,14 @@
     }
 
     .text {
-        margin: 4rem;
+        margin: 2rem;
         color: var(--white);
     }
 
     .text h2 {
         font-size: 3.5rem;
         font-weight: 800;
-        margin: 2rem 0;
+        margin: 1rem 0;
         transition: 1s ease-in-out;
     }
 
@@ -368,33 +370,36 @@
                 <div class="form-wrapper align-items-center">
                     <form action="/register" method="post" class="form sign-up">
                         @csrf
+                        <h2>Registrasi</h2>
                         <div class="input-group">
-                            <i class='bx bxs-user'></i>
+                            <i class="fas fa-user"></i> 
                             <input type="text" placeholder="Name" name="name" value="{{ old('name') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class='bx bxs-user'></i>
+                            <i class="fas fa-user-alt"></i>
                             <input type="text" placeholder="Username" name="username"
                                 @if (session('register')) value="{{ old('username') }}" @endif
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class='bx bx-mail-send'></i>
+                            <i class="fas fa-envelope"></i>
                             <input type="text" placeholder="Email" name="email" value="{{ old('email') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
+
                             <i class='bx bx-mail-send'></i>
                             <input type="text" placeholder="Phone Number" name="phone" value="{{ old('phone') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
                             <i class='bx bxs-lock-alt'></i>
+
                             <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
+                            <i class="fas fa-lock-open"></i>
                             <input type="password" placeholder="Confirm password" name="password_confirmation"
                                 autocomplete="off">
                         </div>
@@ -418,14 +423,15 @@
                 <div class="form-wrapper align-items-center">
                     <form action="/login" method="post" class="form sign-in">
                         @csrf
+                        <h2>Login</h2>
                         <div class="input-group">
-                            <i class='bx bxs-user'></i>
+                            <i class="fas fa-user-alt"></i>
                             <input type="text" placeholder="Username" name="username"
                                 @if (session('login')) value="{{ old('username') }}" @endif
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
+                            <i class="fas fa-lock"></i>
                             <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
                         <button type="submit">
@@ -459,25 +465,27 @@
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
-                        Welcome
+                        Welcome Back,
                     </h2>
-
+                    <p>Sign in to continue</p>
+                    <p>Access all the exclusive features by signing in.</p>
                 </div>
                 <div class="img sign-in">
-
+                    <img src="{{ asset('img/2.svg') }}" alt="Nama Gambar">
                 </div>
             </div>
             <!-- END SIGN IN CONTENT -->
             <!-- SIGN UP CONTENT -->
             <div class="col align-items-center flex-col">
                 <div class="img sign-up">
-
+                    <img src="{{ asset('img/1.svg') }}" alt="Nama Gambar">
                 </div>
                 <div class="text sign-up">
                     <h2>
                         Join with us
                     </h2>
-
+                    <p>Signup to enjoy with us</p>
+                    <p>Become a part of our community by signing up.</p>
                 </div>
             </div>
             <!-- END SIGN UP CONTENT -->
