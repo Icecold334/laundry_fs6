@@ -40,9 +40,12 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductsRequest $request)
+    public function store(StoreProductsRequest $request, Products $product)
     {
         // validation
+        if ($request->user()->cannot('create', $product)) {
+            abort(403);
+        }
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'string'],
@@ -79,8 +82,11 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $product)
+    public function edit(Request $request, Products $product)
     {
+        if ($request->user()->cannot('update', $product)) {
+            abort(403);
+        }
         // edit the product
         $data = [
             'title' => 'Layanan',
@@ -94,6 +100,9 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Products $product)
     {
+        if ($request->user()->cannot('update', $product)) {
+            abort(403);
+        }
         // validation
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
@@ -117,8 +126,11 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $product)
+    public function destroy(Request $request, Products $product)
     {
+        if ($request->user()->cannot('delete', $product)) {
+            abort(403);
+        }
         // delete product
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');

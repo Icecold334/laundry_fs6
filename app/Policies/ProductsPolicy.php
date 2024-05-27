@@ -38,7 +38,7 @@ class ProductsPolicy
      */
     public function update(User $user, Products $products): bool
     {
-        //
+        return $user->role == 1;
     }
 
     /**
@@ -46,7 +46,7 @@ class ProductsPolicy
      */
     public function delete(User $user, Products $products): bool
     {
-        //
+        return $user->role == 1;
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1><a href="/people"><i class="fa-solid fa-chevron-left"></i></a> Ubah Data Layanan {{ $product->name }}</h1>
+    <h1><a href="/products"><i class="fa-solid fa-chevron-left"></i></a> Ubah Data Layanan {{ $product->name }}</h1>
     <div class="row">
         <div class="col-xl-8 col-md-10 col-sm-12">
             <form action="/products/{{ $product->id }}" method="POST">
