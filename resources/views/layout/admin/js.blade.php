@@ -1,51 +1,39 @@
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dashboard/vendor/jquery/jquery.min.js"></script>
+<script src="/dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+</script>
 <script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap5.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="/dashboard/js/sb-admin-2.min.js"></script>
 <script>
-    //   $("#products").DataTable({
-    //     columnDefs: [{
-    //         orderable: false,
-    //         targets: 4
-    //     }],
-    //     paging: true,
-    //     lengthMenu: [5, 10, 20, {
-    //         label: "Semua",
-    //         value: -1
-    //     }],
-    //     pageLength: 5,
-    //     language: {
-    //         decimal: "",
-    //         searchPlaceholder: "Cari Data",
-    //         emptyTable: "Tabel kosong",
-    //         info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-    //         infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
-    //         infoFiltered: "(filtered from _MAX_ total entries)",
-    //         infoPostFix: "",
-    //         thousands: ",",
-    //         lengthMenu: "Tampilkan _MENU_ data",
-    //         loadingRecords: "Loading...",
-    //         processing: "",
-    //         search: "Cari:",
-    //         zeroRecords: "Data tidak ditemukan",
-    //         paginate: {
-    //             first: "<<",
-    //             last: ">>",
-    //             next: ">",
-    //             previous: "<",
-    //         },
-    //         aria: {
-    //             orderable: "Order by this column",
-    //             orderableReverse: "Reverse order this column",
-    //         },
-    //     },
-    // });
+    $('input').attr('autocomplete', 'off');
+    /* Fungsi formatRupiah */
+    function rupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+    function mustNumeric(angka) {
+        return angka.replace(/[^,\d]/g, '').toString()
+    }
 </script>
 @stack('scripts')

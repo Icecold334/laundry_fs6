@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/panel">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -11,8 +11,8 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item -->
-    <li class="nav-item {{ Request::is('dashboard*') ? 'active' : '' }}">
-        <a class="nav-link " href="/dashboard">
+    <li class="nav-item {{ Request::is('panel*') ? 'active' : '' }}">
+        <a class="nav-link " href="/panel">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -20,6 +20,18 @@
         <a class="nav-link " href="/products">
             <i class="fa-solid fa-hands-holding"></i>
             <span>Layanan</span></a>
+    </li>
+    @can('superadmin')
+        <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
+            <a class="nav-link " href="/people">
+                <i class="fa-solid fa-people-group"></i>
+                <span>Karyawan</span></a>
+        </li>
+    @endcan
+    <li class="nav-item {{ Request::is('orders*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/orders">
+            <i class="fa-solid fa-people-carry-box"></i>
+            <span>Pesanan</span></a>
     </li>
 
     <!-- Divider -->
