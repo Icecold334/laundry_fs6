@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ProductsController extends Controller
 {
@@ -27,9 +28,7 @@ class ProductsController extends Controller
      */
     public function create(Request $request, Products $product)
     {
-        if ($request->user()->cannot('create', $product)) {
-            abort(403);
-        }
+        Gate::authorize('create', $product);
         // create a new resource
         $data = [
             'title' => 'Layanan',
@@ -43,9 +42,8 @@ class ProductsController extends Controller
     public function store(StoreProductsRequest $request, Products $product)
     {
         // validation
-        if ($request->user()->cannot('create', $product)) {
-            abort(403);
-        }
+        Gate::authorize('create', $product);
+
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'string'],
@@ -84,9 +82,8 @@ class ProductsController extends Controller
      */
     public function edit(Request $request, Products $product)
     {
-        if ($request->user()->cannot('update', $product)) {
-            abort(403);
-        }
+        Gate::authorize('create', $product);
+
         // edit the product
         $data = [
             'title' => 'Layanan',
@@ -100,9 +97,8 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Products $product)
     {
-        if ($request->user()->cannot('update', $product)) {
-            abort(403);
-        }
+        Gate::authorize('create', $product);
+
         // validation
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
@@ -128,9 +124,8 @@ class ProductsController extends Controller
      */
     public function destroy(Request $request, Products $product)
     {
-        if ($request->user()->cannot('delete', $product)) {
-            abort(403);
-        }
+        Gate::authorize('create', $product);
+
         // delete product
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');

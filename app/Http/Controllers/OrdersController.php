@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Orders;
 use App\Models\Products;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreOrdersRequest;
 use App\Http\Requests\UpdateOrdersRequest;
-use Illuminate\Support\Facades\Http;
 
 class OrdersController extends Controller
 {
@@ -15,9 +16,12 @@ class OrdersController extends Controller
      */
     public function index()
     {
+        $orders = Auth::user()->role == 3
+            ? Orders::with(['product', 'user'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->get()
+            : Orders::with(['product', 'user'])->orderBy('created_at', 'desc')->get();
         $data = [
             'title' => 'Pesanan',
-            'orders' => Orders::orderBy('created_at', 'desc')->get()
+            'orders' => $orders
         ];
         return view('orders.index', $data);
     }

@@ -15,7 +15,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($orders->where('user_id', '=', Auth::user()->id) as $order)
+            @php
+            @endphp
+            @foreach ($orders as $order)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $order->code }}</td>

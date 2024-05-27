@@ -64,5 +64,14 @@ class DatabaseSeeder extends Seeder
             'before' => 0,
             'after' => 0
         ]);
+        Orders::factory()->create([
+            'code' => 'INS000002',
+            'product_id' => 2,
+            'user_id' => 3,
+            'quantity' => 5,
+            'total' => 35000,
+            'before' => 0,
+            'after' => 0
+        ]);
     }
 }

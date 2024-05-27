@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class SuperAdmin
@@ -16,9 +17,7 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role !== 1) {
-            abort(403);
-        }
+        Gate::allowIf(Auth::check() && Auth::user()->role == 1);
         return $next($request);
     }
 }
