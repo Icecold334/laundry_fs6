@@ -24,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('superadmin', function () {
             return Auth::user()->role == 1;
         });
+        Gate::define('admin', function () {
+            return Auth::user()->role == 2;
+        });
+        Gate::define('user', function () {
+            return Auth::user()->role == 3;
+        });
     }
 }

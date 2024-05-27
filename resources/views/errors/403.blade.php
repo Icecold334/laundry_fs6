@@ -24,8 +24,13 @@
         <div class="Circle_Text">
             <!--404 inside the circle-->
             <h1>403</h1>
-            <h3>Oops! <br> Anda tidak diizinkan untuk mengakses halaman ini.</h3>
-            <a href="/" class="btn">Beranda</a>
+            <h3>Oops! Akses ditolak</h3>
+            @auth
+                <a href="{{ url()->previous() }}" class="btn">Beranda</a>
+            @endauth
+            @guest
+                <a href="/" class="btn">Beranda</a>
+            @endguest
         </div>
     </div>
 </body>

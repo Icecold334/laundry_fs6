@@ -1,6 +1,11 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>Daftar Pesanan <a href="/orders/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a></h1>
+    <h1>
+        Daftar Pesanan
+        @can('user')
+            <a href="/orders/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
+        @endcan
+    </h1>
     @csrf
     <table class="table" id="orders">
         <thead>
@@ -26,13 +31,13 @@
                     <td class="text-right">{{ 'Rp ' . number_format($order->total, 2, ',', '.') }}</td>
                     <td class="text-center"><span class="badge bg-primary text-white">Pesanan Dibuat</span></td>
                     <td class="text-center">
-                        <a href="/people/{{ $order->id }}" class="btn badge bg-info text-white px-1">
+                        <a href="/orders/{{ $order->id }}" class="btn badge bg-info text-white px-1">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <a href="/people/{{ $order->id }}/edit" class="btn badge bg-warning text-white px-1">
+                        <a href="/orders/{{ $order->id }}/edit" class="btn badge bg-warning text-white px-1">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <form class="d-inline" action="/people/{{ $order->id }}" method="POST"
+                        <form class="d-inline" action="/orders/{{ $order->id }}" method="POST"
                             id="formDel{{ $order->id }}">
                             @csrf
                             @method('DELETE')

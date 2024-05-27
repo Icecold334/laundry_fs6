@@ -29,7 +29,7 @@ class OrdersPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role == 3;
     }
 
     /**
@@ -37,7 +37,7 @@ class OrdersPolicy
      */
     public function update(User $user, Orders $orders): bool
     {
-        //
+        return $user->role !== 3;
     }
 
     /**

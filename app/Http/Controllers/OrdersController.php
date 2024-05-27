@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreOrdersRequest;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
 
 class OrdersController extends Controller
@@ -31,6 +34,8 @@ class OrdersController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Orders::class);
+        $regencies = User::find(1);
         // create a new resource
         $data = [
             'title' => 'Pesanan',
@@ -44,16 +49,28 @@ class OrdersController extends Controller
      */
     public function store(StoreOrdersRequest $request)
     {
-        $prov = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/regencies/' . $request->provinsi . '.json')->body();
-        dd($prov);
+        Gate::authorize('create', Orders::class);
+        $addressRule = $request->before == 1 || $request->after == 1 ? ['required'] : [];
+        // create a new resource
+        $credentials = Validator::make($request->all(), [
+            'product' => ['required'],
+            'method' => ['required'],
+            'before' => ['required'],
+            'after' => ['required'],
+            'kecamatan' => $addressRule,
+            'kelurahan' => $addressRule,
+        ]);
+        if ($credentials->fails()) {
+            return redirect()->back()->with('error', 'Tambah Pesanan Gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'kecamatan', 'kelurahan');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Orders $orders)
+    public function show(Orders $order)
     {
-        //
+        $order ?? abort(404);
     }
 
     /**
@@ -61,7 +78,7 @@ class OrdersController extends Controller
      */
     public function edit(Orders $orders)
     {
-        //
+        Gate::authorize('update', $orders);
     }
 
     /**

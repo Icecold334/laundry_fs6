@@ -25,7 +25,12 @@
             <!--404 inside the circle-->
             <h1>404</h1>
             <h3>Oops! Halaman Tidak Tersedia</h3>
-            <a href="/" class="btn">Beranda</a>
+            @auth
+                <a href="{{ url()->previous() }}" class="btn">Beranda</a>
+            @endauth
+            @guest
+                <a href="/" class="btn">Beranda</a>
+            @endguest
         </div>
     </div>
 </body>
