@@ -35,7 +35,7 @@ class OrdersPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Orders $orders): bool
+    public function update(User $user): bool
     {
         return $user->role !== 3;
     }
@@ -43,9 +43,9 @@ class OrdersPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Orders $orders): bool
+    public function delete(User $user): bool
     {
-        //
+        return $user->role == 1;
     }
 
     /**

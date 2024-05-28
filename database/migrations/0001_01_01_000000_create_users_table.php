@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('password');
-            $table->integer('provinces')->nullable();
-            $table->integer('regencies')->nullable();
             $table->integer('role')->default(3);
             $table->integer('status')->default(1);
             $table->rememberToken();

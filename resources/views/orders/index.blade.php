@@ -2,7 +2,7 @@
 @section('content')
     <h1>
         Daftar Pesanan
-        @can('user')
+        @can('create', App\Models\Orders::class)
             <a href="/orders/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
         @endcan
     </h1>
@@ -16,6 +16,7 @@
                 <th class="text-center">Jumlah</th>
                 <th class="text-center">Total</th>
                 <th class="text-center">Status</th>
+                <th class="text-center">Pembayaran</th>
                 <th class="text-center" style="width: 10%"></th>
             </tr>
         </thead>
@@ -27,24 +28,63 @@
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $order->code }}</td>
                     <td>{{ $order->product->name }}</td>
-                    <td class="text-right">{{ $order->quantity }} Kg</td>
-                    <td class="text-right">{{ 'Rp ' . number_format($order->total, 2, ',', '.') }}</td>
-                    <td class="text-center"><span class="badge bg-primary text-white">Pesanan Dibuat</span></td>
+                    <td class="text-right">{{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
+                    <td class="text-right">{{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
+                    </td>
                     <td class="text-center">
-                        <a href="/orders/{{ $order->id }}" class="btn badge bg-info text-white px-1">
+                        @switch($order->status)
+                            @case(0)
+                                <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
+                            @break
+
+                            @case(1)
+                                <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
+                            @break
+
+                            @case(2)
+                                <span class="badge bg-info text-white">Pesanan Diproses</span>
+                            @break
+
+                            @case(3)
+                                <span class="badge bg-primary text-white">Pesanan Siap Diambil</span>
+                            @break
+
+                            @case(4)
+                                <span class="badge bg-success text-white">Pesanan Selesai</span>
+                            @break
+                        @endswitch
+                    </td>
+                    <td class="text-center">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
+                    <td class="text-center">
+                        @if (Auth::user()->role !== 3 && $order->status == 1 && $order->method == 0)
+                            <a href="#" class="btn badge bg-success text-white px-1">
+                                <i class="fa-solid fa-money-bill"></i>
+                            </a>
+                        @endif
+                        @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
+                            <a href="#" class="btn badge bg-success text-white px-1">
+                                <i class="fa-solid fa-money-bill"></i>
+                            </a>
+                        @endif
+                        <a href="/orders/{{ $order->code }}" class="btn badge bg-info text-white px-1">
                             <i class="fa-solid fa-circle-info"></i>
                         </a>
-                        <a href="/orders/{{ $order->id }}/edit" class="btn badge bg-warning text-white px-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <form class="d-inline" action="/orders/{{ $order->id }}" method="POST"
-                            id="formDel{{ $order->id }}">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                        <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->id }}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        @can('update', App\Models\Orders::class)
+                            <a href="/orders/{{ $order->code }}/edit" class="btn badge bg-warning text-white px-1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        @endcan
+                        @can('delete', App\Models\Orders::class)
+                            <form class="d-inline" action="/orders/{{ $order->code }}" method="POST"
+                                id="formDel{{ $order->code }}">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->code }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        @endcan
+
 
                     </td>
                 </tr>
@@ -91,10 +131,10 @@
             </script>
         @endif
         <script>
-            $("#products").DataTable({
+            $("#orders").DataTable({
                 columnDefs: [{
                     orderable: false,
-                    targets: 4
+                    targets: 7
                 }],
                 paging: true,
                 lengthMenu: [5, 10, 20, {

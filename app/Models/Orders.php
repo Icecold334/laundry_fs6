@@ -18,10 +18,18 @@ class Orders extends Model
         'quantity',
         'before',
         'after',
+        'method',
+        'link',
         'address',
         'status',
         'total'
     ];
+
+    // replace route key with code column
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
 
     public function user(): BelongsTo
     {

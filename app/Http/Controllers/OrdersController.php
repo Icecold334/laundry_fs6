@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
@@ -35,7 +34,6 @@ class OrdersController extends Controller
     public function create()
     {
         Gate::authorize('create', Orders::class);
-        $regencies = User::find(1);
         // create a new resource
         $data = [
             'title' => 'Pesanan',
@@ -57,12 +55,29 @@ class OrdersController extends Controller
             'method' => ['required'],
             'before' => ['required'],
             'after' => ['required'],
-            'kecamatan' => $addressRule,
-            'kelurahan' => $addressRule,
+            'address' => $addressRule,
+        ], [
+            'product.required' => 'Layanan tidak boleh kosong!',
+            'method.required' => 'Pilih metode pembayaran!',
+            'before.required' => 'Pilih pengiriman awal!',
+            'after.required' => 'Pilih pengiriman akhir!',
+            'address.required' => 'Alamat Tidak Boleh Kosong!',
         ]);
         if ($credentials->fails()) {
-            return redirect()->back()->with('error', 'Tambah Pesanan Gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'kecamatan', 'kelurahan');
+            return redirect()->back()->with('error', 'Tambah Pesanan Gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
         }
+        // create a new order
+        $order = new Orders();
+        $order->code = Products::find($request->product)->code . sprintf("%06s", Orders::where('product_id', '=', $request->product)->count() + 1);
+        $order->user_id = Auth::user()->id;
+        $order->product_id = $request->product;
+        $order->before = $request->before;
+        $order->after = $request->after;
+        $order->method = $request->method;
+        $order->address = $request->address;
+        $order->status = 0;
+        $order->save();
+        return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Dibuat!');
     }
 
     /**
@@ -71,14 +86,20 @@ class OrdersController extends Controller
     public function show(Orders $order)
     {
         $order ?? abort(404);
+        $data = [
+            'title' => 'Pesanan',
+            'order' => $order
+        ];
+        return view('orders.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Orders $orders)
+    public function edit(Orders $order)
     {
-        Gate::authorize('update', $orders);
+        Gate::authorize('update', $order);
+        $order ?? abort(404);
     }
 
     /**
