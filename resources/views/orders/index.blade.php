@@ -12,7 +12,7 @@
             <tr>
                 <th class="text-center" style="width: 5%">#</th>
                 <th class="text-center" style="width: 20%">Nomor Pesanan</th>
-                <th class="text-center" style="width: 20%">Layanan</th>
+                <th class="text-center" style="width: 15%">Layanan</th>
                 <th class="text-center">Jumlah</th>
                 <th class="text-center">Total</th>
                 <th class="text-center">Status</th>
@@ -93,8 +93,14 @@
                             $.ajax({
                                 url: '/pay',
                                 type: 'GET',
+                                data: {
+                                    total: {{ $order->total }},
+                                    name: '{{ $order->user->name }}',
+                                    email: '{{ $order->user->email }}',
+                                    phone: '{{ $order->user->phone }}',
+                                },
                                 success: function(data) {
-                                    console.log(data);
+                                    snap.pay(data);
                                 },
                             });
 
