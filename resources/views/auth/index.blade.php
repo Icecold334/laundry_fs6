@@ -295,7 +295,7 @@
         .container::before,
         .container.sign-in::before,
         .container.sign-up::before {
-            height: 100vh;
+            height: 80vh;
             border-bottom-right-radius: 0;
             border-top-left-radius: 0;
             z-index: 0;
@@ -388,18 +388,16 @@
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
-
-                            <i class='bx bx-mail-send'></i>
+                            <i class="fas fa-phone"></i>
                             <input type="text" placeholder="Phone Number" name="phone" value="{{ old('phone') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-
+                            <i class="fas fa-lock"></i>
                             <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
                         <div class="input-group">
-                            <i class="fas fa-lock-open"></i>
+                            <i class="fas fa-lock"></i>
                             <input type="password" placeholder="Confirm password" name="password_confirmation"
                                 autocomplete="off">
                         </div>
@@ -465,27 +463,25 @@
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
-                        Welcome Back,
+                        Welcome!!
                     </h2>
                     <p>Sign in to continue</p>
-                    <p>Access all the exclusive features by signing in.</p>
-                </div>
-                <div class="img sign-in">
-                    <img src="{{ asset('img/2.svg') }}" alt="Nama Gambar">
+                    <div class="img sign-in">
+                        <img src="{{ asset('img/1.svg') }}" alt="Nama Gambar">
+                    </div>
                 </div>
             </div>
             <!-- END SIGN IN CONTENT -->
             <!-- SIGN UP CONTENT -->
             <div class="col align-items-center flex-col">
-                <div class="img sign-up">
-                    <img src="{{ asset('img/1.svg') }}" alt="Nama Gambar">
-                </div>
                 <div class="text sign-up">
+                    <div class="img sign-up">
+                        <img src="{{ asset('img/2.svg') }}" alt="Nama Gambar">
+                    </div>
                     <h2>
                         Join with us
                     </h2>
-                    <p>Signup to enjoy with us</p>
-                    <p>Become a part of our community by signing up.</p>
+                    <p>Sign up to enjoy with us</p>
                 </div>
             </div>
             <!-- END SIGN UP CONTENT -->
