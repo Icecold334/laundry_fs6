@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Page 404 CircleBeat</title>
+    <title>Halaman Tidak Ditemukan</title>
     <!--Style-->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
     <link rel="stylesheet" href="/errors/404/style.css">
@@ -26,7 +26,7 @@
             <h1>404</h1>
             <h3>Oops! Halaman Tidak Tersedia</h3>
             @auth
-                <a href="{{ url()->previous() }}" class="btn">Beranda</a>
+                <a href="{{ url()->previous() }}" class="btn">Kembali</a>
             @endauth
             @guest
                 <a href="/" class="btn">Beranda</a>

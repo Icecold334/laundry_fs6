@@ -31,8 +31,8 @@
                             <select class="custom-select @error('method') is-invalid @enderror" aria-label="Pilih Layanan"
                                 id="method" name="method">
                                 <option value="">Pilih Metode</option>
-                                <option value="0" @selected(0 == old('method'))>Tunai</option>
-                                <option value="1" @selected(1 == old('method'))>Non-Tunai</option>
+                                <option value="0" @selected('0' == old('method'))>Tunai</option>
+                                <option value="1" @selected('1' == old('method'))>Non-Tunai</option>
                             </select>
                             @error('method')
                                 <div id="method" class="invalid-feedback">
@@ -50,8 +50,8 @@
                             <select class="custom-select @error('before') is-invalid @enderror" aria-label="Pengiriman Awal"
                                 id="before" name="before">
                                 <option value="">Pilih Pengiriman</option>
-                                <option value="0" @selected(0 == old('before'))>Diantar</option>
-                                <option value="1" @selected(1 == old('before'))>Diambil</option>
+                                <option value="0" @selected('0' == old('before'))>Diantar</option>
+                                <option value="1" @selected('1' == old('before'))>Diambil</option>
 
                             </select>
                             @error('before')
@@ -68,8 +68,8 @@
                             <select class="custom-select @error('after') is-invalid @enderror" aria-label="Pengiriman Akhir"
                                 id="after" name="after">
                                 <option value="">Pilih Pengiriman</option>
-                                <option value="0" @selected(0 == old('after'))>Diambil</option>
-                                <option value="1" @selected(1 == old('after'))>Diantar</option>
+                                <option value="0" @selected('0' == old('after'))>Diambil</option>
+                                <option value="1" @selected('1' == old('after'))>Diantar</option>
 
                             </select>
                             @error('after')
@@ -81,43 +81,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6 col-md-12 col-sm 12">
-                        <div class="form-group mb-3" id="form-kecamatan">
-                            <label for="kecamatan" class="form-label">Pilih Kecamatan<span
-                                    class="text-danger">*</span></label>
-                            <select class="custom-select @error('kecamatan') is-invalid @enderror"
-                                aria-label="Pilih Kecamatan" id="kecamatan" name="kecamatan">
-                                <option value="">Pilih Kecamatan</option>
-                            </select>
-                            @error('kecamatan')
-                                <div id="kecamatan" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-md-12 col-sm 12">
-                        <div class="form-group mb-3" id="form-kelurahan">
-                            <label for="kelurahan" class="form-label">Pilih Kelurahan<span
-                                    class="text-danger">*</span></label>
-                            <select class="custom-select @error('kelurahan') is-invalid @enderror"
-                                aria-label="Pilih kelurahan" id="kelurahan" name="kelurahan">
-                                <option value="">Pilih Kelurahan</option>
-                            </select>
-                            @error('kelurahan')
-                                <div id="kelurahan" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12" id="form-address">
                         <div class="mb-3">
-                            <label for="address" class="form-label">Alamat Tambahan</label>
-                            <textarea class="form-control" name="address" id="address" rows="3"
-                                placeholder="Nama Jalan, Gedung atau No. Rumah"></textarea>
+                            <label for="address" class="form-label">Alamat</label>
+                            <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" rows="3"
+                                placeholder="Tambahkan Nama Jalan, Gedung atau No. Rumah">{{ old('address') }}</textarea>
+                            @error('address')
+                                <div id="after" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -125,8 +98,7 @@
                     <div class="col-xl-12 col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label for="note" class="form-label">Catatan</label>
-                            <textarea class="form-control" id="note" rows="3" placeholder="Silahkan Tinggalkan Pesan"
-                                name="note"></textarea>
+                            <textarea class="form-control" id="note" rows="3" placeholder="Silahkan Tinggalkan Pesan" name="note">{{ old('note') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -136,71 +108,43 @@
 
     </div>
     @push('scripts')
-        @if (!$errors->has('kecmatan') && !$errors->has('kelurahan'))
+        @if (!$errors->any())
             <script>
-                $('#form-kecamatan').hide();
-                $('#form-kelurahan').hide();
                 $('#form-address').hide();
             </script>
         @endif
         <script>
-            let id = '{{ $superadmin->regencies }}';
-            $.getJSON(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${id}.json`, (data) => {
-                let options = '<option value="">Pilih Kecamatan</option>';
-                $.each(data, (key, value) => {
-                    options += `<option value="${value.id}">${value.name}</option>`;
-                });
-                $('#kecamatan').append(options);
-            });
-            $('#kecamatan').change(() => {
-                let id = $('#kecamatan').val();
-                $.getJSON(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${id}.json`, (data) => {
-                    let options = '<option value="">Pilih Kelurahan</option>';
-                    $.each(data, (key, value) => {
-                        options += `<option value="${value.id}">${value.name}</option>`;
-                    });
-                    $('#kelurahan').html(options);
-                    $('#form-kelurahan').fadeIn();
-                });
-            });
-            $('#kelurahan').change(() => {
-                $('#form-address').fadeIn();
-            });
-
-
             let before = 0;
             let after = 0;
 
             function provShow(before = 0, after = 0) {
                 if (before || after) {
-                    return $('#form-kecamatan').fadeIn();
+
+                    return $('#form-address').fadeIn();
+
                 } else {
-                    $('#form-kecamatan').fadeOut();
-                    $('#form-kelurahan').fadeOut();
+
                     return $('#form-address').fadeOut();
                 }
             }
             $('#before').change(() => {
                 before = parseInt($('#before').val());
+                after = parseInt($('#after').val());
                 provShow(before, after)
             });
             $('#after').change(() => {
+                before = parseInt($('#before').val());
                 after = parseInt($('#after').val());
                 provShow(before, after);
             });
             $('#method').change(() => {
                 let method = parseInt($('#method').val());
-                if (!method) {
+                after = parseInt($('#after').val());
+                if (method == 0) {
                     $('#before').val('0');
-                    $('#before').attr('disabled', true);
-                    $('#form-prov').fadeOut();
-                    $('#form-kota').fadeOut();
-                    $('#form-kecamatan').fadeOut();
-                    $('#form-kelurahan').fadeOut();
+                }
+                if (method == 0 && after == 0) {
                     $('#form-address').fadeOut();
-
-                } else {
-                    $('#before').attr('disabled', false);
                 }
             });
         </script>

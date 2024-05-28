@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'role' => 1,
             'email' => 'adminadmin@gmail.com',
-            'provinces' => 33,
-            'regencies' => 3372,
             'phone' => '088888888888',
             'password' => Hash::make('admin')
         ]);
@@ -64,7 +62,9 @@ class DatabaseSeeder extends Seeder
             'quantity' => 3,
             'total' => 21000,
             'before' => 0,
-            'after' => 0
+            'after' => 0,
+            'method' => 1,
+            'status' => 1
         ]);
         Orders::factory()->create([
             'code' => 'INS000002',
@@ -73,7 +73,9 @@ class DatabaseSeeder extends Seeder
             'quantity' => 5,
             'total' => 35000,
             'before' => 0,
-            'after' => 0
+            'after' => 0,
+            'method' => 1,
+            'status' => 1
         ]);
     }
 }
