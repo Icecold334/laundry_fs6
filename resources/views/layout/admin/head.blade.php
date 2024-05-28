@@ -16,6 +16,8 @@
     <script src="https://kit.fontawesome.com/5fd2369345.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://app.stg.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-EarjhagXqV4psgNM"></script>
     <!-- Custom styles for this template-->
     <link href="/dashboard/css/sb-admin-2.min.css" rel="stylesheet">
 

@@ -62,9 +62,9 @@
                             </a>
                         @endif
                         @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
-                            <a href="#" class="btn badge bg-success text-white px-1">
+                            <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
                                 <i class="fa-solid fa-money-bill"></i>
-                            </a>
+                            </button>
                         @endif
                         <a href="/orders/{{ $order->code }}" class="btn badge bg-info text-white px-1">
                             <i class="fa-solid fa-circle-info"></i>
@@ -84,10 +84,24 @@
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         @endcan
-
-
                     </td>
                 </tr>
+                @push('scripts')
+                    <script>
+                        $('#pay{{ $order->id }}').click(() => {
+                            // ajax with post method
+                            $.ajax({
+                                url: '/pay',
+                                type: 'GET',
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                            });
+
+
+                        });
+                    </script>
+                @endpush
             @endforeach
         </tbody>
     </table>
