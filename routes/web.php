@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PeopleController;
 
@@ -23,3 +24,7 @@ Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
+
+Route::controller(MidtransController::class)->group(function () {
+    Route::get('/pay', 'index');
+});
