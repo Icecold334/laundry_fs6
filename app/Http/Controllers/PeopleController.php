@@ -103,7 +103,7 @@ class PeopleController extends Controller
         $person->username = $request->username;
         $person->email = $request->email;
         $person->updated_at = now();
-        $person->save();
+        $person->update();
         return redirect()->route('people.index')->with('success', 'Ubah data berhasil!');
     }
 

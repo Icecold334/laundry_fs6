@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
+use App\Models\User;
 
 class OrdersController extends Controller
 {
@@ -19,8 +20,8 @@ class OrdersController extends Controller
     public function index()
     {
         $orders = Auth::user()->role == 3
-            ? Orders::with(['product', 'user'])->where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->get()
-            : Orders::with(['product', 'user'])->orderBy('created_at', 'desc')->get();
+            ? Orders::with(['product', 'user'])->where('user_id', '=', Auth::user()->id)->orderBy('status')->get()
+            : Orders::with(['product', 'user'])->orderBy('status')->get();
         $data = [
             'title' => 'Pesanan',
             'orders' => $orders
@@ -85,6 +86,7 @@ class OrdersController extends Controller
      */
     public function show(Orders $order)
     {
+        Gate::authorize('view', $order);
         $order ?? abort(404);
         $data = [
             'title' => 'Pesanan',
@@ -100,14 +102,28 @@ class OrdersController extends Controller
     {
         Gate::authorize('update', $order);
         $order ?? abort(404);
+        $data = [
+            'title' => 'Pesanan',
+            'order' => $order
+        ];
+        return view('orders.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrdersRequest $request, Orders $orders)
+    public function update(UpdateOrdersRequest $request, Orders $order)
     {
-        //
+        if ($request->status == 1) {
+            $order->quantity = $request->quantity;
+            $order->total = str_replace('.', '', $request->total);
+            $order->status = 1;
+            $order->update();
+        } else {
+            $order->status = $order->status + 1;
+            $order->update();
+        }
+        return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Diproses!');
     }
 
     /**

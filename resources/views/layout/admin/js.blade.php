@@ -16,7 +16,7 @@
     $('input').attr('autocomplete', 'off');
     /* Fungsi formatRupiah */
     function rupiah(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        var number_string = angka.replace(/[^\d]/g, '').toString(),
             split = number_string.split(','),
             sisa = split[0].length % 3,
             rupiah = split[0].substr(0, sisa),
@@ -33,7 +33,7 @@
     }
 
     function mustNumeric(angka) {
-        return angka.replace(/[^,\d]/g, '').toString()
+        return angka.replace(/[^\d.]/g, '').toString()
     }
 </script>
 @stack('scripts')

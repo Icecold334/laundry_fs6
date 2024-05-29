@@ -26,5 +26,6 @@ Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
 
 Route::controller(MidtransController::class)->group(function () {
-    Route::get('/pay', 'index');
+    Route::get('/midtrans/pay', 'index');
+    Route::get('/midtrans/success/{id}', 'success');
 });
