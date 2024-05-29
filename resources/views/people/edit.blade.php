@@ -27,6 +27,16 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                        id="phone" value="{{ old('phone') ?? $user->phone }}">
+                    @error('phone')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('email') is-invalid @enderror" name="email"
                         id="email" value="{{ old('email') ?? $user->email }}">
@@ -40,4 +50,14 @@
             </form>
         </div>
     </div>
+    @push('scripts')
+    <script>
+        $('#name').keyup((e) => {
+            let name = $('#name').val();
+            let username = name.split(' ');
+            username = username.length > 1 ? username[0] + '_' + username[1] : username[0];
+            $('#username').val(username.toLowerCase());
+        });
+    </script>
+@endpush
 @endsection

@@ -40,15 +40,33 @@ class PeopleController extends Controller
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'phone' => ['required', 'numeric', 'min_digits:11'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        ], [
+            'name.required' => 'Nama tidak boleh kosong!',
+            'name.string' => 'Nama tidak boleh kosong!',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter!',
+            'username.required' => 'Username tidak boleh kosong!',
+            'username.string' => 'Username tidak boleh kosong!',
+            'username.max' => 'Username tidak boleh lebih dari 255 karakter!',
+            'username.unique' => 'Username sudah digunakan!',
+            'phone.required' => 'Nomor telepon tidak boleh kosong!',
+            'phone.numeric' => 'Nomor telepon harus berupa angka!',
+            'phone.min_digits' => 'Nomor telepon minimal 11 digit!',
+            'email.required' => 'Email tidak boleh kosong!',
+            'email.string' => 'Email tidak boleh kosong!',
+            'email.email' => 'Email tidak valid',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter!',
+            'email.unique' => 'Email sudah digunakan',
         ]);
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email');
+            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
         //store the resource
         $user = new User;
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->phone = $request->phone;
         $user->email = $request->email;
         $user->password = Hash::make('password');
         $user->role = 2;
@@ -92,15 +110,33 @@ class PeopleController extends Controller
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'username' => $ruleusername,
+            'phone' => ['required', 'numeric', 'min_digits:11'],
             'email' => $ruleemail,
+        ], [
+            'name.required' => 'Nama tidak boleh kosong!',
+            'name.string' => 'Nama tidak boleh kosong!',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter!',
+            'username.required' => 'Username tidak boleh kosong!',
+            'username.string' => 'Username tidak boleh kosong!',
+            'username.max' => 'Username tidak boleh lebih dari 255 karakter!',
+            'username.unique' => 'Username sudah digunakan!',
+            'phone.required' => 'Nomor telepon tidak boleh kosong!',
+            'phone.numeric' => 'Nomor telepon harus berupa angka!',
+            'phone.min_digits' => 'Nomor telepon minimal 11 digit!',
+            'email.required' => 'Email tidak boleh kosong!',
+            'email.string' => 'Email tidak boleh kosong!',
+            'email.email' => 'Email tidak valid',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter!',
+            'email.unique' => 'Email sudah digunakan',
         ]);
 
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email');
+            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
         //update the resource
         $person->name = $request->name;
         $person->username = $request->username;
+        $person->phone = $request->phone;
         $person->email = $request->email;
         $person->updated_at = now();
         $person->save();
