@@ -6,10 +6,9 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PeopleController;
-
+use App\Http\Controllers\ProfileController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::controller(AuthController::class)->group(function () {
@@ -25,7 +24,17 @@ Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
 
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
 Route::controller(MidtransController::class)->group(function () {
-    Route::get('/midtrans/pay', 'index');
-    Route::get('/midtrans/success/{id}', 'success');
+    Route::get('/pay', 'index');
+});
+
+
+// Route::get('/profile', function () {
+//     return view ('profile.index');
+// })->middleware('auth');
+
+Route::get('/', function () {
+    return view('home');
 });
