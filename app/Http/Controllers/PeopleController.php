@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,15 +41,17 @@ class PeopleController extends Controller
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'phone' => ['required', 'numeric', 'min_digits:11'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email');
+            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
         //store the resource
         $user = new User;
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->phone = $request->phone;
         $user->email = $request->email;
         $user->password = Hash::make('password');
         $user->role = 2;
@@ -62,6 +65,7 @@ class PeopleController extends Controller
      */
     public function show(User $person)
     {
+        Gate::allowIf($person->role == 2);
         $data = [
             'title' => 'Karyawan',
             'user' => $person
@@ -87,11 +91,16 @@ class PeopleController extends Controller
     public function update(Request $request, User $person)
     {
         // validation
-        $ruleusername = $request->username != $person->username ? ['required', 'string', 'max:255', 'unique:users'] : ['required', 'string', 'max:255'];
-        $ruleemail = $request->email != $person->email ? ['required', 'string', 'email', 'max:255', 'unique:users'] : ['required', 'string', 'email', 'max:255'];
+        $ruleusername = $request->username != $person->username
+            ? ['required', 'string', 'max:255', 'unique:users']
+            : ['required', 'string', 'max:255'];
+        $ruleemail = $request->email != $person->email
+            ? ['required', 'string', 'email', 'max:255', 'unique:users']
+            : ['required', 'string', 'email', 'max:255'];
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'username' => $ruleusername,
+            'phone' => ['required', 'numeric', 'min_digits:11'],
             'email' => $ruleemail,
         ]);
 
@@ -102,7 +111,6 @@ class PeopleController extends Controller
         $person->name = $request->name;
         $person->username = $request->username;
         $person->email = $request->email;
-        $person->updated_at = now();
         $person->update();
         return redirect()->route('people.index')->with('success', 'Ubah data berhasil!');
     }
