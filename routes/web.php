@@ -9,7 +9,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChartController;
+
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/profile', [ProfileController::class, 'index']);
+Route::get('/chart', [ChartController::class, 'index']);
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
@@ -28,13 +32,4 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/pay', 'index');
-});
-
-
-// Route::get('/profile', function () {
-//     return view ('profile.index');
-// })->middleware('auth');
-
-Route::get('/', function () {
-    return view('home');
 });
