@@ -110,6 +110,7 @@ class PeopleController extends Controller
         //update the resource
         $person->name = $request->name;
         $person->username = $request->username;
+        $person->phone = $request->phone;
         $person->email = $request->email;
         $person->update();
         return redirect()->route('people.index')->with('success', 'Ubah data berhasil!');

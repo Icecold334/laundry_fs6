@@ -8,7 +8,8 @@
                 <tr>
                     <th class="text-center" style="width: 5%">#</th>
                     <th class="text-center">Nama</th>
-                    <th class="text-center" style="width: 20%">Username</th>
+                    <th class="text-center" style="width: 15%">Username</th>
+                    <th class="text-center" style="width: 15%">Nomor Telepon</th>
                     <th class="text-center">Email</th>
                     <th class="text-center" style="width: 10%"></th>
                 </tr>
@@ -19,7 +20,8 @@
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->username }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td class="text-center">{{ $user->phone }}</td>
+                        <td class="text-center">{{ $user->email }}</td>
                         <td class="text-center">
                             <a href="/people/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
@@ -105,7 +107,7 @@
             $("#products").DataTable({
                 columnDefs: [{
                     orderable: false,
-                    targets: 4
+                    targets: 5
                 }],
                 paging: true,
                 lengthMenu: [5, 10, 20, {
