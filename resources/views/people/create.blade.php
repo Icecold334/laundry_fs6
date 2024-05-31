@@ -26,6 +26,16 @@
                     @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="phone" class="form-label">No Telepon<span class="text-danger">*</span></label>
+                    <input value="{{ old('phone') }}" type="text"
+                        class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone">
+                    @error('phone')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                     <input value="{{ old('email') }}" type="text"
                         class="form-control @error('email') is-invalid @enderror" name="email" id="email">
