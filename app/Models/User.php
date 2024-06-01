@@ -52,8 +52,21 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            if ($user->isForceDeleting()) {
+                $user->order()->forceDelete();
+            } else {
+                $user->order()->delete();
+            }
+        });
+    }
+
     public function order(): HasMany
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Orders::class, 'user_id');
     }
 }

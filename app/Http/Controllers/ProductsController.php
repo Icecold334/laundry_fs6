@@ -70,7 +70,6 @@ class ProductsController extends Controller
         $product->description = $request->description;
         $product->duration = $request->duration;
         $product->save();
-        http: //127.0.0.1:8000
         return redirect()->route('products.index')->with('success', 'Tambah Layanan Berhasil!');
     }
 

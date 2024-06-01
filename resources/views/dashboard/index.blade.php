@@ -1,4 +1,16 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
+    @switch(Auth::user()->role)
+        @case(1)
+            @include('dashboard.superadmin')
+        @break
+
+        @case(2)
+            @include('dashboard.admin')
+        @break
+
+        @case(3)
+            @include('dashboard.user')
+        @break
+    @endswitch
 @endsection
