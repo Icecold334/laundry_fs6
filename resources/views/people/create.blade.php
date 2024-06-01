@@ -26,8 +26,10 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Phone Number<span class="text-danger">*</span></label>
-                    <input value="{{ old('phone') }}" type="number"
+
+                    <label for="phone" class="form-label">No Telepon<span class="text-danger">*</span></label>
+                    <input value="{{ old('phone') }}" type="text"
+
                         class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone">
                     @error('phone')
                         <div class="invalid-feedback">

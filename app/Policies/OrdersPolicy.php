@@ -2,9 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Orders;
 use App\Models\User;
+use App\Models\Orders;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersPolicy
 {
@@ -19,9 +20,9 @@ class OrdersPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Orders $orders): bool
+    public function view($user, $order): bool
     {
-        //
+        return $user->id == $order->user_id || $user->role !== 3;
     }
 
     /**
@@ -35,9 +36,9 @@ class OrdersPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update($user, $order): bool
     {
-        return $user->role !== 3;
+        return $user->role !== 3 && $order->status !== 4 && $order->method == 0;
     }
 
     /**

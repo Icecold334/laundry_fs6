@@ -34,7 +34,7 @@
                         <a href="#service" class="nav-item nav-link">Layanan</a>
                         <a href="#paket" class="nav-item nav-link">Paket</a>
                         @auth
-                            <a href="/logout" class="nav-item nav-link btn btn-primary text-white ml-3">Logout</a>
+                            <a href="/panel" class="nav-item nav-link btn btn-primary text-white ml-3">Dashboard</a>
                         @endauth
                         @guest
                             <a href="/login" class="nav-item nav-link btn btn-primary text-white ml-3">Login</a>

@@ -115,7 +115,7 @@ class ProductsController extends Controller
         $product->price = str_replace('.', '', $request->price);
         $product->duration = $request->duration;
         $product->description = $request->description;
-        $product->save();
+        $product->update();
         return redirect()->route('products.index')->with('success', 'Ubah Layanan Berhasil!');
     }
 

@@ -24,6 +24,11 @@
                                 <td>{{ $user->username }}</td>
                             </tr>
                             <tr>
+                                <td>No Telepon</td>
+                                <td>:</td>
+                                <td>{{ $user->phone }}</td>
+                            </tr>
+                            <tr>
                                 <td>Email</td>
                                 <td>:</td>
                                 <td>{{ $user->email }}</td>

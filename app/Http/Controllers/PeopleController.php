@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,6 +81,7 @@ class PeopleController extends Controller
      */
     public function show(User $person)
     {
+        Gate::allowIf($person->role == 2);
         $data = [
             'title' => 'Karyawan',
             'user' => $person
@@ -105,8 +107,12 @@ class PeopleController extends Controller
     public function update(Request $request, User $person)
     {
         // validation
-        $ruleusername = $request->username != $person->username ? ['required', 'string', 'max:255', 'unique:users'] : ['required', 'string', 'max:255'];
-        $ruleemail = $request->email != $person->email ? ['required', 'string', 'email', 'max:255', 'unique:users'] : ['required', 'string', 'email', 'max:255'];
+        $ruleusername = $request->username != $person->username
+            ? ['required', 'string', 'max:255', 'unique:users']
+            : ['required', 'string', 'max:255'];
+        $ruleemail = $request->email != $person->email
+            ? ['required', 'string', 'email', 'max:255', 'unique:users']
+            : ['required', 'string', 'email', 'max:255'];
         $credentials = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'username' => $ruleusername,
@@ -138,8 +144,7 @@ class PeopleController extends Controller
         $person->username = $request->username;
         $person->phone = $request->phone;
         $person->email = $request->email;
-        $person->updated_at = now();
-        $person->save();
+        $person->update();
         return redirect()->route('people.index')->with('success', 'Ubah data berhasil!');
     }
 
