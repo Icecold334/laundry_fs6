@@ -23,6 +23,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/report', [ReportController::class, 'index'])->middleware('superadmin');
+Route::get('/report/download', [ReportController::class, 'export'])->middleware('superadmin');
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
