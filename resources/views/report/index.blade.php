@@ -53,10 +53,22 @@
                     @enderror
                 </div>
             </div>
-            <div class="col-xl-2 col-md-6 col-sm-12 mb-3"><input type="date" class="form-control datepicker"
-                    id="from" name="from" placeholder="Select Date">
+            <div class="col-xl-2 col-md-6 col-sm-12 mb-3"><input type="text" class="form-control" id="date" />
+                <input type="hidden" value="" name="from" id="from">
+                <input type="hidden" value="" name="to" id="to">
             </div>
-            <div class="col-xl-2 col-md-6 col-sm-12 mb-3"><input type="text" class="form-control" name="to"></div>
+            @push('scripts')
+                <script>
+                    $('#date').daterangepicker({
+                        opens: 'left'
+                    }, function(start, end, label) {
+                        $('#from').val(start.format('YYYY-MM-DD'))
+                        $('#to').val(end.format('YYYY-MM-DD'))
+                        // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format(
+                        //     'YYYY-MM-DD'));
+                    });
+                </script>
+            @endpush
             <div class="col-xl-2 col-md-6 col-sm-12 mb-3">
                 <div class="row">
                     <div class="col-xl-6 col-md-6 col-sm-6 mb-3"><button class="btn btn-primary btn-block"><i
@@ -82,7 +94,6 @@
                 theme: "bootstrap-5",
                 placeholder: 'Pilih Status'
             });
-            $('#before').datepicker();
         </script>
     @endpush
 @endsection
