@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Date
+        // Tanggal
         $selectedDate = $request->input('date');
 
         if ($selectedDate) {
@@ -22,17 +22,16 @@ class DashboardController extends Controller
             $endDate = Carbon::now()->endOfMonth();
         }
 
-        // Total Orders finis
+        // Total Orders
         $totalOrders = Orders::whereBetween('created_at', [$startDate, $endDate])->count();
         $completedOrders = Orders::where('status', 4)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
-        // Revenue
+        // Total Pendapatan
         if ($startDate->month != $endDate->month) {
             $totalRevenue = 0;
         } else {
-            // Pendapatan
             $totalRevenue = Orders::selectRaw('SUM(total) as total_revenue')
                 ->where('status', 4)
                 ->whereBetween('created_at', [$startDate, $endDate])
@@ -41,9 +40,12 @@ class DashboardController extends Controller
         }
 
         // Total Kariyawan
-        $totalUsers = User::where('role', 2)->count();
+        $totalEmployee = User::where('role', 2)->count();
 
-        // Circle Status Diagram
+        // Total Pengguna
+        $totalUsers = User::where('role', 3)->count();
+
+        // Analisa Pesanan
         $statuses = [0, 1, 2, 3];
         $orderStatus = [];
 
@@ -51,7 +53,7 @@ class DashboardController extends Controller
             $orderStatus[$status] = Orders::where('status', $status)->count();
         }
 
-        // Line chart
+        // Status Pesanan
         $ordersPerMonth = Orders::selectRaw('strftime("%m", created_at) as month, COUNT(*) as count')
             ->whereBetween('created_at', [now()->startOfYear(), now()->endOfYear()])
             ->groupBy('month')
@@ -71,6 +73,7 @@ class DashboardController extends Controller
             'totalOrders' => $totalOrders,
             'completedOrders' => $completedOrders,
             'totalUsers' => $totalUsers,
+            'totalEmployee' => $totalEmployee,
             'orderStatus' => $orderStatus,
             'ordersPerMonth' => array_values($ordersPerMonthData),
             'totalRevenue' => 'Rp ' . number_format($totalRevenue, 0, ',', ','),
