@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
-use App\Models\User;
 
 class OrdersController extends Controller
 {

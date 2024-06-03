@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Orders;
+use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Illuminate\Support\Facades\Response;
-use App\Models\Orders;
 
 class ReportController extends Controller
 {
     // index
-    public function index()
+    public function index(Request $request)
     {
+
         $data = [
             'title' => 'Laporan',
+            'products' => Products::all(),
+            'users' => User::where('role', '=', 3)->get()
         ];
         return view('report.index', $data);
     }
@@ -34,7 +39,7 @@ class ReportController extends Controller
         $sheet->setCellValue('H1', 'Pembayaran');
 
         // Retrieve data
-        $orders = Orders::all();
+        $orders = Orders::with(['product', 'user'])->orderBy('code')->get();
         $row = 2;
         foreach ($orders as $key => $order) {
             $sheet->setCellValue('A' . $row, $key + 1);
