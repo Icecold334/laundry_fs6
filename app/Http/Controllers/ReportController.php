@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -15,11 +14,17 @@ class ReportController extends Controller
     // index
     public function index(Request $request)
     {
-
+        $user = $request->user ?? null;
+        $product = $request->product ?? null;
+        $status = $request->status ?? null;
+        $from = $request->from ?? null;
+        $to = $request->to ?? null;
         $data = [
             'title' => 'Laporan',
+            // 'products' => $request->product ? Products::where('') : Products::all(),
             'products' => Products::all(),
-            'users' => User::where('role', '=', 3)->get()
+            'users' => User::where('role', '=', 3)->get(),
+            'orders' => Orders::with(['user', 'product'])->where('status', '!=', '0')->orderBy('status', 'desc')->get(),
         ];
         return view('report.index', $data);
     }
@@ -76,7 +81,7 @@ class ReportController extends Controller
 
         // Save the file
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'orders.xlsx';
+        $fileName = env('APP_NAME') . '_Report.xlsx';
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
         $writer->save($temp_file);
 

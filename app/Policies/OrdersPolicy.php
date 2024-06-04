@@ -45,9 +45,9 @@ class OrdersPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete($user, $order): bool
     {
-        return $user->role == 1;
+        return ($user->role == 1 && ($order->status == 0 || $order->status == 4)) || ($user->role == 3 && $order->status == 0);
     }
 
     /**
