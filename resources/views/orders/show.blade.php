@@ -77,11 +77,6 @@
                                         <th style="width: 30%">{{ $order->address }}</th>
                                     </tr>
                                 @endif
-                                <tr>
-                                    <th style="width: 50%">Tanggal Masuk</th>
-                                    <th style="width: 5%">:</th>
-                                    <th style="width: 30%">{{ $formattedDate }}<br>{{ $formattedTime }}</th>
-                                </tr>
                             </thead>
                         </table>
                     </div>
