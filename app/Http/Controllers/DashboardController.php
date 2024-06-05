@@ -11,35 +11,21 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Tanggal
-        $selectedDate = $request->input('date');
-
-        if ($selectedDate) {
-            $startDate = Carbon::parse($selectedDate)->startOfMonth();
-            $endDate = Carbon::parse($selectedDate)->endOfMonth();
-        } else {
-            $startDate = Carbon::now()->startOfMonth();
-            $endDate = Carbon::now()->endOfMonth();
-        }
+        // Hari ini
+        $today = Carbon::today();
 
         // Total Orders
-        $totalOrders = Orders::whereBetween('created_at', [$startDate, $endDate])->count();
+        $totalOrders = Orders::whereDate('created_at', $today)->count();
         $completedOrders = Orders::where('status', 4)
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereDate('created_at', $today)
             ->count();
 
         // Total Pendapatan
-        if ($startDate->month != $endDate->month) {
-            $totalRevenue = 0;
-        } else {
-            $totalRevenue = Orders::selectRaw('SUM(total) as total_revenue')
-                ->where('status', 4)
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->first()
-                ->total_revenue;
-        }
+        $totalRevenue = Orders::where('status', 4)
+            ->whereDate('created_at', $today)
+            ->sum('total');
 
-        // Total Kariyawan
+        // Total Karyawan
         $totalEmployee = User::where('role', 2)->count();
 
         // Total Pengguna
@@ -50,21 +36,9 @@ class DashboardController extends Controller
         $orderStatus = [];
 
         foreach ($statuses as $status) {
-            $orderStatus[$status] = Orders::where('status', $status)->count();
-        }
-
-        // Status Pesanan
-        $ordersPerMonth = Orders::selectRaw('strftime("%m", created_at) as month, COUNT(*) as count')
-            ->whereBetween('created_at', [now()->startOfYear(), now()->endOfYear()])
-            ->groupBy('month')
-            ->orderBy('month')
-            ->pluck('count', 'month')
-            ->toArray();
-
-        $ordersPerMonthData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $month = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $ordersPerMonthData[$i] = $ordersPerMonth[$month] ?? 0;
+            $orderStatus[$status] = Orders::where('status', $status)
+                ->whereDate('created_at', $today)
+                ->count();
         }
 
         // Data
@@ -75,7 +49,6 @@ class DashboardController extends Controller
             'totalUsers' => $totalUsers,
             'totalEmployee' => $totalEmployee,
             'orderStatus' => $orderStatus,
-            'ordersPerMonth' => array_values($ordersPerMonthData),
             'totalRevenue' => 'Rp ' . number_format($totalRevenue, 0, ',', ','),
         ];
 
