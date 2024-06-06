@@ -31,8 +31,10 @@
                         <td>{{ $order->code }}</td>
                         <td>{{ $order->user->name }}</td>
                         <td>{{ $order->product->name }}</td>
-                        <td class="text-right">{{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
-                        <td class="text-right">{{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
+                        <td class="{{ $order->quantity ? 'text-right' : 'text-center' }}">
+                            {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
+                        <td class="{{ $order->total ? 'text-right' : 'text-center' }}">
+                            {{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
                         </td>
                         <td class="text-center">
                             @switch($order->status)
@@ -123,7 +125,7 @@
                                     </a>
                                 @endif
                             @endcan
-                            @can('delete', App\Models\Orders::class)
+                            @can('delete', [App\Models\Orders::class, $order])
                                 <form class="d-inline" action="/orders/{{ $order->code }}" method="POST"
                                     id="formDel{{ $order->code }}">
                                     @csrf
@@ -189,7 +191,7 @@
                     label: "Semua",
                     value: -1
                 }],
-                pageLength: 5,
+                pageLength: 10,
                 language: {
                     decimal: "",
                     searchPlaceholder: "Cari Data",

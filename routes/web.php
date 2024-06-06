@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FuncController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrdersController;
@@ -23,6 +22,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/report', [ReportController::class, 'index'])->middleware('superadmin');
+Route::get('/report/export', [ReportController::class, 'export'])->middleware('superadmin');
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
