@@ -10,7 +10,6 @@
                         <h5 class="card-title font-weight-bold">{{ $order->code }}</h5>
                     </div>
                     <div class="card-text">
-
                         <table class="table">
                             <thead>
                                 @if (Auth::user()->role !== 3)
@@ -77,13 +76,30 @@
                                         <th style="width: 30%">{{ $order->address }}</th>
                                     </tr>
                                 @endif
+                                @if($order->status == 4)
                                 <tr>
-                                    <th style="width: 50%">Tanggal Masuk</th>
+                                    <th style="width:  50%">Ulasan</th>
                                     <th style="width: 5%">:</th>
-                                    <th style="width: 30%">{{ $formattedDate }}<br>{{ $formattedTime }}</th>
+                                    <th style="width: 30%">
+                                        <form action="/order/complete" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                            <textarea class="form-control" rows="3" name="review"></textarea>
+                                    </th>
                                 </tr>
+                                @endif
                             </thead>
                         </table>
+
+                        @if($order->status == 4)
+                        <div class="text-center mt-3">
+                                <form action="/order/complete" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                    <button type="submit" class="btn btn-success">Pesanan Selesai</button>
+                                </form>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

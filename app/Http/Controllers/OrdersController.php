@@ -11,7 +11,6 @@ use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
 use App\Models\User;
-use Carbon\Carbon;
 
 
 class OrdersController extends Controller
@@ -90,20 +89,9 @@ class OrdersController extends Controller
     {
         Gate::authorize('view', $order);
         $order ?? abort(404);
-
-        Carbon::setLocale('id');
-        $formattedDate = Carbon::parse($order->created_at)
-            ->setTimezone('Asia/Jakarta')
-            ->isoFormat('dddd, D MMMM YYYY');
-        $formattedTime = Carbon::parse($order->created_at)
-            ->setTimezone('Asia/Jakarta')
-            ->isoFormat('h:mm A');
-
         $data = [
             'title' => 'Pesanan',
-            'order' => $order,
-            'formattedDate' => $formattedDate,
-            'formattedTime' => $formattedTime,
+            'order' => $order
         ];
         return view('orders.show', $data);
     }
@@ -146,4 +134,20 @@ class OrdersController extends Controller
     {
         //
     }
+
+    public function completeOrder(Request $request) {
+        // Validasi input
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'review' => 'required|string', // Sesuaikan validasi sesuai kebutuhan Anda
+        ]);
+    
+        // Soft delete pesanan
+        $order = Order::find($request->order_id);
+        $order->delete();
+    
+        // Redirect atau berikan respon sesuai kebutuhan Anda
+        return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
+    }
+    
 }

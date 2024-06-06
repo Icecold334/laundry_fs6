@@ -9,6 +9,7 @@ use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -26,6 +27,7 @@ Route::get('/report/export', [ReportController::class, 'export'])->middleware('s
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->middleware('auth');
+Route::resource('/users', UsersController::class)->middleware('auth');
 
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');
