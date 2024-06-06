@@ -1,7 +1,7 @@
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; {{ env('APP_NAME') }} 2020</span>
+            <span>Copyright &copy; {{ env('APP_NAME') }} {{ Carbon\Carbon::now()->format('Y') }}</span>
         </div>
     </div>
 </footer>
@@ -11,7 +11,26 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- Logout Modal-->
+<script>
+    $('#logout').click(() => {
+        Swal.fire({
+            title: "Apa Kamu Yakin?",
+            html: "Yakin Keluar Dari Aplikasi?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/logout";
+            }
+        });
+    })
+</script>
+
+{{-- <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -29,4 +48,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

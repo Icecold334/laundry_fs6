@@ -20,7 +20,6 @@ class MidtransController extends Controller
         Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         Config::$is3ds = true;
-        // return json_decode($request->item_details, true);
         $params = [
             'transaction_details' => [
                 'order_id' => rand(),
@@ -36,7 +35,6 @@ class MidtransController extends Controller
 
         return Snap::getSnapToken($params);
     }
-
     // payment success
     public function success(Request $request, Orders $orders)
     {

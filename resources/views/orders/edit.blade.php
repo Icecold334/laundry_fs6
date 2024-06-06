@@ -149,8 +149,21 @@
             });
 
             $('#next').click(() => {
-                let form = $('#status')
-                form.submit();
+                Swal.fire({
+                    title: "Apa Kamu Yakin?",
+                    html: "Yakin Melanjutkan Pesanan <b>{{ $order->code }}</b>?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let form = $('#status')
+                        form.submit();
+                    }
+                });
             })
         </script>
     @endpush

@@ -33,9 +33,15 @@
                         <a href="#about" class="nav-item nav-link">Tentang</a>
                         <a href="#service" class="nav-item nav-link">Layanan</a>
                         <a href="#paket" class="nav-item nav-link">Paket</a>
-                        @auth
+
+                        @can('superadmin')
                             <a href="/panel" class="nav-item nav-link btn btn-primary text-white ml-3">Dashboard</a>
-                        @endauth
+                        @elsecan('admin')
+                            <a href="/panel" class="nav-item nav-link btn btn-primary text-white ml-3">Dashboard</a>
+                        @elsecan('user')
+                            <a href="/orders" class="nav-item nav-link btn btn-primary text-white ml-3">Dashboard</a>
+                        @endcan
+
                         @guest
                             <a href="/login" class="nav-item nav-link btn btn-primary text-white ml-3">Login</a>
                         @endguest
