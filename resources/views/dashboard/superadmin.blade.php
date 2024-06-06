@@ -5,7 +5,7 @@
         <h1 class="h2 text-gray-800">Dashboard</h1>
     </div>
 
-    <div class="row d-flex">
+    <div class="row">
         <!-- Kartu -->
         <div class="col-lg-6 mb-4">
             <div class="row">
@@ -101,18 +101,20 @@
             </div>
         </div>
 
-        <!-- Diagram -->
-        <div class="col-lg-6 mb-4">    
-            <!-- Status Pesanan -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Status Pesanan</h6>
-                </div>
-                <div class="card-body">
-                    <canvas id="ordersPieChart" width="100" height="260"></canvas>
+        @if ($totalOrders > 0)
+            <!-- Diagram -->
+            <div class="col-lg-6 mb-4">
+                <!-- Status Pesanan -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Status Pesanan</h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="ordersPieChart" width="100" height="260"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -132,16 +134,16 @@
                             {{ $orderStatus[3] }},
                         ],
                         backgroundColor: [
-                            '#6c757d', 
-                            '#ffc107', 
-                            '#17a2b8', 
-                            '#007bff',  
+                            '#6c757d',
+                            '#ffc107',
+                            '#17a2b8',
+                            '#007bff',
                         ],
                         hoverBackgroundColor: [
-                            '#6c757d', 
-                            '#ffc107', 
-                            '#17a2b8', 
-                            '#007bff',  
+                            '#6c757d',
+                            '#ffc107',
+                            '#17a2b8',
+                            '#007bff',
                         ]
                     }]
                 },
