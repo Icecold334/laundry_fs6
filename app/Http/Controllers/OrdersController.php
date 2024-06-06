@@ -133,4 +133,20 @@ class OrdersController extends Controller
     {
         //
     }
+
+    public function completeOrder(Request $request) {
+        // Validasi input
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'review' => 'required|string', // Sesuaikan validasi sesuai kebutuhan Anda
+        ]);
+    
+        // Soft delete pesanan
+        $order = Order::find($request->order_id);
+        $order->delete();
+    
+        // Redirect atau berikan respon sesuai kebutuhan Anda
+        return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
+    }
+    
 }
