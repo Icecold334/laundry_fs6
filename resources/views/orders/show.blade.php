@@ -68,6 +68,11 @@
                                         <th style="width: 30%">{{ 'Rp ' . number_format($order->total, 2, ',', '.') }}
                                         </th>
                                     </tr>
+                                    <tr>
+                                        <th style="width:  50%">Tanggal Masuk</th>
+                                        <th style="width: 5%">:</th>
+                                        <th style="width: 30%">{{ $date }}</th>
+                                    </tr>
                                 @endif
                                 @if ($order->before == 1 || $order->after == 1)
                                     <tr>
