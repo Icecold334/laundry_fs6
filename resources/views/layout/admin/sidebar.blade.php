@@ -34,6 +34,19 @@
             <i class="fa-solid fa-people-carry-box"></i>
             <span>Pesanan</span></a>
     </li>
+    @can('superadmin')
+        <li class="nav-item {{ Request::is('report*') ? 'active ' : '' }}">
+            <a class="nav-link " href="/report">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Laporan</span></a>
+        </li>
+    @endcan
+    <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/users">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Pengguna</span></a>
+    </li>
+    
 
     <!-- Divider -->
     <hr class="sidebar-divider">

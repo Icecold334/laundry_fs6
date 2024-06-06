@@ -19,8 +19,21 @@ class Products extends Model
         'duration',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+            if ($product->isForceDeleting()) {
+                $product->order()->forceDelete();
+            } else {
+                $product->order()->delete();
+            }
+        });
+    }
+
     public function order(): HasMany
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Orders::class, 'product_id');
     }
 }

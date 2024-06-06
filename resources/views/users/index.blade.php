@@ -1,6 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>Daftar Karyawan <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a></h1>
+    <h1>Daftar Pengguna</h1>
     @csrf
     <div class="table-responsive">
         <table class="table" id="products">
@@ -23,13 +23,10 @@
                         <td class="text-center">{{ $user->phone }}</td>
                         <td class="text-center">{{ $user->email }}</td>
                         <td class="text-center">
-                            <a href="/people/{{ $user->id }}" class="btn badge bg-info text-white px-1">
+                            <a href="/users/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            <a href="/people/{{ $user->id }}/edit" class="btn badge bg-warning text-white px-1">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <form class="d-inline" action="/people/{{ $user->id }}" method="POST"
+                            <form class="d-inline" action="/users/{{ $user->id }}" method="POST"
                                 id="formDel{{ $user->id }}">
                                 @csrf
                                 @method('DELETE')

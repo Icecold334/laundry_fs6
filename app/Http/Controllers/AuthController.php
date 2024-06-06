@@ -37,7 +37,6 @@ class AuthController extends Controller
 
             return redirect()->intended('panel');
         }
-        Illuminate\Broadcasting\BroadcastException::class;
 
         return back()->with('login', 'errors')->onlyInput('username');
     }

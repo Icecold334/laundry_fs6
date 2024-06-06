@@ -48,6 +48,15 @@ class ProductsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'string'],
             'duration' => ['required', 'numeric', 'max:15'],
+        ], [
+            'name.required' => 'Nama Layanan Wajib Diisi!',
+            'name.string' => 'Nama Layanan Wajib Diisi!',
+            'name.max:255' => 'Nama Layanan Wajib Diisi!',
+            'price.required' => 'Harga Layanan Wajib Diisi!',
+            'price.string' => 'Harga Layanan Wajib Diisi!',
+            'duration.required' => 'Durasi Layanan Wajib Diisi!',
+            'duration.numeric' => 'Durasi Layanan Wajib Diisi!',
+            'duration.max:15' => 'Durasi Layanan Wajib Diisi!',
         ]);
 
         if ($credentials->fails()) {
@@ -104,6 +113,15 @@ class ProductsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'string'],
             'duration' => ['required', 'numeric', 'max:15'],
+        ], [
+            'name.required' => 'Nama Layanan Wajib Diisi!',
+            'name.string' => 'Nama Layanan Wajib Diisi!',
+            'name.max:255' => 'Nama Layanan Wajib Diisi!',
+            'price.required' => 'Harga Layanan Wajib Diisi!',
+            'price.string' => 'Harga Layanan Wajib Diisi!',
+            'duration.required' => 'Durasi Layanan Wajib Diisi!',
+            'duration.numeric' => 'Durasi Layanan Wajib Diisi!',
+            'duration.max:15' => 'Durasi Layanan Wajib Diisi!',
         ]);
 
         if ($credentials->fails()) {

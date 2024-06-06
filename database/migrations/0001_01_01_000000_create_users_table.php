@@ -23,8 +23,8 @@ return new class extends Migration
             $table->integer('status')->default(1);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
