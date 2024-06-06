@@ -8,7 +8,7 @@
                     class="accordion-button {{ request()->user || request()->product || request()->status || request()->from || request()->to ? '' : 'collapsed' }}"
                     type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false"
                     aria-controls="filter">
-                    Cari Berdasarkan
+                    <h5 class="mb-0 font-weight-bolder text-black-50">Cari Berdasarkan</h5>
                 </button>
             </h2>
 

@@ -20,7 +20,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->middleware('guest')->name('register');
 });
 
-Route::get('/panel', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/panel', [DashboardController::class, 'index'])->middleware('admin');
 Route::get('/report', [ReportController::class, 'index'])->middleware('superadmin');
 Route::get('/report/export', [ReportController::class, 'export'])->middleware('superadmin');
 Route::resource('/products', ProductsController::class)->middleware('auth');

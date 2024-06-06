@@ -12,11 +12,13 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item -->
-    <li class="nav-item {{ Request::is('panel*') ? 'active' : '' }}">
-        <a class="nav-link " href="/panel">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
+    @if (Auth::user()->role !== 3)
+        <li class="nav-item {{ Request::is('panel*') ? 'active' : '' }}">
+            <a class="nav-link " href="/panel">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+    @endif
     <li class="nav-item {{ Request::is('products*') ? 'active ' : '' }}">
         <a class="nav-link " href="/products">
             <i class="fa-solid fa-hands-holding"></i>
