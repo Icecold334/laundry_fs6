@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
+use App\Models\User;
+use Carbon\Carbon;
+
 
 class OrdersController extends Controller
 {
@@ -87,9 +90,20 @@ class OrdersController extends Controller
     {
         Gate::authorize('view', $order);
         $order ?? abort(404);
+
+        Carbon::setLocale('id');
+        $formattedDate = Carbon::parse($order->created_at)
+            ->setTimezone('Asia/Jakarta')
+            ->isoFormat('dddd, D MMMM YYYY');
+        $formattedTime = Carbon::parse($order->created_at)
+            ->setTimezone('Asia/Jakarta')
+            ->isoFormat('h:mm A');
+
         $data = [
             'title' => 'Pesanan',
-            'order' => $order
+            'order' => $order,
+            'formattedDate' => $formattedDate,
+            'formattedTime' => $formattedTime,
         ];
         return view('orders.show', $data);
     }
