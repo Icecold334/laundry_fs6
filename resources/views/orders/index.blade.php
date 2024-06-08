@@ -68,11 +68,6 @@
                         </td>
                         <td class="text-center">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
                         <td class="text-center">
-                            {{-- @if (Auth::user()->role !== 3 && $order->status == 1 && $order->method == 0)
-                            <a href="#" class="btn badge bg-success text-white px-1">
-                                <i class="fa-solid fa-money-bill"></i>
-                            </a>
-                        @endif --}}
                             @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
                                 <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
                                     <i class="fa-solid fa-money-bill"></i>
