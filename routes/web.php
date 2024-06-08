@@ -37,7 +37,6 @@ Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
 
 Route::resource('/users', UsersController::class)->middleware('auth');
-
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/pay', 'index');
 });
