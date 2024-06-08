@@ -71,7 +71,7 @@ class OrdersController extends Controller
         }
         // create a new order
         $order = new Orders();
-        $order->code = Products::find($request->product)->code . sprintf("%06s", Orders::where('product_id', '=', $request->product)->count() + 1);
+        $order->code = Products::find($request->product)->code . sprintf("%06s", (int)substr(Orders::withTrashed()->where('code', 'like', Products::find($request->product)->code . '%')->get()->last()->code ?? 0, -6) + 1);
         $order->user_id = Auth::user()->id;
         $order->product_id = $request->product;
         $order->before = $request->before;
@@ -136,11 +136,24 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Orders $orders)
+    public function destroy(Orders $order)
     {
-        //
+        Gate::authorize('delete', $order);
+        // delete product
+        $order->delete();
+        return redirect()->route('orders.index')->with('success', 'Hapus Pesanan Berhasil!');
     }
 
+<<<<<<< HEAD
+=======
+    public function force(Orders $order)
+    {
+        // force delete the order
+        $order->forceDelete();
+        return redirect()->route('orders.trash')->with('success', 'Hapus Pesanan Berhasil!');
+    }
+
+>>>>>>> 50592e30327938efe0fa24c5660ee91cf020f77e
     public function completeOrder(Request $request)
     {
         // Validasi input
@@ -156,4 +169,28 @@ class OrdersController extends Controller
         // Redirect atau berikan respon sesuai kebutuhan Anda
         return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
     }
+<<<<<<< HEAD
+=======
+
+
+    public function trash()
+    {
+        if (Orders::onlyTrashed()->with(['product', 'user'])->get()->count() == 0) {
+            return redirect()->route('orders.index');
+        }
+        $data = [
+            'title' => 'Pesanan',
+            'orders' => Orders::onlyTrashed()->with(['product', 'user'])->get()
+        ];
+
+        return view('orders.trash', $data);
+    }
+
+    public function restore(Orders $order)
+    {
+        // restore the order
+        $order->restore();
+        return redirect()->route('orders.trash')->with('success', 'Pesanan Berhasil Dikembalikan!');
+    }
+>>>>>>> 50592e30327938efe0fa24c5660ee91cf020f77e
 }

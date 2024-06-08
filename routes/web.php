@@ -26,7 +26,12 @@ Route::get('/report', [ReportController::class, 'index'])->middleware('superadmi
 Route::get('/report/export', [ReportController::class, 'export'])->middleware('superadmin');
 Route::resource('/products', ProductsController::class)->middleware('auth');
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
-Route::resource('/orders', OrdersController::class)->middleware('auth');
+
+Route::get('/orders/trash', [OrdersController::class, 'trash'])->name('orders.trash')->middleware('superadmin');
+Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])->withTrashed()->name('orders.force')->middleware('superadmin');
+Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])->withTrashed()->name('orders.restore')->middleware('superadmin');
+Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
+
 Route::resource('/users', UsersController::class)->middleware('auth');
 
 Route::controller(MidtransController::class)->group(function () {
