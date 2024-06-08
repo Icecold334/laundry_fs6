@@ -92,7 +92,7 @@ class OrdersController extends Controller
         $order ?? abort(404);
 
         //tanggal
-        $date = Carbon::parse($order->created_at)->locale('id')->translatedFormat('l, d-m-Y H:i');
+        $date = Carbon::parse($order->created_at)->locale('id')->translatedFormat('l, d F Y');
 
         $data = [
             'title' => 'Pesanan',
@@ -144,8 +144,6 @@ class OrdersController extends Controller
         return redirect()->route('orders.index')->with('success', 'Hapus Pesanan Berhasil!');
     }
 
-<<<<<<< HEAD
-=======
     public function force(Orders $order)
     {
         // force delete the order
@@ -153,7 +151,6 @@ class OrdersController extends Controller
         return redirect()->route('orders.trash')->with('success', 'Hapus Pesanan Berhasil!');
     }
 
->>>>>>> 50592e30327938efe0fa24c5660ee91cf020f77e
     public function completeOrder(Request $request)
     {
         // Validasi input
@@ -169,8 +166,6 @@ class OrdersController extends Controller
         // Redirect atau berikan respon sesuai kebutuhan Anda
         return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
     }
-<<<<<<< HEAD
-=======
 
 
     public function trash()
@@ -192,5 +187,4 @@ class OrdersController extends Controller
         $order->restore();
         return redirect()->route('orders.trash')->with('success', 'Pesanan Berhasil Dikembalikan!');
     }
->>>>>>> 50592e30327938efe0fa24c5660ee91cf020f77e
 }
