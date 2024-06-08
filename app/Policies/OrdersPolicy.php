@@ -22,7 +22,9 @@ class OrdersPolicy
      */
     public function view($user, $order): bool
     {
-        return $order->trashed() ? $user->role == 1 : $user->id == $order->user_id || $user->role !== 3;
+        return $order->trashed()
+            ? $user->role == 1
+            : $user->id == $order->user_id || $user->role !== 3;
     }
 
     /**
