@@ -30,6 +30,18 @@
                 <i class="fa-solid fa-people-group"></i>
                 <span>Karyawan</span></a>
         </li>
+        <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
+            <a class="nav-link " href="/users">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span></a>
+        </li>
+    @endcan
+    @can('admin')
+        <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
+            <a class="nav-link " href="/users">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span></a>
+        </li>
     @endcan
     <li class="nav-item {{ Request::is('orders*') ? 'active ' : '' }}">
         <a class="nav-link " href="/orders">
@@ -42,19 +54,10 @@
                 <i class="fa-solid fa-chart-pie"></i>
                 <span>Laporan</span></a>
         </li>
-        <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
-            <a class="nav-link " href="/users">
-                <i class="fa-solid fa-people-group"></i>
-                <span>Pengguna</span></a>
-        </li>
     @endcan
 
-    <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
-        <a class="nav-link " href="/users">
-            <i class="fa-solid fa-users"></i>
-            <span>Pengguna</span></a>
-    </li>
-    
+
+
 
 
     <!-- Divider -->

@@ -11,7 +11,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        Gate::allowIf(Auth::user()->role == 1);
+        Gate::allowIf(Auth::user()->role != 3);
         $data = [
             'title' => 'Pengguna',
             'users' => User::where('role', 3)->get()
