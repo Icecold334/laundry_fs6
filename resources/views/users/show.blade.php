@@ -8,7 +8,7 @@
                     <h4 class="card-title">{{ $user->name }}</h4>
                     <h6 class="card-subtitle mb-2 text-body-secondary">Pengguna</h6>
                     <div class="card-text">
-                        <table>
+                    <table class="table">
                             <tr>
                                 <td colspan="3"><img src="{{ asset('storage/people/' . $user->img) }}" alt=""
                                         class="img-thumbnail"></td>

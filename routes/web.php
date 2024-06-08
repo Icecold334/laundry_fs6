@@ -5,13 +5,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PeopleController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/profile', [ProfileController::class, 'index']);
+Route::get('/chart', [ChartController::class, 'index']);
+Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
@@ -30,6 +34,5 @@ Route::resource('/orders', OrdersController::class)->middleware('auth');
 Route::resource('/users', UsersController::class)->middleware('auth');
 
 Route::controller(MidtransController::class)->group(function () {
-    Route::get('/midtrans/pay', 'index');
-    Route::get('/midtrans/success/{id}', 'success');
+    Route::get('/pay', 'index');
 });
