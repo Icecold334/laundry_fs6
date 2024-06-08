@@ -11,6 +11,7 @@ use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
 use App\Models\User;
+use Carbon\Carbon;
 
 
 class OrdersController extends Controller
@@ -89,9 +90,14 @@ class OrdersController extends Controller
     {
         Gate::authorize('view', $order);
         $order ?? abort(404);
+
+        //tanggal
+        $date = Carbon::parse($order->created_at)->locale('id')->translatedFormat('l, d F Y');
+
         $data = [
             'title' => 'Pesanan',
-            'order' => $order
+            'order' => $order,
+            'date' => $date,
         ];
         return view('orders.show', $data);
     }

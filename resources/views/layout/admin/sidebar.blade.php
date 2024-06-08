@@ -49,6 +49,12 @@
         </li>
     @endcan
 
+    <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
+        <a class="nav-link " href="/users">
+            <i class="fa-solid fa-users"></i>
+            <span>Pengguna</span></a>
+    </li>
+    
 
 
     <!-- Divider -->
