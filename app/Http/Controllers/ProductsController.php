@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 
 class ProductsController extends Controller
 {
@@ -147,5 +148,20 @@ class ProductsController extends Controller
         // delete product
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');
+    }
+
+    public function recycle()
+    {
+        $products = Product::onlyTrashed()->get();
+        return view('products.trash', compact('products'));
+    }
+
+    public function restore($id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $product->restore();
+
+        Session::flash('success', 'Produk berhasil dipulihkan.');
+        return redirect()->route('products.index');
     }
 }

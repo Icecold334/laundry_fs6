@@ -1,7 +1,6 @@
 @extends('layout.admin.main')
 
 @section('content')
-<h1 class="h2 text-gray-800">Dashboard</h1>
     <div class="row">
         <!-- pesanan masuk -->
         <div class="col-lg-6">

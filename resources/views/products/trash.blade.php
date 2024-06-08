@@ -1,13 +1,8 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>
-        Daftar Layanan @can('superadmin')
-            <a href="/products/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-            <a href="/products/trash" class="btn btn-warning"><i class="fa-solid fa-recycle"></i> Sampah</a>
-        @endcan
-    </h1>
+    <h1>Recycle Bin</h1>
     <div class="table-responsive">
-        <table class="table" id="products">
+        <table class="table" id="recycle">
             <thead>
                 <tr>
                     <th class="text-center" style="width: 5%">#</th>
@@ -25,42 +20,14 @@
                         <td>{{ 'Rp ' . number_format($product->price, 2, ',', '.') }}/Kg</td>
                         <td class="text-right ">{{ $product->duration }} Hari</td>
                         <td class="text-center">
-                            <a href="/products/{{ $product->id }}" class="btn badge bg-info text-white px-1">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </a>
                             @can('superadmin')
-                                <a href="/products/{{ $product->id }}/edit" class="btn badge bg-warning text-white px-1">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <form class="d-inline" action="/products/{{ $product->id }}" method="POST"
-                                    id="formDel{{ $product->id }}">
+                                <form class="d-inline" action="/products/{{ $product->id }}/restore" method="POST">
                                     @csrf
-                                    @method('DELETE')
+                                    @method('PATCH')
+                                    <button class="btn badge bg-success text-white px-1" type="submit">
+                                        <i class="fa-solid fa-trash-restore"></i>
+                                    </button>
                                 </form>
-                                <button class="btn badge bg-danger text-white px-1" id="delete{{ $product->id }}">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#delete{{ $product->id }}').click(() => {
-                                            Swal.fire({
-                                                title: "Apa Kamu Yakin?",
-                                                text: "Yakin Hapus Layanan {{ $product->name }}?",
-                                                icon: "warning",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#3085d6",
-                                                cancelButtonColor: "#d33",
-                                                confirmButtonText: "Ya",
-                                                cancelButtonText: "Tidak"
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    let form = $('#formDel{{ $product->id }}')
-                                                    form.submit();
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                @endpush
                             @endcan
                         </td>
                     </tr>
@@ -70,7 +37,7 @@
     </div>
     @push('scripts')
         <script>
-            $("#products").DataTable({
+            $("#recycle").DataTable({
                 columnDefs: [{
                     orderable: false,
                     targets: 4

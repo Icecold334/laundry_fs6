@@ -33,3 +33,8 @@ Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');
     Route::get('/midtrans/success/{id}', 'success');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/products/trash', [ProductController::class, 'recycle'])->name('products.trash');
+    Route::patch('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
+});
