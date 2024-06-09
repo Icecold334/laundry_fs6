@@ -52,11 +52,12 @@ class OrdersController extends Controller
     {
         Gate::authorize('create', Orders::class);
         $addressRule = $request->before == 1 || $request->after == 1 ? ['required'] : [];
+        $beforeRule = $request->method == '0' ? [] : ['required'];
         // create a new resource
         $credentials = Validator::make($request->all(), [
             'product' => ['required'],
             'method' => ['required'],
-            'before' => ['required'],
+            'before' => $beforeRule,
             'after' => ['required'],
             'address' => $addressRule,
         ], [
@@ -74,9 +75,9 @@ class OrdersController extends Controller
         $order->code = Products::find($request->product)->code . sprintf("%06s", (int)substr(Orders::withTrashed()->where('code', 'like', Products::find($request->product)->code . '%')->get()->last()->code ?? 0, -6) + 1);
         $order->user_id = Auth::user()->id;
         $order->product_id = $request->product;
-        $order->before = $request->before;
-        $order->after = $request->after;
         $order->method = $request->method;
+        $order->before = $request->method == 1 ? $request->before : '0';
+        $order->after = $request->after;
         $order->address = $request->address;
         $order->status = 0;
         $order->save();
@@ -148,7 +149,7 @@ class OrdersController extends Controller
     {
         // force delete the order
         $order->forceDelete();
-        return redirect()->route('orders.trash')->with('success', 'Hapus Pesanan Berhasil!');
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dihapus!');
     }
 
     public function completeOrder(Request $request)
@@ -185,6 +186,6 @@ class OrdersController extends Controller
     {
         // restore the order
         $order->restore();
-        return redirect()->route('orders.trash')->with('success', 'Pesanan Berhasil Dikembalikan!');
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dipulihkan!');
     }
 }
