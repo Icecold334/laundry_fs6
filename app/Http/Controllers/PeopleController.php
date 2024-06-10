@@ -165,7 +165,7 @@ class PeopleController extends Controller
     {
         // Force delete the resource
         $person->forceDelete();
-        return redirect()->route('people.trash')->with('success', 'Hapus Karyawan Berhasil!');
+        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan Berhasil Dihapus!');
     }
 
     /**
@@ -192,6 +192,6 @@ class PeopleController extends Controller
     {
         // Restore the resource
         User::onlyTrashed()->where('id', $id)->restore();
-        return redirect()->route('people.trash')->with('success', 'Karyawan Berhasil Dikembalikan!');
+        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan Berhasil Dipulihkan!');
     }
 }
