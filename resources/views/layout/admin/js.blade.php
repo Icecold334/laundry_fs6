@@ -15,7 +15,7 @@
 <script src="/dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="/dashboard/js/sb-admin-2.min.js"></script>
+<script src="/dashboard/js/sb-admin-2.js"></script>
 <script>
     $('input').attr('autocomplete', 'off');
     /* Fungsi formatRupiah */
