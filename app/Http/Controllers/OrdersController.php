@@ -11,6 +11,7 @@ use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
 use App\Models\User;
+use Carbon\Carbon;
 
 
 class OrdersController extends Controller
@@ -51,11 +52,12 @@ class OrdersController extends Controller
     {
         Gate::authorize('create', Orders::class);
         $addressRule = $request->before == 1 || $request->after == 1 ? ['required'] : [];
+        $beforeRule = $request->method == '0' ? [] : ['required'];
         // create a new resource
         $credentials = Validator::make($request->all(), [
             'product' => ['required'],
             'method' => ['required'],
-            'before' => ['required'],
+            'before' => $beforeRule,
             'after' => ['required'],
             'address' => $addressRule,
         ], [
@@ -70,12 +72,12 @@ class OrdersController extends Controller
         }
         // create a new order
         $order = new Orders();
-        $order->code = Products::find($request->product)->code . sprintf("%06s", Orders::where('product_id', '=', $request->product)->count() + 1);
+        $order->code = Products::find($request->product)->code . sprintf("%06s", (int)substr(Orders::withTrashed()->where('code', 'like', Products::find($request->product)->code . '%')->get()->last()->code ?? 0, -6) + 1);
         $order->user_id = Auth::user()->id;
         $order->product_id = $request->product;
-        $order->before = $request->before;
-        $order->after = $request->after;
         $order->method = $request->method;
+        $order->before = $request->method == 1 ? $request->before : '0';
+        $order->after = $request->after;
         $order->address = $request->address;
         $order->status = 0;
         $order->save();
@@ -89,9 +91,14 @@ class OrdersController extends Controller
     {
         Gate::authorize('view', $order);
         $order ?? abort(404);
+
+        //tanggal
+        $date = Carbon::parse($order->created_at)->locale('id')->translatedFormat('l, d F Y');
+
         $data = [
             'title' => 'Pesanan',
-            'order' => $order
+            'order' => $order,
+            'date' => $date,
         ];
         return view('orders.show', $data);
     }
@@ -130,24 +137,55 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Orders $orders)
+    public function destroy(Orders $order)
     {
-        //
+        Gate::authorize('delete', $order);
+        // delete product
+        $order->delete();
+        return redirect()->route('orders.index')->with('success', 'Hapus Pesanan Berhasil!');
     }
 
-    public function completeOrder(Request $request) {
+    public function force(Orders $order)
+    {
+        // force delete the order
+        $order->forceDelete();
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dihapus!');
+    }
+
+    public function completeOrder(Request $request)
+    {
         // Validasi input
         $request->validate([
             'order_id' => 'required|exists:orders,id',
             'review' => 'required|string', // Sesuaikan validasi sesuai kebutuhan Anda
         ]);
-    
+
         // Soft delete pesanan
         $order = Order::find($request->order_id);
         $order->delete();
-    
+
         // Redirect atau berikan respon sesuai kebutuhan Anda
         return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
     }
-    
+
+
+    public function trash()
+    {
+        if (Orders::onlyTrashed()->with(['product', 'user'])->get()->count() == 0) {
+            return redirect()->route('orders.index');
+        }
+        $data = [
+            'title' => 'Pesanan',
+            'orders' => Orders::onlyTrashed()->with(['product', 'user'])->get()
+        ];
+
+        return view('orders.trash', $data);
+    }
+
+    public function restore(Orders $order)
+    {
+        // restore the order
+        $order->restore();
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dipulihkan!');
+    }
 }

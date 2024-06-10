@@ -143,7 +143,7 @@ class ProductsController extends Controller
      */
     public function destroy(Request $request, Products $product)
     {
-        Gate::authorize('create', $product);
+        Gate::authorize('delete', $product);
 
         // delete product
         $product->delete();

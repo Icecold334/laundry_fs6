@@ -88,8 +88,6 @@
                                     }, function(start, end, label) {
                                         $('#from').val(start.format('YYYY-MM-DD'))
                                         $('#to').val(end.format('YYYY-MM-DD'))
-                                        // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format(
-                                        //     'YYYY-MM-DD'));
                                     });
                                 </script>
                             @endpush
@@ -207,7 +205,7 @@
                         <tbody>
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $order->product->name }}</td>
                                     <td class="{{ $order->quantity ? 'text-right' : 'text-center' }}">
                                         {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>

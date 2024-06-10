@@ -22,7 +22,9 @@ class OrdersPolicy
      */
     public function view($user, $order): bool
     {
-        return $user->id == $order->user_id || $user->role !== 3;
+        return $order->trashed()
+            ? $user->role == 1
+            : $user->id == $order->user_id || $user->role !== 3;
     }
 
     /**
@@ -53,9 +55,9 @@ class OrdersPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Orders $orders): bool
+    public function restore(User $user, $orders): bool
     {
-        //
+        return $user->role == 1 && $orders->count() > 0;
     }
 
     /**
@@ -63,6 +65,6 @@ class OrdersPolicy
      */
     public function forceDelete(User $user, Orders $orders): bool
     {
-        //
+        return $user->role == 1;
     }
 }
