@@ -1,6 +1,7 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1><a href="/people"><i class="fa-solid fa-chevron-left"></i></a> Sampah Karyawan</h1>
+    <h1><a href="/people"><i class="fa-solid fa-chevron-left"></i></a> Sampah Karyawan
+    </h1>
     @csrf
     <div class="table-responsive">
         <table class="table" id="products">
@@ -26,49 +27,43 @@
                             <a href="/people/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            @can('restore', [App\Models\User::class, $user])
-                                <button id="restore{{ $user->id }}" class="btn badge bg-warning text-white px-1">
-                                    <i class="fa-solid fa-recycle"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#restore{{ $user->id }}').click(() => {
-                                            Swal.fire({
-                                                title: "Apa Kamu Yakin?",
-                                                html: "Yakin Memulihkan Karyawan <b>{{ $user->name }}</b>?",
-                                                icon: "question",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#3085d6",
-                                                cancelButtonColor: "#d33",
-                                                confirmButtonText: "Ya",
-                                                cancelButtonText: "Tidak"
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    $.ajax({
-                                                        url: '{{ route('people.restore', $user->id) }}',
-                                                        type: 'PUT',
-                                                        data: {
-                                                            '_token': '{{ csrf_token() }}'
-                                                        },
-                                                        success: () => {
-                                                            location.reload();
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                @endpush
-                            @endcan
-                            <button id="force{{ $user->id }}" class="btn badge bg-danger text-white px-1">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <button id="restore{{ $user->id }}" class="btn badge bg-warning text-white px-1">
+                                <i class="fa-solid fa-recycle"></i>
                             </button>
                             @push('scripts')
                                 <script>
-                                    $('#force{{ $user->id }}').click(() => {
+                                    $('#restore{{ $user->id }}').click(() => {
                                         Swal.fire({
                                             title: "Apa Kamu Yakin?",
-                                            html: "Yakin Menghapus Karyawan <b>{{ $user->name }}</b>?",
+                                            html: "Yakin Memulihkan Karyawan <b>{{ $user->name }}</b>?",
+                                            icon: "question",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Ya",
+                                            cancelButtonText: "Tidak"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = "/people/restore/{{ $user->id }}";
+                                            }
+                                        });
+                                    })
+                                </script>
+                            @endpush
+                            <form class="d-inline" action="/people/force/{{ $user->id }}" method="POST"
+                                id="formDel{{ $user->id }}">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <button class="btn badge bg-danger text-white px-1" id="delete{{ $user->id }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                            @push('scripts')
+                                <script>
+                                    $('#delete{{ $user->id }}').click(() => {
+                                        Swal.fire({
+                                            title: "Apa Kamu Yakin?",
+                                            text: "Yakin Hapus Permanen Karyawan {{ $user->name }}?",
                                             icon: "warning",
                                             showCancelButton: true,
                                             confirmButtonColor: "#3085d6",
@@ -77,16 +72,8 @@
                                             cancelButtonText: "Tidak"
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                $.ajax({
-                                                    url: '{{ route('people.force', $user->id) }}',
-                                                    type: 'DELETE',
-                                                    data: {
-                                                        '_token': '{{ csrf_token() }}'
-                                                    },
-                                                    success: () => {
-                                                        location.reload();
-                                                    }
-                                                });
+                                                let form = $('#formDel{{ $user->id }}')
+                                                form.submit();
                                             }
                                         });
                                     });
@@ -98,4 +85,83 @@
             </tbody>
         </table>
     </div>
+    @push('scripts')
+        @if (session('success'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endif
+        @if (session('error'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('error') }}"
+                });
+            </script>
+        @endif
+        <script>
+            $("#products").DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    targets: 5
+                }],
+                paging: true,
+                lengthMenu: [5, 10, 20, {
+                    label: "Semua",
+                    value: -1
+                }],
+                pageLength: 5,
+                language: {
+                    decimal: "",
+                    searchPlaceholder: "Cari Data",
+                    emptyTable: "Tabel kosong",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    infoPostFix: "",
+                    thousands: ",",
+                    lengthMenu: "Tampilkan _MENU_ data",
+                    loadingRecords: "Loading...",
+                    processing: "",
+                    search: "Cari:",
+                    zeroRecords: "Data tidak ditemukan",
+                    paginate: {
+                        first: "<<",
+                        last: ">>",
+                        next: ">",
+                        previous: "<",
+                    },
+                    aria: {
+                        orderable: "Order by this column",
+                        orderableReverse: "Reverse order this column",
+                    },
+                },
+            });
+        </script>
+    @endpush
 @endsection
