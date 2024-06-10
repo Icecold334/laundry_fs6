@@ -30,7 +30,6 @@ Route::get('/panel', [DashboardController::class, 'index'])->middleware('admin')
 Route::get('/report', [ReportController::class, 'index'])->middleware('superadmin');
 Route::get('/report/export', [ReportController::class, 'export'])->middleware('superadmin');
 Route::resource('/products', ProductsController::class)->middleware('auth');
-Route::resource('/people', PeopleController::class)->middleware('superadmin');
 
 Route::get('/orders/trash', [OrdersController::class, 'trash'])->name('orders.trash')->middleware('superadmin');
 Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])->withTrashed()->name('orders.force')->middleware('superadmin');
