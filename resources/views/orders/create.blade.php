@@ -28,7 +28,7 @@
                         <div class="form-group mb-3">
                             <label for="method" class="form-label">Pilih Metode Pembayaran<span
                                     class="text-danger">*</span></label>
-                            <select class="custom-select @error('method') is-invalid @enderror" aria-label="Pilih Layanan"
+                            <select class="custom-select  @error('method') is-invalid @enderror" aria-label="Pilih Layanan"
                                 id="method" name="method">
                                 <option value="">Pilih Metode</option>
                                 <option value="0" @selected('0' == old('method'))>Tunai</option>
@@ -50,7 +50,7 @@
                             <select class="custom-select @error('before') is-invalid @enderror" aria-label="Pengiriman Awal"
                                 id="before" name="before">
                                 <option value="">Pilih Pengiriman</option>
-                                <option value="0" @selected('0' == old('before'))>Diantar</option>
+                                <option value="0" @selected('0' == old('before') || '0' == old('method'))>Diantar</option>
                                 <option value="1" @selected('1' == old('before'))>Diambil</option>
 
                             </select>
@@ -108,7 +108,7 @@
 
     </div>
     @push('scripts')
-        @if (!$errors->any())
+        @if ((old('before') == null || old('before') == '0') && old('after') == '0')
             <script>
                 $('#form-address').hide();
             </script>
@@ -116,6 +116,13 @@
         <script>
             let before = 0;
             let after = 0;
+            let method = parseInt($('#method').val());
+            if (method == 0) {
+                $('#before').val('0');
+                $('#before').attr('disabled', true);
+            } else {
+                $('#before').attr('disabled', false);
+            }
 
             function provShow(before = 0, after = 0) {
                 if (before || after) {
@@ -142,6 +149,9 @@
                 after = parseInt($('#after').val());
                 if (method == 0) {
                     $('#before').val('0');
+                    $('#before').attr('disabled', true);
+                } else {
+                    $('#before').attr('disabled', false);
                 }
                 if (method == 0 && after == 0) {
                     $('#form-address').fadeOut();
