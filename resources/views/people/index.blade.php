@@ -1,6 +1,12 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>Daftar Karyawan <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a></h1>
+    <h1>
+        Daftar Karyawan
+            <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
+        @if(\App\Models\User::onlyTrashed()->where('role', 2)->count() > 0)
+            <a href="/people/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
+        @endif
+    </h1>
     @csrf
     <div class="table-responsive">
         <table class="table" id="products">

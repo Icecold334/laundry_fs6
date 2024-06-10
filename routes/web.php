@@ -37,6 +37,11 @@ Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])-
 Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])->withTrashed()->name('orders.restore')->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
 
+Route::get('/people/trash', [PeopleController::class, 'trash'])->name('people.trash')->middleware('superadmin');
+Route::delete('/people/force/{person}', [PeopleController::class, 'force'])->withTrashed()->name('people.force')->middleware('superadmin');
+Route::get('/people/restore/{id}', [PeopleController::class, 'restore'])->withTrashed()->name('people.restore')->middleware('superadmin');
+Route::resource('/people', PeopleController::class)->withTrashed()->middleware('superadmin');
+
 Route::resource('/users', UsersController::class)->middleware('auth');
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');

@@ -157,4 +157,41 @@ class PeopleController extends Controller
         $person->delete();
         return redirect()->route('people.index')->with('success', 'Hapus data berhasil!');
     }
+
+    /**
+     * Force delete the specified resource from storage.
+     */
+    public function force(User $person)
+    {
+        // Force delete the resource
+        $person->forceDelete();
+        return redirect()->route('people.trash')->with('success', 'Hapus Karyawan Berhasil!');
+    }
+
+    /**
+     * Display a listing of the trashed resources.
+     */
+    public function trash()
+    {
+        if (User::onlyTrashed()->where('role', 2)->count() == 0) {
+            return redirect()->route('people.index');
+        }
+
+        $data = [
+            'title' => 'Karyawan',
+            'users' => User::onlyTrashed()->where('role', 2)->get()
+        ];
+
+        return view('people.trash', $data);
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id)
+    {
+        // Restore the resource
+        User::onlyTrashed()->where('id', $id)->restore();
+        return redirect()->route('people.trash')->with('success', 'Karyawan Berhasil Dikembalikan!');
+    }
 }
