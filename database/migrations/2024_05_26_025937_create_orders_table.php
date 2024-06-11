@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignid('user_id')->references('id')->on('users');
+            $table->foreignid('staff_id')->nullable()->references('id')->on('users');
             $table->foreignId('product_id')->references('id')->on('products');
             $table->integer('quantity')->nullable();
             $table->integer('before');
             $table->integer('after');
             $table->integer('method');
-            $table->string('link')->nullable();
+            $table->string('review')->nullable();
             $table->string('address')->nullable();
             $table->integer('status')->default(0);
             $table->integer('total')->nullable();
