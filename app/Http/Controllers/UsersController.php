@@ -31,23 +31,38 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
-
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Hapus data berhasil!');
     }
 
     public function trash()
-{
-    if (Products::onlyTrashed()->with(['product', 'user'])->get()->count() == 0)
-    $title = 'users';
-    // Retrieve trashed users
-    $trashedUsers = User::onlyTrashed()->get();
+    {
+        $users = User::onlyTrashed()->get();
+        if ($users->isEmpty()) {
+            return redirect()->route('users.index')->with('info', 'Tidak ada pengguna di sampah.');
+        }
 
-    // Return view with trashed users data
-    return view('users.trash', compact('trashedUsers', 'title'));
+        $data = [
+            'title' => 'Sampah Pengguna',
+            'users' => $users
+        ];
+
+        return view('users.trash', $data);
+    }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return redirect()->route('users.trash')->with('success', 'Pengguna berhasil dipulihkan!');
+    }
+
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->forceDelete();
+        return redirect()->route('users.trash')->with('success', 'Pengguna berhasil dihapus permanen!');
+    }
+
 }
-
-
-}
-

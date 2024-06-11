@@ -1,6 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
-    
+
     <h1>Daftar Pengguna
     @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()])
         <a href="/user/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
