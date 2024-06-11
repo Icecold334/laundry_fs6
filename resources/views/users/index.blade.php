@@ -1,6 +1,13 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>Daftar Pengguna</h1>
+    
+    <h1>Daftar Pengguna
+    @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()])
+        <a href="/user/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
+    @endcan
+</h1>
+
+    </h1>
     @csrf
     <div class="table-responsive">
         <table class="table" id="products">

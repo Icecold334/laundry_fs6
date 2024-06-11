@@ -36,4 +36,18 @@ class UsersController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Hapus data berhasil!');
     }
+
+    public function trash()
+{
+    if (Products::onlyTrashed()->with(['product', 'user'])->get()->count() == 0)
+    $title = 'users';
+    // Retrieve trashed users
+    $trashedUsers = User::onlyTrashed()->get();
+
+    // Return view with trashed users data
+    return view('users.trash', compact('trashedUsers', 'title'));
 }
+
+
+}
+
