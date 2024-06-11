@@ -111,7 +111,7 @@
                         <i class="fa fa-2x fa-envelope text-white m-0 mr-3"></i>
                         <div class="d-flex flex-column">
                             <h5 class="text-white font-weight-medium">Email</h5>
-                            <p class="m-0 text-white">info@gmail.com</p>
+                            <p class="m-0 text-white">{{ $admin->email }}</p>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         <i class="fa fa-2x fa-phone-alt text-white m-0 mr-3"></i>
                         <div class="d-flex flex-column">
                             <h5 class="text-white font-weight-medium">Telpon</h5>
-                            <p class="m-0 text-white">+623 345 6789</p>
+                            <p class="m-0 text-white">{{ $admin->phone }}</p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                 <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Layanan Kami</h6>
                 <h1 class="display-4 text-center mb-5">Kami Tawarkan</h1>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-lg-3 col-md-6 pb-1 zoom-in" data-aos="flip-left">
                     <div class="d-flex flex-column align-items-center justify-content-center text-center bg-light mb-4 px-4"
                         style="height: 300px;">
@@ -218,16 +218,6 @@
                         <h4 class="font-weight-bold m-0">Laundry Express</h4>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 pb-1 zoom-in" data-aos="flip-left">
-                    <div class="d-flex flex-column align-items-center justify-content-center text-center bg-light mb-4 px-4"
-                        style="height: 300px;">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4"
-                            style="width: 100px; height: 100px;">
-                            <i class="fa fa-3x fa-tshirt text-secondary"></i>
-                        </div>
-                        <h4 class="font-weight-bold m-0">Pembersihan Jas</h4>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -246,43 +236,42 @@
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">1</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan di buat</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Buat</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">2</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan diambil/
-                        diantar</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Antar</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">3</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan di bayar</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Bayar</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">4</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan diproses</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Proses</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">5</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan siap diambil</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Ambil</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
                         <h2 class="display-2 text-secondary m-0">6</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Pesanan sudah diambil</h3>
+                    <h3 class="text-white font-weight-bold m-0 mt-2">Selesai</h3>
                 </div>
             </div>
         </div>
@@ -293,68 +282,26 @@
     <!-- Paket -->
     <div class="container-fluid pt-2 pb-3" style="margin-top: 100px;">
         <div class="container" id="paket" data-aos="zoom-in">
-            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Our Pricing Plan</h6>
             <h1 class="display-4 text-center mb-5">Paket Laundry</h1>
-            <div class="row">
-                <div class="col-lg-4 mb-4 zoom-in">
-                    <div class="bg-light text-center mb-2 pt-4">
-                        <div class="d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4"
-                            style="width: 200px; height: 200px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Reguler</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top"
-                                    style="font-size: 22px; line-height: 45px;">Rp</small>50<small
-                                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Bln</small>
-                            </h1>
+            <div class="row justify-content-center">
+                @foreach ($products as $product)
+                    <div class="col-lg-4 mb-4 zoom-in">
+                        <div class="bg-light text-center mb-2 pt-4">
+                            <div class="d-inline-flex flex-column align-items-center justify-content-center bg-primary rounded-circle shadow mt-2 mb-4 p-3"
+                                style="width: auto; height: 200px; border: 15px solid #ffffff;">
+                                <h1 class="display-4 text-white mb-0">
+                                    {{ $product->name }}
+                                </h1>
+                            </div>
+                            <div class="d-flex flex-column align-items-center py-3">
+                                <p>Rp {{ number_format($product->price, 2, ',', '.') }} per kg</p>
+                                <p>Garansi Tepat Waktu</p>
+                                <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
+                            </div>
+                            <a href="/orders" class="btn btn-primary py-2 px-4">Pilih Paket</a>
                         </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Rp 5.000 per kg</p>
-                            <p>Garansi Tepat Waktu</p>
-                            <p>Laundry selesai dalam waktu 3 hari kerja</p>
-                            <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
-                        </div>
-                        <a href="/orders" class="btn btn-secondary py-2 px-4">Pilih Paket</a>
                     </div>
-                </div>
-                <div class="col-lg-4 mb-4 zoom-in">
-                    <div class="bg-light text-center mb-2 pt-4">
-                        <div class="d-inline-flex flex-column align-items-center justify-content-center bg-primary rounded-circle shadow mt-2 mb-4"
-                            style="width: 200px; height: 200px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Ekspress</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>99<small
-                                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Mo</small>
-                            </h1>
-                        </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Rp 15.000 per kg</p>
-                            <p>Garansi Tepat Waktu</p>
-                            <p>Laundry selesai dalam waktu 24 jam kerja</p>
-                            <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
-                        </div>
-                        <a href="/orders" class="btn btn-primary py-2 px-4">Pilih Paket</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4 zoom-in">
-                    <div class="bg-light text-center mb-2 pt-4">
-                        <div class="d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4"
-                            style="width: 200px; height: 200px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Instan</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top"
-                                    style="font-size: 22px; line-height: 45px;">$</small>149<small
-                                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Mo</small>
-                            </h1>
-                        </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Rp 30.000</p>
-                            <p>Garansi Tepat Waktu</p>
-                            <p>Laundry selesai dalam waktu 3 jam kerja</p>
-                            <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
-                        </div>
-                        <a href="/orders" class="btn btn-secondary py-2 px-4">Pilih Paket</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -364,14 +311,14 @@
     <div class="container-fluid mt-5 pb-2">
         <div class="container">
             <div data-aos="fade-down">
-                <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Our Blog</h6>
-                <h1 class="display-4 text-center mb-5">Latest From Blog</h1>
+                <h1 class="display-4 text-center mb-5">Ulasan Pelanggan</h1>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-lg-4 mb-2" data-aos="fade-up">
                     <div class="shadow mb-4">
                         <div class="position-relative">
-                            <img class="img-fluid w-100" src="/home/img/7.png" alt="">
+                            <img class="img-fluid  w-100" src="{{ asset('storage/people') . '/default_pict.svg' }}"
+                                alt="" style="height: 150px;overflow: hidden;ba">
                             <a href="/orders"
                                 class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
                                 style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
@@ -383,42 +330,6 @@
                             sehari-hari Anda. Layanan ini menawarkan pencucian berkualitas tinggi dengan detergen ramah
                             lingkungan, pengeringan profesional, dan setrika rapi. Paket ini memastikan pakaian Anda
                             bersih, lembut, dan siap pakai dalam waktu yang efisien.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-2" data-aos="fade-up">
-                    <div class="shadow mb-4">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="/home/img/6.png" alt="">
-                            <a href="/orders"
-                                class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
-                                style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
-                                <h4 class="text-center text-white font-weight-medium mb-3">Dolor site amet clita kasd
-                                    sanct ipsum</h4>
-                            </a>
-                        </div>
-                        <p class="m-0 p-4">Paket Laundry Ekspres kami dirancang khusus untuk kebutuhan mendesak Anda.
-                            Dengan layanan ini, kami menawarkan prioritas tinggi untuk memastikan pakaian Anda segera
-                            siap digunakan dalam waktu 24 jam. Meskipun waktu pengerjaan yang cepat, kami tetap
-                            mengutamakan kualitas dengan menggunakan detergen berkualitas tinggi, pengering modern, dan
-                            setrika profesional.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-2" data-aos="fade-up">
-                    <div class="shadow mb-4">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="/home/img/3.png" alt="">
-                            <a href="/orders"
-                                class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
-                                style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
-                                <h4 class="text-center text-white font-weight-medium mb-3">Dolor site amet clita kasd
-                                    sanct ipsum</h4>
-                            </a>
-                        </div>
-                        <p class="m-0 p-4">Paket Laundry Instan adalah solusi terbaik untuk kebutuhan mendesak Anda.
-                            Dengan layanan ini, pakaian Anda akan diproses dengan prioritas tinggi dan siap dalam waktu
-                            yang sangat singkat, hanya dalam 4 jam. Kami memastikan bahwa setiap pakaian dicuci,
-                            dikeringkan, dan disetrika dengan cermat untuk memberikan hasil terbaik dalam waktu yang
-                            cepat.</p>
                     </div>
                 </div>
             </div>

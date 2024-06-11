@@ -1,13 +1,14 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/panel">
+    <div class="sidebar-brand d-flex align-items-center justify-content-center">
         <div class="sidebar-brand-icon">
             {{-- <i class="fas fa-laugh-wink"></i> --}}
             <img src="{{ asset('dashboard/img/logo.png') }}" alt="" width="30%">
             <div class="sidebar-brand-text ms-3">{{ env('APP_NAME') }}</div>
         </div>
-    </a>
+    </div>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">

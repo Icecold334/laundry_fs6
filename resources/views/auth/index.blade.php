@@ -9,8 +9,7 @@
 </head>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"
-    ></script>
+<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
 <style>
     :root {
         --primary-color: #114cff;
@@ -95,6 +94,7 @@
         color: var(--gray-2);
         opacity: 0.7;
     }
+
     .input-group input {
         width: 100%;
         padding: 1rem 3rem;
@@ -372,8 +372,8 @@
                         @csrf
                         <h2>Registrasi</h2>
                         <div class="input-group">
-                            <i class="fas fa-user"></i> 
-                            <input type="text" placeholder="Name" name="name" value="{{ old('name') }}"
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="Nama" name="name" value="{{ old('name') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
@@ -389,7 +389,7 @@
                         </div>
                         <div class="input-group">
                             <i class="fas fa-phone"></i>
-                            <input type="text" placeholder="Phone Number" name="phone" value="{{ old('phone') }}"
+                            <input type="text" placeholder="Nomor Telpon" name="phone" value="{{ old('phone') }}"
                                 autocomplete="off">
                         </div>
                         <div class="input-group">
@@ -398,18 +398,18 @@
                         </div>
                         <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="Confirm password" name="password_confirmation"
+                            <input type="password" placeholder="Konfirmasi Password" name="password_confirmation"
                                 autocomplete="off">
                         </div>
                         <button type="submit">
-                            Sign up
+                            Daftar
                         </button>
                         <p>
                             <span>
-                                Already have an account?
+                                Sudah memiliki akun?
                             </span>
                             <b onclick="toggle()" class="pointer">
-                                Sign in here
+                                Login di sini!
                             </b>
                         </p>
                     </form>
@@ -433,7 +433,7 @@
                             <input type="password" placeholder="Password" name="password" autocomplete="off">
                         </div>
                         <button type="submit">
-                            Sign in
+                            Login
                         </button>
                         {{-- <p>
                             <b>
@@ -442,12 +442,15 @@
                         </p> --}}
                         <p>
                             <span>
-                                Don't have an account?
+                                Belum punya akun?
                             </span>
                             <b onclick="toggle()" class="pointer">
-                                Sign up here
+                                Daftar di sini!
                             </b>
                         </p>
+                        <a href="/" class="text"
+                            style="color: #000000;text-decoration: none;font-size: 0.8rem">Kembali ke
+                            beranda</a>
                     </form>
                 </div>
                 <div class="form-wrapper">
@@ -463,9 +466,9 @@
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
-                        Welcome!!
+                        Selamat Datang
                     </h2>
-                    <p>Sign in to continue</p>
+                    <p>Login untuk melanjutkan</p>
                     <div class="img sign-in">
                         <img src="{{ asset('img/1.svg') }}" alt="Nama Gambar">
                     </div>
@@ -479,9 +482,9 @@
                         <img src="{{ asset('img/2.svg') }}" alt="Nama Gambar">
                     </div>
                     <h2>
-                        Join with us
+                        Bergabung bersama kami
                     </h2>
-                    <p>Sign up to enjoy with us</p>
+                    <p>Daftar segera</p>
                 </div>
             </div>
             <!-- END SIGN UP CONTENT -->
