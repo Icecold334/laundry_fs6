@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
         Orders::factory()->create([
             'code' => 'INS000001',
             'product_id' => 2,
+            'staff_id' => 1,
             'user_id' => 3,
             'quantity' => 3,
             'total' => 21000,
@@ -69,6 +70,7 @@ class DatabaseSeeder extends Seeder
         Orders::factory()->create([
             'code' => 'INS000002',
             'product_id' => 2,
+            'staff_id' => 1,
             'user_id' => 3,
             'quantity' => 5,
             'total' => 35000,

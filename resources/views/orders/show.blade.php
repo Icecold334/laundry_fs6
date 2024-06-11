@@ -52,6 +52,13 @@
                                         @endswitch
                                     </th>
                                 </tr>
+                                @if ($order->status > 0 && Auth::user()->role != 3)
+                                    <tr>
+                                        <th style="width:  50%">Penanggung Jawab</th>
+                                        <th style="width: 5%">:</th>
+                                        <th style="width: 30%">{{ $order->staff->name }}</th>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <th style="width:  50%">Metode Pembayaran</th>
                                     <th style="width: 5%">:</th>
@@ -82,30 +89,39 @@
                                         <th style="width: 30%">{{ $order->address }}</th>
                                     </tr>
                                 @endif
+                                @if ($order->status == 3 && Auth::user()->id == $order->user_id)
+                                    <form action="/orders/{{ $order->code }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <tr>
+                                            <th style="width:  50%">Ulasan</th>
+                                            <th style="width: 5%">:</th>
+                                            <th style="width: 30%">
+                                                <textarea class="form-control" rows="3" name="review"></textarea>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3">
+                                                <div class="d-grid gap-2">
+                                                    <button id="next" class="btn btn-success btn-block">
+                                                        Pesanan Selesai
+                                                    </button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </form>
+                                @endif
                                 @if ($order->status == 4)
                                     <tr>
                                         <th style="width:  50%">Ulasan</th>
                                         <th style="width: 5%">:</th>
                                         <th style="width: 30%">
-                                            <form action="/order/complete" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                                <textarea class="form-control" rows="3" name="review"></textarea>
+                                            {{ $order->review }}
                                         </th>
                                     </tr>
                                 @endif
                             </thead>
                         </table>
-
-                        @if ($order->status == 4)
-                            <div class="text-center mt-3">
-                                <form action="/order/complete" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                    <button type="submit" class="btn btn-success">Pesanan Selesai</button>
-                                </form>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>

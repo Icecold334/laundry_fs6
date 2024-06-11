@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Orders::class, 'user_id');
     }
+
+    public function staff(): HasMany
+    {
+        return $this->hasMany(Orders::class, 'staff_id');
+    }
 }
