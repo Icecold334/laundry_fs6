@@ -105,7 +105,6 @@
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
-
     </div>
     @push('scripts')
         @if ((old('before') == null || old('before') == '0') && old('after') == '0')
