@@ -1,9 +1,12 @@
 @extends('layout.admin.main')
 @section('content')
     <h1>
-        Daftar Layanan @can('superadmin')
+        Daftar Layanan
+        @can('create', App\Models\Products::class)
             <a href="/products/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-            <a href="/products/trash" class="btn btn-warning"><i class="fa-solid fa-recycle"></i> Sampah</a>
+        @endcan
+        @can('restore', [App\Models\Products::class, App\Models\Products::onlyTrashed()])
+            <a href="/products/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
         @endcan
     </h1>
     <div class="table-responsive">

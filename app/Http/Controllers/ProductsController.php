@@ -152,13 +152,13 @@ class ProductsController extends Controller
 
     public function recycle()
     {
-        $products = Product::onlyTrashed()->get();
+        $products = Products::onlyTrashed()->get();
         return view('products.trash', compact('products'));
     }
 
     public function restore($id)
     {
-        $product = Product::withTrashed()->findOrFail($id);
+        $product = Products::withTrashed()->findOrFail($id);
         $product->restore();
 
         Session::flash('success', 'Produk berhasil dipulihkan.');
