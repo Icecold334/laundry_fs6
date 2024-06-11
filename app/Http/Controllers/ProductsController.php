@@ -64,7 +64,6 @@ class ProductsController extends Controller
 
     public function show(Products $product)
     {
-        $product = Products::withTrashed()->findOrFail($id);
         $data = [
             'title' => 'Layanan',
             'product' => $product
