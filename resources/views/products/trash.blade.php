@@ -1,6 +1,8 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>Recycle Bin</h1>
+    <h1><a href="/products"><i class="fa-solid fa-chevron-left"></i></a> Sampah Layanan
+    </h1>
+    @csrf
     <div class="table-responsive">
         <table class="table" id="recycle">
             <thead>
@@ -18,16 +20,64 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ 'Rp ' . number_format($product->price, 2, ',', '.') }}/Kg</td>
-                        <td class="text-right ">{{ $product->duration }} Hari</td>
+                        <td class="text-right">{{ $product->duration }} Hari</td>
                         <td class="text-center">
-                            @can('superadmin')
-                                <form class="d-inline" action="/products/{{ $product->id }}/restore" method="POST">
+                            <a href="/products/{{ $product->id }}" class="btn badge bg-info text-white px-1">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                            @can('restore', [App\Models\Products::class, $product])
+                                <button id="restore{{ $product->id }}" class="btn badge bg-warning text-white px-1">
+                                    <i class="fa-solid fa-recycle"></i>
+                                </button>
+                                @push('scripts')
+                                    <script>
+                                        document.getElementById('restore{{ $product->id }}').addEventListener('click', function () {
+                                            Swal.fire({
+                                                title: "Apa Kamu Yakin?",
+                                                html: "Yakin Memulihkan Layanan <b>{{ $product->name }}</b>?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Ya",
+                                                cancelButtonText: "Tidak"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = "/products/{{ $product->id }}/restore";
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endpush
+                            @endcan
+                            @can('forceDelete', [App\Models\Products::class, $product])
+                                <form class="d-inline" action="/products/{{ $product->id }}/force" method="POST" id="formDel{{ $product->id }}">
                                     @csrf
-                                    @method('PATCH')
-                                    <button class="btn badge bg-success text-white px-1" type="submit">
-                                        <i class="fa-solid fa-trash-restore"></i>
-                                    </button>
+                                    @method('DELETE')
                                 </form>
+                                <button class="btn badge bg-danger text-white px-1" id="delete{{ $product->id }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                @push('scripts')
+                                    <script>
+                                        document.getElementById('delete{{ $product->id }}').addEventListener('click', function () {
+                                            Swal.fire({
+                                                title: "Apa Kamu Yakin?",
+                                                html: "Yakin Hapus Permanen Layanan <b>{{ $product->name }}</b>?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Ya",
+                                                cancelButtonText: "Tidak"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById('formDel{{ $product->id }}').submit();
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endpush
                             @endcan
                         </td>
                     </tr>
