@@ -5,16 +5,15 @@
         <div class="col-xl-6 col-md-8 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="card-title font-weight-bold">{{ $user->code }}</h5>
-                    </div>
                     <div class="card-text">
                         <table class="table">
                             <tr>
                                 <th colspan="3">
                                     <div class="row justify-content-center">
-                                        <div class="col-6"><img src="{{ asset('storage/people/' . $user->img) }}"
-                                                alt="Foto Profil" class="img-thumbnail"></div>
+                                        <div class="col-6">
+                                            <img src="{{ Auth::user()->img ? asset('storage/people') . '/' . Auth::user()->img : asset('dashboard/img/undraw_profile.svg') }}"
+                                                alt="" class="img-thumbnail">
+                                        </div>
                                     </div>
                                 </th>
                             </tr>
@@ -29,7 +28,7 @@
                                 <th>{{ $user->username }}</th>
                             </tr>
                             <tr>
-                                <th>Nomor Telepon</th>
+                                <th>No Telepon</th>
                                 <th>:</th>
                                 <th>{{ $user->phone }}</th>
                             </tr>
@@ -39,8 +38,8 @@
                                 <th>{{ $user->email }}</th>
                             </tr>
                         </table>
-                        <a href="profile/edit" class="btn btn-primary">Edit Profil</a>
-                        <a href="profile/password" class="btn btn-outline-primary">Ubah Password</a>
+                        <a href="/profile/edit" class="btn btn-primary">Ubah Profil</a>
+                        <a href="/profile/password" class="btn btn-outline-primary">Ubah Password</a>
                     </div>
                 </div>
             </div>

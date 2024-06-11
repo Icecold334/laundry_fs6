@@ -5,18 +5,31 @@
         <div class="col-xl-6 col-md-8 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Layanan {{ $product->name }}</h4>
-                        <h5 class="card-title">{{ $product->duration }} Hari</h5>
-                    </div>
-                    <h6 class="text-right card-subtitle mb-2 text-body-secondary">
-                        {{ 'Rp ' . number_format($product->price, 2, ',', '.') }}
-                    </h6>
-                    <div class="card-text">
-                        <h5>
-                            {{ $product->description }}
-                        </h5>
-                    </div>
+                    <h4 class="card-title">Detail Layanan</h4>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">Nama Layanan</th>
+                                <td style="width: 5%;">:</td>
+                                <td>{{ $product->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Durasi</th>
+                                <td>:</td>
+                                <td>{{ $product->duration }} Hari</td>
+                            </tr>
+                            <tr>
+                                <th>Harga</th>
+                                <td>:</td>
+                                <td>{{ 'Rp ' . number_format($product->price, 2, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Deskripsi</th>
+                                <td>:</td>
+                                <td>{{ $product->description }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

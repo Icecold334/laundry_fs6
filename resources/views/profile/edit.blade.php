@@ -60,8 +60,9 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-6 col-md-12 col-sm-12">
-                        <img id="imagePreview" src="{{ asset('storage/people') . '/' . $user->img }}" alt="Image Preview"
-                            class="img-thumbnail mb-3" width="55%">
+                        <img id="imagePreview"
+                            src="{{ Auth::user()->img ? asset('storage/people') . '/' . Auth::user()->img : asset('dashboard/img/undraw_profile.svg') }}"
+                            alt="Image Preview" class="img-thumbnail mb-3" width="55%">
                         @push('scripts')
                             <script>
                                 $(document).ready(function() {

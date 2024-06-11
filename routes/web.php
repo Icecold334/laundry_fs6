@@ -36,6 +36,7 @@ Route::get('/report/export', [ReportController::class, 'export'])->middleware('s
 // product controller
 Route::resource('/products', ProductsController::class)->middleware('auth');
 // people controller
+
 Route::get('/people/trash', [PeopleController::class, 'trash'])->name('people.trash')->middleware('superadmin');
 Route::delete('/people/force/{person}', [PeopleController::class, 'force'])->withTrashed()->name('people.force')->middleware('superadmin');
 Route::get('/people/restore/{id}', [PeopleController::class, 'restore'])->withTrashed()->name('people.restore')->middleware('superadmin');
@@ -46,7 +47,11 @@ Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])-
 Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])->withTrashed()->name('orders.restore')->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
 
+Route::get('/users/trash', [UsersController::class, 'trash'])->name('users.trash')->middleware('superadmin');
+Route::delete('/users/force/{user}', [UsersController::class, 'force'])->name('users.force')->middleware('superadmin');
+Route::get('/users/restore/{user}', [UsersController::class, 'restore'])->name('users.restore')->middleware('superadmin');
 Route::resource('/users', UsersController::class)->middleware('auth');
+
 // midtrans controller
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');
