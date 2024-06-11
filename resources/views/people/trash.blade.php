@@ -1,11 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>
-        Daftar Karyawan
-            <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-        @if(\App\Models\User::onlyTrashed()->where('role', 2)->count() > 0)
-            <a href="/people/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-        @endif
+    <h1><a href="/people"><i class="fa-solid fa-chevron-left"></i></a> Sampah Karyawan
     </h1>
     @csrf
     <div class="table-responsive">
@@ -32,10 +27,30 @@
                             <a href="/people/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            <a href="/people/{{ $user->id }}/edit" class="btn badge bg-warning text-white px-1">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <form class="d-inline" action="/people/{{ $user->id }}" method="POST"
+                            <button id="restore{{ $user->id }}" class="btn badge bg-warning text-white px-1">
+                                <i class="fa-solid fa-recycle"></i>
+                            </button>
+                            @push('scripts')
+                                <script>
+                                    $('#restore{{ $user->id }}').click(() => {
+                                        Swal.fire({
+                                            title: "Apa Kamu Yakin?",
+                                            html: "Yakin Memulihkan Karyawan <b>{{ $user->name }}</b>?",
+                                            icon: "question",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Ya",
+                                            cancelButtonText: "Tidak"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = "/people/restore/{{ $user->id }}";
+                                            }
+                                        });
+                                    })
+                                </script>
+                            @endpush
+                            <form class="d-inline" action="/people/force/{{ $user->id }}" method="POST"
                                 id="formDel{{ $user->id }}">
                                 @csrf
                                 @method('DELETE')
@@ -48,7 +63,7 @@
                                     $('#delete{{ $user->id }}').click(() => {
                                         Swal.fire({
                                             title: "Apa Kamu Yakin?",
-                                            text: "Yakin Hapus Karyawan {{ $user->name }}?",
+                                            text: "Yakin Hapus Permanen Karyawan {{ $user->name }}?",
                                             icon: "warning",
                                             showCancelButton: true,
                                             confirmButtonColor: "#3085d6",
