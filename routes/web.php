@@ -37,13 +37,17 @@ Route::get('/report/export', [ReportController::class, 'export'])->middleware('s
 Route::resource('/products', ProductsController::class)->middleware('auth');
 // people controller
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
-// order controller
+
 Route::get('/orders/trash', [OrdersController::class, 'trash'])->name('orders.trash')->middleware('superadmin');
 Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])->withTrashed()->name('orders.force')->middleware('superadmin');
 Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])->withTrashed()->name('orders.restore')->middleware('superadmin');
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
-// user controller
+
+Route::get('/users/trash', [UsersController::class, 'trash'])->name('users.trash')->middleware('superadmin');
+Route::delete('/users/force/{user}', [UsersController::class, 'force'])->name('users.force')->middleware('superadmin');
+Route::get('/users/restore/{user}', [UsersController::class, 'restore'])->name('users.restore')->middleware('superadmin');
 Route::resource('/users', UsersController::class)->middleware('auth');
+
 // midtrans controller
 Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');

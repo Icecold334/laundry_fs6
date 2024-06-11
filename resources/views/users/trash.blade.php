@@ -1,16 +1,9 @@
 @extends('layout.admin.main')
 @section('content')
-
-    <h1>Daftar Pengguna
-    @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()])
-        <a href="/user/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-    @endcan
-</h1>
-
-    </h1>
+    <h1><a href="/users"><i class="fa-solid fa-chevron-left"></i></a> Sampah Pengguna</h1>
     @csrf
     <div class="table-responsive">
-        <table class="table" id="products">
+        <table class="table" id="users">
             <thead>
                 <tr>
                     <th class="text-center" style="width: 5%">#</th>
@@ -33,35 +26,61 @@
                             <a href="/users/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            <form class="d-inline" action="/users/{{ $user->id }}" method="POST"
-                                id="formDel{{ $user->id }}">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                            <button class="btn badge bg-danger text-white px-1" id="delete{{ $user->id }}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            @push('scripts')
-                                <script>
-                                    $('#delete{{ $user->id }}').click(() => {
-                                        Swal.fire({
-                                            title: "Apa Kamu Yakin?",
-                                            text: "Yakin Hapus Karyawan {{ $user->name }}?",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#3085d6",
-                                            cancelButtonColor: "#d33",
-                                            confirmButtonText: "Ya",
-                                            cancelButtonText: "Tidak"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                let form = $('#formDel{{ $user->id }}')
-                                                form.submit();
-                                            }
+                            @can('restore', $user)
+                                <button id="restore{{ $user->id }}" class="btn badge bg-warning text-white px-1">
+                                    <i class="fa-solid fa-recycle"></i>
+                                </button>
+                                @push('scripts')
+                                    <script>
+                                        $('#restore{{ $user->id }}').click(() => {
+                                            Swal.fire({
+                                                title: "Apa Kamu Yakin?",
+                                                html: "Yakin Memulihkan Pengguna <b>{{ $user->name }}</b>?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Ya",
+                                                cancelButtonText: "Tidak"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = "/users/restore/{{ $user->id }}";
+                                                }
+                                            });
                                         });
-                                    });
-                                </script>
-                            @endpush
+                                    </script>
+                                @endpush
+                            @endcan
+                            @can('forceDelete', $user)
+                                <form class="d-inline" action="/users/force/{{ $user->id }}" method="POST" id="formDel{{ $user->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button class="btn badge bg-danger text-white px-1" id="delete{{ $user->id }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                @push('scripts')
+                                    <script>
+                                        $('#delete{{ $user->id }}').click(() => {
+                                            Swal.fire({
+                                                title: "Apa Kamu Yakin?",
+                                                html: "Yakin Hapus Permanen Pengguna <b>{{ $user->name }}</b>?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Ya",
+                                                cancelButtonText: "Tidak"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    let form = $('#formDel{{ $user->id }}');
+                                                    form.submit();
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endpush
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -102,13 +121,13 @@
                     }
                 });
                 Toast.fire({
-                    icon: "success",
+                    icon: "error",
                     title: "{{ session('error') }}"
                 });
             </script>
         @endif
         <script>
-            $("#products").DataTable({
+            $("#users").DataTable({
                 columnDefs: [{
                     orderable: false,
                     targets: 5
