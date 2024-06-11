@@ -18,3 +18,11 @@
 @import "login.scss";
 @import "error.scss";
 @import "footer.scss";
+
+.card,
+input,
+select,
+textarea,
+.img-thumbnail {
+    @extend .shadow-lg;
+}
