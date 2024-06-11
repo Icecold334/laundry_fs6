@@ -13,8 +13,8 @@
                                 <th colspan="3">
                                     <div class="row justify-content-center">
                                         <div class="col-6">
-                                            <img src="{{ asset('storage/people/' . $user->img) }}" alt=""
-                                                class="img-thumbnail">
+                                            <img src="{{ $user->img ? asset('storage/people') . '/' . $user->img : asset('dashboard/img/undraw_profile.svg') }}"
+                                                alt="" class="img-thumbnail">
                                         </div>
                                     </div>
                                 </th>
