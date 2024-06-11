@@ -122,14 +122,22 @@ class OrdersController extends Controller
      */
     public function update(UpdateOrdersRequest $request, Orders $order)
     {
-        if ($request->status == 1) {
-            $order->quantity = $request->quantity;
-            $order->total = str_replace('.', '', $request->total);
-            $order->status = 1;
-            $order->update();
-        } else {
+        if (Auth::user()->role == 3) {
+            $order->review = $request->review;
             $order->status = $order->status + 1;
             $order->update();
+        } else {
+            if ($request->status == 1) {
+                $order->quantity = $request->quantity;
+                $order->total = str_replace('.', '', $request->total);
+                $order->status = 1;
+                $order->update();
+                $order->staff_id = Auth::user()->id;
+            } else {
+                $order->staff_id = Auth::user()->id;
+                $order->status = $order->status + 1;
+                $order->update();
+            }
         }
         return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Diproses!');
     }
@@ -152,21 +160,6 @@ class OrdersController extends Controller
         return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dihapus!');
     }
 
-    public function completeOrder(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'review' => 'required|string', // Sesuaikan validasi sesuai kebutuhan Anda
-        ]);
-
-        // Soft delete pesanan
-        $order = Order::find($request->order_id);
-        $order->delete();
-
-        // Redirect atau berikan respon sesuai kebutuhan Anda
-        return Redirect::to('/orders')->with('success', 'Pesanan berhasil diselesaikan.');
-    }
 
 
     public function trash()

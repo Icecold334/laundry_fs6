@@ -41,7 +41,7 @@ class OrdersPolicy
     public function update($user, $order): bool
     {
 
-        return $user->role != 3 && $order->status != 4 && !($order->status == 1 && $order->method == 1);
+        return $order->status == 3 ? false : $user->role != 3 && $order->status != 4 && !($order->status == 1 && $order->method == 1);
     }
 
     /**
