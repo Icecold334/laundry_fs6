@@ -26,7 +26,7 @@
                             <a href="/users/{{ $user->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            @can('restore', $user)
+                            @can('superadmin')
                                 <button id="restore{{ $user->id }}" class="btn badge bg-warning text-white px-1">
                                     <i class="fa-solid fa-recycle"></i>
                                 </button>
@@ -51,7 +51,7 @@
                                     </script>
                                 @endpush
                             @endcan
-                            @can('forceDelete', $user)
+                            @can('superadmin')
                                 <form class="d-inline" action="/users/force/{{ $user->id }}" method="POST" id="formDel{{ $user->id }}">
                                     @csrf
                                     @method('DELETE')

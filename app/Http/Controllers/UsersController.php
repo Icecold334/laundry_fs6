@@ -21,6 +21,7 @@ class UsersController extends Controller
 
     public function show($id)
     {
+        Gate::authorize('view', $id);
         $user = User::findOrFail($id);
         $data = [
             'title' => 'Detail Pengguna',
@@ -31,6 +32,7 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
+
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Hapus data berhasil!');

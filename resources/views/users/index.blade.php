@@ -2,9 +2,11 @@
 @section('content')
 
     <h1>Daftar Pengguna
-    @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()])
-        <a href="/user/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-    @endcan
+    {{-- @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()]) --}}
+    @if (Auth::user()->role == 1)
+        <a href="/users/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
+    @endif
+    {{-- @endcan --}}
 </h1>
 
     </h1>

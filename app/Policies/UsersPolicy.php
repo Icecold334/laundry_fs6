@@ -6,18 +6,26 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
-class OrdersPolicy
+class UsersPolicy
     {
-        public function restore(User $user)
+        public function view(User $user, ): bool
         {
-            // Add your logic here to check if the user can be restored
-            return true; // Example
+            return $user->trashed()
+                ? $user->role == 1
+                : true;
         }
 
-        public function forceDelete(User $user)
+        public function restore(User $user, User $model)
+        {
+
+            // Add your logic here to check if the user can be restored
+            return $user->hasRole('superadmin');// Example
+        }
+
+        public function forceDelete(User $user, User $model)
         {
             // Add your logic here to check if the user can be permanently deleted
-            return true; // Example
+            return $user->hasRole('superadmin');// Example
         }
 
     }
