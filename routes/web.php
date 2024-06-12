@@ -37,7 +37,7 @@ Route::get('/report/export', [ReportController::class, 'export'])->middleware('s
 Route::get('/products/trash', [ProductsController::class, 'trash'])->name('products.trash')->middleware('superadmin');
 Route::delete('/products/{id}/force/', [ProductsController::class, 'force'])->withTrashed()->name('products.force')->middleware('superadmin');
 Route::get('/products/{id}/restore/', [ProductsController::class, 'restore'])->withTrashed()->name('products.restore')->middleware('superadmin');
-Route::resource('/products', ProductsController::class)->middleware('auth');
+Route::resource('/products', ProductsController::class)->withTrashed()->middleware('auth');
 // people controller
 Route::resource('/people', PeopleController::class)->middleware('superadmin');
 // order controller

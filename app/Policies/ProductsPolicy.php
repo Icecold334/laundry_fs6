@@ -23,8 +23,8 @@ class ProductsPolicy
     public function view(User $user, Products $products): bool
     {
         return $products->trashed()
-            ? $products->role == 1
-            : $user->id == $products->user_id || $user->role!== 3;
+            ? $user->role == 1
+            : true;
     }
 
     /**

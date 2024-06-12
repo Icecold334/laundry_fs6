@@ -65,14 +65,14 @@ class ProductsController extends Controller
     public function show(Products $product)
     {
         Gate::authorize('view', $product);
-        $product ?? abort(404);
-
+    
         $data = [
             'title' => 'Layanan',
             'product' => $product
         ];
         return view('products.show', $data);
     }
+    
 
     public function edit(Request $request, Products $product)
     {
