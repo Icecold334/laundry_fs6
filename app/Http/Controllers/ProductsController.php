@@ -64,6 +64,9 @@ class ProductsController extends Controller
 
     public function show(Products $product)
     {
+        Gate::authorize('view', $product);
+        $product ?? abort(404);
+
         $data = [
             'title' => 'Layanan',
             'product' => $product
