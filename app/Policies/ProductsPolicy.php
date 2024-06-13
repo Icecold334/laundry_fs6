@@ -22,7 +22,9 @@ class ProductsPolicy
      */
     public function view(User $user, Products $products): bool
     {
-        //
+        return $products->trashed()
+            ? $user->role == 1
+            : true;
     }
 
     /**
@@ -52,9 +54,9 @@ class ProductsPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Products $products): bool
+    public function restore(User $user, $products): bool
     {
-        //
+        return $user->role == 1 && $products->count() > 0;
     }
 
     /**
@@ -62,6 +64,6 @@ class ProductsPolicy
      */
     public function forceDelete(User $user, Products $products): bool
     {
-        //
+        return $user->role == 1;
     }
 }

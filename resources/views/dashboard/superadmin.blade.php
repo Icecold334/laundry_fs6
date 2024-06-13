@@ -3,7 +3,6 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2 text-gray-800">Dashboard</h1>
     </div>
 
     <div class="row">

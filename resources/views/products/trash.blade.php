@@ -1,16 +1,10 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>
-        Daftar Layanan
-        @can('create', App\Models\Products::class)
-            <a href="/products/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-        @endcan
-        @can('restore', [App\Models\Products::class, App\Models\Products::onlyTrashed()])
-            <a href="/products/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-        @endcan
+    <h1><a href="/products"><i class="fa-solid fa-chevron-left"></i></a> Sampah Layanan
     </h1>
+    @csrf
     <div class="table-responsive">
-        <table class="table" id="products">
+        <table class="table" id="recycle">
             <thead>
                 <tr>
                     <th class="text-center" style="width: 5%">#</th>
@@ -26,17 +20,38 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ 'Rp ' . number_format($product->price, 2, ',', '.') }}/Kg</td>
-                        <td class="text-right ">{{ $product->duration }} Hari</td>
+                        <td class="text-right">{{ $product->duration }} Hari</td>
                         <td class="text-center">
                             <a href="/products/{{ $product->id }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            @can('superadmin')
-                                <a href="/products/{{ $product->id }}/edit" class="btn badge bg-warning text-white px-1">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <form class="d-inline" action="/products/{{ $product->id }}" method="POST"
-                                    id="formDel{{ $product->id }}">
+                            @can('restore', [App\Models\Products::class, $product])
+                                <button id="restore{{ $product->id }}" class="btn badge bg-warning text-white px-1">
+                                    <i class="fa-solid fa-recycle"></i>
+                                </button>
+                                @push('scripts')
+                                    <script>
+                                        document.getElementById('restore{{ $product->id }}').addEventListener('click', function () {
+                                            Swal.fire({
+                                                title: "Apa Kamu Yakin?",
+                                                html: "Yakin Memulihkan Layanan <b>{{ $product->name }}</b>?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Ya",
+                                                cancelButtonText: "Tidak"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = "/products/{{ $product->id }}/restore";
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endpush
+                            @endcan
+                            @can('forceDelete', [App\Models\Products::class, $product])
+                                <form class="d-inline" action="/products/{{ $product->id }}/force" method="POST" id="formDel{{ $product->id }}">
                                     @csrf
                                     @method('DELETE')
                                 </form>
@@ -45,11 +60,11 @@
                                 </button>
                                 @push('scripts')
                                     <script>
-                                        $('#delete{{ $product->id }}').click(() => {
+                                        document.getElementById('delete{{ $product->id }}').addEventListener('click', function () {
                                             Swal.fire({
                                                 title: "Apa Kamu Yakin?",
-                                                text: "Yakin Hapus Layanan {{ $product->name }}?",
-                                                icon: "warning",
+                                                html: "Yakin Hapus Permanen Layanan <b>{{ $product->name }}</b>?",
+                                                icon: "question",
                                                 showCancelButton: true,
                                                 confirmButtonColor: "#3085d6",
                                                 cancelButtonColor: "#d33",
@@ -57,8 +72,7 @@
                                                 cancelButtonText: "Tidak"
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    let form = $('#formDel{{ $product->id }}')
-                                                    form.submit();
+                                                    document.getElementById('formDel{{ $product->id }}').submit();
                                                 }
                                             });
                                         });
@@ -73,7 +87,7 @@
     </div>
     @push('scripts')
         <script>
-            $("#products").DataTable({
+            $("#recycle").DataTable({
                 columnDefs: [{
                     orderable: false,
                     targets: 4

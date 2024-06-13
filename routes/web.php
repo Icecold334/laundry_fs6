@@ -34,7 +34,10 @@ Route::get('/panel', [DashboardController::class, 'index'])->middleware('admin')
 Route::get('/report', [ReportController::class, 'index'])->middleware('superadmin');
 Route::get('/report/export', [ReportController::class, 'export'])->middleware('superadmin');
 // product controller
-Route::resource('/products', ProductsController::class)->middleware('auth');
+Route::get('/products/trash', [ProductsController::class, 'trash'])->name('products.trash')->middleware('superadmin');
+Route::delete('/products/{id}/force/', [ProductsController::class, 'force'])->withTrashed()->name('products.force')->middleware('superadmin');
+Route::get('/products/{id}/restore/', [ProductsController::class, 'restore'])->withTrashed()->name('products.restore')->middleware('superadmin');
+Route::resource('/products', ProductsController::class)->withTrashed()->middleware('auth');
 // people controller
 
 Route::get('/people/trash', [PeopleController::class, 'trash'])->name('people.trash')->middleware('superadmin');
@@ -57,3 +60,4 @@ Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');
     Route::get('/midtrans/success/{id}', 'success');
 });
+
