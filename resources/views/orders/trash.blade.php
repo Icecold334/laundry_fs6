@@ -25,8 +25,8 @@
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ $order->code }}</td>
-                        <td>{{ $order->user->name }}</td>
-                        <td>{{ $order->product->name }}</td>
+                        <td class="text-center">{{ $order->user->name ?? '-' }}</td>
+                        <td class="text-center">{{ $order->product->name ?? '-' }}</td>
                         <td class="{{ $order->quantity ? 'text-right' : 'text-center' }}">
                             {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
                         <td class="{{ $order->total ? 'text-right' : 'text-center' }}">
@@ -139,37 +139,35 @@
                                     </script>
                                 @endpush
                             @endcan
-                            @can('forceDelete', [App\Models\Orders::class, $order])
-                                <form class="d-inline" action="/orders/force/{{ $order->code }}" method="POST"
-                                    id="formDel{{ $order->code }}">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->code }}">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#delete{{ $order->code }}').click(() => {
-                                            Swal.fire({
-                                                title: "Apa Kamu Yakin?",
-                                                html: "Yakin Hapus Permanen Pesanan <b>{{ $order->code }}</b>?",
-                                                icon: "question",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#3085d6",
-                                                cancelButtonColor: "#d33",
-                                                confirmButtonText: "Ya",
-                                                cancelButtonText: "Tidak"
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    let form = $('#formDel{{ $order->code }}')
-                                                    form.submit();
-                                                }
-                                            });
+                            <form class="d-inline" action="/orders/force/{{ $order->code }}" method="POST"
+                                id="formDel{{ $order->code }}">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->code }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                            @push('scripts')
+                                <script>
+                                    $('#delete{{ $order->code }}').click(() => {
+                                        Swal.fire({
+                                            title: "Apa Kamu Yakin?",
+                                            html: "Yakin Hapus Permanen Pesanan <b>{{ $order->code }}</b>?",
+                                            icon: "question",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Ya",
+                                            cancelButtonText: "Tidak"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                let form = $('#formDel{{ $order->code }}')
+                                                form.submit();
+                                            }
                                         });
-                                    </script>
-                                @endpush
-                            @endcan
+                                    });
+                                </script>
+                            @endpush
                         </td>
                     </tr>
                 @endforeach

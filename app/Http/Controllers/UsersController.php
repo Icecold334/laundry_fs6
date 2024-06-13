@@ -19,10 +19,9 @@ class UsersController extends Controller
         return view('users.index', $data);
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        Gate::authorize('view', $id);
-        $user = User::findOrFail($id);
+        $user->trashed() ? Gate::authorize('superadmin') : '';
         $data = [
             'title' => 'Detail Pengguna',
             'user' => $user
@@ -57,14 +56,16 @@ class UsersController extends Controller
     {
         $user = User::withTrashed()->findOrFail($id);
         $user->restore();
-        return redirect()->route('users.trash')->with('success', 'Pengguna berhasil dipulihkan!');
+
+        return redirect()->route(User::onlyTrashed()->count() > 0 ? 'users.trash' : 'users.index')->with('success', 'Pengguna berhasil dipulihkan!');
     }
 
-    public function forceDelete($id)
+    public function force(User $user)
     {
         $user = User::withTrashed()->findOrFail($id);
         $user->forceDelete();
-        return redirect()->route('users.trash')->with('success', 'Pengguna berhasil dihapus permanen!');
-    }
 
+
+        return redirect()->route(User::onlyTrashed()->count() > 0 ? 'users.trash' : 'users.index')->with('success', 'Pengguna berhasil dihapus permanen!');
+    }
 }
