@@ -51,8 +51,8 @@ Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
 
 Route::get('/users/trash', [UsersController::class, 'trash'])->name('users.trash')->middleware('superadmin');
-Route::delete('/users/force/{user}', [UsersController::class, 'force'])->name('users.force')->middleware('superadmin');
-Route::get('/users/restore/{user}', [UsersController::class, 'restore'])->name('users.restore')->middleware('superadmin');
+Route::delete('/users/force/{user}', [UsersController::class, 'force'])->withTrashed()->name('users.force')->middleware('superadmin');
+Route::get('/users/restore/{user}', [UsersController::class, 'restore'])->withTrashed()->name('users.restore')->middleware('superadmin');
 Route::resource('/users', UsersController::class)->withTrashed()->middleware('auth');
 
 // midtrans controller
@@ -60,4 +60,3 @@ Route::controller(MidtransController::class)->group(function () {
     Route::get('/midtrans/pay', 'index');
     Route::get('/midtrans/success/{id}', 'success');
 });
-

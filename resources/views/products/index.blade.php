@@ -49,7 +49,7 @@
                                             Swal.fire({
                                                 title: "Apa Kamu Yakin?",
                                                 text: "Yakin Hapus Layanan {{ $product->name }}?",
-                                                icon: "warning",
+                                                icon: "question",
                                                 showCancelButton: true,
                                                 confirmButtonColor: "#3085d6",
                                                 cancelButtonColor: "#d33",
