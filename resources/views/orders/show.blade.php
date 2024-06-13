@@ -17,13 +17,13 @@
                                     <tr>
                                         <th style="width:  50%">Nama Pengguna</th>
                                         <th style="width: 5%">:</th>
-                                        <th style="width: 30%">{{ $order->user->name }}</th>
+                                        <th style="width: 30%">{{ $order->user->name ?? '-' }}</th>
                                     </tr>
                                 @endif
                                 <tr>
                                     <th style="width:  50%">Jenis Layanan</th>
                                     <th style="width: 5%">:</th>
-                                    <th style="width: 30%">{{ $order->product->name }}</th>
+                                    <th style="width: 30%">{{ $order->product->name ?? '-' }}</th>
                                 </tr>
                                 <tr>
                                     <th style="width:  50%">Status</th>
@@ -56,7 +56,7 @@
                                     <tr>
                                         <th style="width:  50%">Penanggung Jawab</th>
                                         <th style="width: 5%">:</th>
-                                        <th style="width: 30%">{{ $order->staff->name }}</th>
+                                        <th style="width: 30%">{{ $order->staff->name ?? '-' }}</th>
                                     </tr>
                                 @endif
                                 <tr>

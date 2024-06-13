@@ -57,7 +57,7 @@ class OrdersPolicy
      */
     public function restore(User $user, $orders): bool
     {
-        return $user->role == 1 && $orders->count() > 0;
+        return $user->role == 1 && $orders->onlyTrashed()->count() > 0;
     }
 
     /**

@@ -2,10 +2,12 @@
 @section('content')
 
     <h1>Daftar Pengguna
-    @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()])
-        <a href="/user/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-    @endcan
-</h1>
+        {{-- @can('restore', [App\Models\User::class, App\Models\User::onlyTrashed()]) --}}
+        @if (Auth::user()->role == 1 && App\Models\User::where('role', 3)->onlyTrashed()->count() > 0)
+            <a href="/users/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
+        @endif
+        {{-- @endcan --}}
+    </h1>
 
     </h1>
     @csrf
@@ -47,7 +49,7 @@
                                         Swal.fire({
                                             title: "Apa Kamu Yakin?",
                                             text: "Yakin Hapus Karyawan {{ $user->name }}?",
-                                            icon: "warning",
+                                            icon: "question",
                                             showCancelButton: true,
                                             confirmButtonColor: "#3085d6",
                                             cancelButtonColor: "#d33",
