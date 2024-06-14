@@ -42,7 +42,7 @@ Route::resource('/products', ProductsController::class)->withTrashed()->middlewa
 
 Route::get('/people/trash', [PeopleController::class, 'trash'])->name('people.trash')->middleware('superadmin');
 Route::delete('/people/force/{person}', [PeopleController::class, 'force'])->withTrashed()->name('people.force')->middleware('superadmin');
-Route::get('/people/restore/{id}', [PeopleController::class, 'restore'])->withTrashed()->name('people.restore')->middleware('superadmin');
+Route::get('/people/restore/{person}', [PeopleController::class, 'restore'])->withTrashed()->name('people.restore')->middleware('superadmin');
 Route::resource('/people', PeopleController::class)->withTrashed()->middleware('superadmin');
 // order controller
 Route::get('/orders/trash', [OrdersController::class, 'trash'])->name('orders.trash')->middleware('superadmin');

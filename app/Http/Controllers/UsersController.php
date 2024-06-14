@@ -43,7 +43,7 @@ class UsersController extends Controller
     {
         $users = User::onlyTrashed()->get();
         if ($users->isEmpty()) {
-            return redirect()->route('users.index')->with('info', 'Tidak ada pengguna di sampah.');
+            abort(403);
         }
 
         $data = [

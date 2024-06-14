@@ -174,7 +174,7 @@ class PeopleController extends Controller
     public function trash()
     {
         if (User::onlyTrashed()->where('role', 2)->count() == 0) {
-            return redirect()->route('people.index');
+            abort(403);
         }
 
         $data = [
@@ -188,10 +188,9 @@ class PeopleController extends Controller
     /**
      * Restore the specified resource from storage.
      */
-    public function restore($id)
+    public function restore(User $person)
     {
-        // Restore the resource
-        User::onlyTrashed()->where('id', $id)->restore();
+        $person->restore();
         return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan Berhasil Dipulihkan!');
     }
 }
