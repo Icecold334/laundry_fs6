@@ -25,12 +25,12 @@
                             <tr>
                                 <th>Username</th>
                                 <th>:</th>
-                                <th>{{ $user->username }}</th>
+                                <th>{{ $user->username ?? '-' }}</th>
                             </tr>
                             <tr>
                                 <th>No Telepon</th>
                                 <th>:</th>
-                                <th>{{ $user->phone }}</th>
+                                <th>{{ $user->phone ?? '-' }}</th>
                             </tr>
                             <tr>
                                 <th>Email</th>

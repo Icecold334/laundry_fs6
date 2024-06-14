@@ -50,6 +50,7 @@ class OrdersController extends Controller
      */
     public function store(StoreOrdersRequest $request)
     {
+
         Gate::authorize('create', Orders::class);
         $addressRule = $request->before == 1 || $request->after == 1 ? ['required'] : [];
         $beforeRule = $request->method == '0' ? [] : ['required'];
@@ -67,6 +68,9 @@ class OrdersController extends Controller
             'after.required' => 'Pilih pengiriman akhir!',
             'address.required' => 'Alamat Tidak Boleh Kosong!',
         ]);
+        if (Auth::user()->phone == null) {
+            return redirect()->back()->with('error', 'Isi Nomor Telpon Terlebih Dahulu!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
+        }
         if ($credentials->fails()) {
             return redirect()->back()->with('error', 'Tambah Pesanan Gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
         }

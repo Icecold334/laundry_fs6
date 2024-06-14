@@ -27,6 +27,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/logout', 'logout')->middleware('auth');
     Route::get('/register', 'register')->middleware('guest');
     Route::post('/register', 'register')->middleware('guest')->name('register');
+    Route::get('/auth/google', 'redirectToGoogle');
+    Route::get('/auth/google/callback', 'GoogleCallback');
 });
 // dashboard controller
 Route::get('/panel', [DashboardController::class, 'index'])->middleware('admin');
