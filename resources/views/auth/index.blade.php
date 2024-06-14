@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -105,8 +106,14 @@
             color: #151111;
         }
 
+        h2 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
         .heading h6 {
-            color: #bababa;
+            color: #151111;
             font-weight: 400;
             font-size: 0.75rem;
             display: inline;
@@ -151,7 +158,7 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.95rem;
-            color: #bbb;
+            color: #616161;
             pointer-events: none;
             transition: 0.4s;
         }
@@ -160,7 +167,7 @@
             border-bottom-color: #151111;
         }
 
-        .input-field.active + label {
+        .input-field.active+label {
             font-size: 0.75rem;
             top: -2px;
         }
@@ -291,7 +298,7 @@
             line-height: 2.2rem;
             font-weight: 600;
             font-size: 1.6rem;
-            
+
         }
 
         .bullets {
@@ -304,7 +311,7 @@
             display: block;
             width: 0.5rem;
             height: 0.5rem;
-            background-color: #aaa;
+            background-color: #4b4b4b;
             margin: 0 0.25rem;
             border-radius: 50%;
             cursor: pointer;
@@ -409,116 +416,119 @@
         }
     </style>
 </head>
+
 <body>
-<main>
-    <div class="box">
-        <div class="inner-box">
-            <div class="forms-wrap">
-                <!-- Sign In Form -->
-                <form action="/login" method="post" class="form sign-in-form">
-                    @csrf
-                    <div class="logo">
-                        <img src="{{ asset('dashboard/img/logo.png') }}" alt="easyclass"/>
-                        <h4>Laundry</h4>
-                    </div>
-
-                    <div class="heading">
-                        <h2>Login</h2>
-                        <h6>Belum punya akun?</h6>
-                        <a href="" class="toggle">Daftar disini</a>
-                    </div>
-
-                    <div class="actual-form">
-                        <div class="input-wrap">
-                            <input class="input-field" type="text" name="username" required
-                                    @if (session('login')) value="{{ old('username') }}" @endif autocomplete="off">
-                            <label>Username</label>
+    <main>
+        <div class="box">
+            <div class="inner-box">
+                <div class="forms-wrap">
+                    <!-- Sign In Form -->
+                    <form action="/login" method="post" class="form sign-in-form">
+                        @csrf
+                        <div class="logo">
+                            <img src="{{ asset('dashboard/img/logo.png') }}" alt="easyclass" />
+                            <h4>Laundry</h4>
                         </div>
 
-                        <div class="input-wrap">
-                            <input class="input-field" type="password" name="password" required autocomplete="off">
-                            <label>Password</label>
+                        <div class="heading">
+                            <h2>Login</h2>
+                            <h6 class="heading">Belum punya akun?</h6>
+                            <a href="" class="toggle">Daftar disini</a>
                         </div>
 
-                        <input type="submit" value="Sign In" class="sign-btn"/>
-                    </div>
-                </form>
-
-                <!-- Sign Up Form -->
-                <form action="/register" method="post" class="form sign-up-form">
-                    @csrf
-
-                    <div class="heading">
-                        <h2>Registrasi</h2>
-                        <h6>Sudah Punya Akun?</h6>
-                        <a href="" class="toggle">Login disini</a>
-                    </div>
-
-                    <div class="actual-form">
-                        <div class="input-wrap">
-                            <input class="input-field" type="text" name="name" value="{{ old('name') }}" required
+                        <div class="actual-form">
+                            <div class="input-wrap">
+                                <input class="input-field" type="text" name="username"
+                                    @if (session('login')) value="{{ old('username') }}" @endif
                                     autocomplete="off">
-                            <label>Name</label>
+                                <label>Username</label>
+                            </div>
+
+                            <div class="input-wrap">
+                                <input class="input-field" type="password" name="password" autocomplete="off">
+                                <label>Password</label>
+                            </div>
+
+                            <input type="submit" value="Sign In" class="sign-btn" />
+                        </div>
+                    </form>
+
+                    <!-- Sign Up Form -->
+                    <form action="/register" method="post" class="form sign-up-form">
+                        @csrf
+
+                        <div class="heading">
+                            <h2>Registrasi</h2>
+                            <h6 class="heading">Sudah Punya Akun?</h6>
+                            <a href="" class="toggle">Login disini</a>
                         </div>
 
-                        <div class="input-wrap">
-                            <input class="input-field" type="text" name="username" required
-                                    @if (session('register')) value="{{ old('username') }}" @endif autocomplete="off">
-                            <label>Username</label>
-                        </div>
-
-                        <div class="input-wrap">
-                            <input class="input-field" type="text" name="email" value="{{ old('email') }}" required
+                        <div class="actual-form">
+                            <div class="input-wrap">
+                                <input class="input-field" type="text" name="name" value="{{ old('name') }}"
                                     autocomplete="off">
-                            <label>Email</label>
-                        </div>
+                                <label>Nama</label>
+                            </div>
 
-                        <div class="input-wrap">
-                            <input class="input-field" type="text" name="phone" value="{{ old('phone') }}" required
+                            <div class="input-wrap">
+                                <input class="input-field" type="text" name="username"
+                                    @if (session('register')) value="{{ old('username') }}" @endif
                                     autocomplete="off">
-                            <label>Phone Number</label>
-                        </div>
+                                <label>Username</label>
+                            </div>
 
-                        <div class="input-wrap">
-                            <input class="input-field" type="password" name="password" required autocomplete="off">
-                            <label>Password</label>
-                        </div>
-
-                        <div class="input-wrap">
-                            <input class="input-field" type="password" name="password_confirmation" required
+                            <div class="input-wrap">
+                                <input class="input-field" type="text" name="email" value="{{ old('email') }}"
                                     autocomplete="off">
-                            <label>Confirm Password</label>
+                                <label>Email</label>
+                            </div>
+
+                            <div class="input-wrap">
+                                <input class="input-field" type="text" name="phone" value="{{ old('phone') }}"
+                                    autocomplete="off">
+                                <label>Phone Number</label>
+                            </div>
+
+                            <div class="input-wrap">
+                                <input class="input-field" type="password" name="password" autocomplete="off">
+                                <label>Password</label>
+                            </div>
+
+                            <div class="input-wrap">
+                                <input class="input-field" type="password" name="password_confirmation"
+                                    autocomplete="off">
+                                <label>Confirm Password</label>
+                            </div>
+
+                            <input type="submit" value="Sign Up" class="sign-btn" />
                         </div>
-
-                        <input type="submit" value="Sign Up" class="sign-btn"/>
-                    </div>
-                </form>
-            </div>
-
-            <div class="carousel">
-                <div class="images-wrapper">
-                    <img src="{{ asset('img/1.svg') }}" class="image img-1 show"/>
-                    <img src="{{ asset('img/2.svg') }}" class="image img-2"/>
+                    </form>
                 </div>
 
-                <div class="text-slider">
-                    <div class="text-wrap">
-                        <div class="text-group" style="color: white;">
-                            <h2>Selamat Datang</h2>
-                            <h2>Gunakan Layanan Kami Segera</h2>
-                        </div>
+                <div class="carousel">
+                    <div class="images-wrapper">
+                        <img src="{{ asset('img/1.svg') }}" class="image img-1 show" />
+                        <img src="{{ asset('img/2.svg') }}" class="image img-2" />
                     </div>
 
-                    <div class="bullets">
-                        <span class="active" data-value="1"></span>
-                        <span data-value="2"></span>
+                    <div class="text-slider">
+                        <div class="text-wrap">
+                            <div class="text-group" style="color: white;">
+                                <h2>Selamat Datang</h2>
+                                <h2>Gunakan Layanan Kami Segera</h2>
+                            </div>
+                        </div>
+
+                        <div class="bullets">
+                            <span class="active" data-value="1"></span>
+                            <span data-value="2"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
-@if (session('login'))
+    </main>
+    @if (session('login'))
         <script>
             const Toast = Swal.mixin({
                 toast: true,
@@ -575,93 +585,94 @@
             });
         </script>
     @endif
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const inputs = document.querySelectorAll(".input-field");
-    const toggle_btns = document.querySelectorAll(".toggle");
-    const main = document.querySelector("main");
-    const bullets = document.querySelectorAll(".bullets span");
-    const images = document.querySelectorAll(".image");
-    const textSlider = document.querySelector(".text-group");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputs = document.querySelectorAll(".input-field");
+            const toggle_btns = document.querySelectorAll(".toggle");
+            const main = document.querySelector("main");
+            const bullets = document.querySelectorAll(".bullets span");
+            const images = document.querySelectorAll(".image");
+            const textSlider = document.querySelector(".text-group");
 
-    inputs.forEach((inp) => {
-        if (inp.value !== "") {
-            inp.classList.add("active");
-        }
-        
-        inp.addEventListener("focus", () => {
-            inp.classList.add("active");
-        });
-        inp.addEventListener("blur", () => {
-            if (inp.value != "") return;
-            inp.classList.remove("active");
-        });
-
-        inp.addEventListener("blur", function () {
-            if (inp.value.trim() === "" || !inp.checkValidity()) {
-                    inp.classList.add("error");
-                    inp.nextElementSibling.classList.add("error"); 
-                } else {
-                    inp.classList.remove("error");
-                    inp.nextElementSibling.classList.remove("error");
-                }
-            });
-        });
-
-    toggle_btns.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            main.classList.toggle("sign-up-mode");
-        });
-    });
-
-    function moveSlider() {
-        let index = this.dataset.value;
-
-        let currentImage = document.querySelector(`.img-${index}`);
-        images.forEach((img) => img.classList.remove("show"));
-        currentImage.classList.add("show");
-
-        const textSliderChildren = textSlider.children;
-        for (let i = 0; i < textSliderChildren.length; i++) {
-            textSliderChildren[i].style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
-        }
-
-        bullets.forEach((bull) => bull.classList.remove("active"));
-        this.classList.add("active");
-    }
-
-    bullets.forEach((bullet) => {
-        bullet.addEventListener("click", moveSlider);
-    });
-
-    let currentIndex = 1;
-    setInterval(() => {
-        currentIndex = currentIndex === 1 ? 2 : 1;
-        bullets[currentIndex - 1].click();
-    }, 4000);
-
-    // Form validation
-    function validateForm(e) {
-            let formValid = true;
             inputs.forEach((inp) => {
-                if (inp.value.trim() === "" || !inp.checkValidity()) {
-                    inp.classList.add("error");
-                    inp.nextElementSibling.classList.add("error"); 
-                    formValid = false;
-                } else {
-                    inp.classList.remove("error");
-                    inp.nextElementSibling.classList.remove("error");
+                if (inp.value !== "") {
+                    inp.classList.add("active");
                 }
-            });
-            if (!formValid) {
-                e.preventDefault();
-            }
-        }
 
-        signInBtn.addEventListener("click", validateForm);
-        signUpBtn.addEventListener("click", validateForm);
-    });
-</script>
+                inp.addEventListener("focus", () => {
+                    inp.classList.add("active");
+                });
+                inp.addEventListener("blur", () => {
+                    if (inp.value != "") return;
+                    inp.classList.remove("active");
+                });
+
+                inp.addEventListener("blur", function() {
+                    if (inp.value.trim() === "" || !inp.checkValidity()) {
+                        inp.classList.add("error");
+                        inp.nextElementSibling.classList.add("error");
+                    } else {
+                        inp.classList.remove("error");
+                        inp.nextElementSibling.classList.remove("error");
+                    }
+                });
+            });
+
+            toggle_btns.forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    main.classList.toggle("sign-up-mode");
+                });
+            });
+
+            function moveSlider() {
+                let index = this.dataset.value;
+
+                let currentImage = document.querySelector(`.img-${index}`);
+                images.forEach((img) => img.classList.remove("show"));
+                currentImage.classList.add("show");
+
+                const textSliderChildren = textSlider.children;
+                for (let i = 0; i < textSliderChildren.length; i++) {
+                    textSliderChildren[i].style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
+                }
+
+                bullets.forEach((bull) => bull.classList.remove("active"));
+                this.classList.add("active");
+            }
+
+            bullets.forEach((bullet) => {
+                bullet.addEventListener("click", moveSlider);
+            });
+
+            let currentIndex = 1;
+            setInterval(() => {
+                currentIndex = currentIndex === 1 ? 2 : 1;
+                bullets[currentIndex - 1].click();
+            }, 4000);
+
+            // Form validation
+            function validateForm(e) {
+                let formValid = true;
+                inputs.forEach((inp) => {
+                    if (inp.value.trim() === "" || !inp.checkValidity()) {
+                        inp.classList.add("error");
+                        inp.nextElementSibling.classList.add("error");
+                        formValid = false;
+                    } else {
+                        inp.classList.remove("error");
+                        inp.nextElementSibling.classList.remove("error");
+                    }
+                });
+                if (!formValid) {
+                    e.preventDefault();
+                }
+            }
+
+            signInBtn.addEventListener("click", validateForm);
+            signUpBtn.addEventListener("click", validateForm);
+        });
+    </script>
 </body>
+
 </html>
