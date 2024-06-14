@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -76,5 +78,42 @@ class AuthController extends Controller
 
 
         return redirect('/login')->with('daftar', 'success');
+    }
+
+    public function redirectToGoogle()
+    {
+        try {
+            return Socialite::driver('google')->redirect();
+        } catch (Exception $e) {
+            // Handle jika autentikasi gagal atau dibatalkan
+            return redirect()->route('login')->with('login', 'errors');
+        }
+    }
+    public function GoogleCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+            $userFromDatabase = User::where('google_id', $user->id)->first();
+            // dd($userFromDatabase);
+            if (!$userFromDatabase) {
+                $data = [
+                    'google_id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ];
+
+                $user = User::create($data);
+                // Login user yang baru dibuat
+                auth()->login($user);
+                session()->regenerate();
+                return redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+            }
+            auth()->login($userFromDatabase);
+            session()->regenerate();
+            return redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+        } catch (Exception $e) {
+            // Handle jika autentikasi gagal atau dibatalkan
+            return redirect()->route('login')->with('login', 'errors');
+        }
     }
 }

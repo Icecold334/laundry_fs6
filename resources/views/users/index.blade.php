@@ -28,8 +28,8 @@
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td class="text-center">{{ $user->phone }}</td>
+                        <td>{{ $user->username ?? '-' }}</td>
+                        <td class="text-center">{{ $user->phone ?? '-' }}</td>
                         <td class="text-center">{{ $user->email }}</td>
                         <td class="text-center">
                             <a href="/users/{{ $user->id }}" class="btn badge bg-info text-white px-1">

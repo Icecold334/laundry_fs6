@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
 
@@ -195,7 +197,25 @@
         }
 
         .sign-btn:hover {
-            background-color: #8371fd;
+            background-color: #0045ac;
+        }
+
+        .sign-google {
+            display: inline-block;
+            width: 100%;
+            height: 43px;
+            background-color: #e01f1f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.8rem;
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+            transition: 0.3s;
+        }
+
+        .sign-google:hover {
+            background-color: #0045ac;
         }
 
         .text {
@@ -415,6 +435,9 @@
             }
         }
     </style>
+    <link href="/dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/5fd2369345.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -449,7 +472,10 @@
                                 <label>Password</label>
                             </div>
 
-                            <input type="submit" value="Sign In" class="sign-btn" />
+                            <input type="submit" value="Login" class="sign-btn" />
+                            <button type="button" class="sign-google" id="google"><i
+                                    class="fa-brands fa-google"></i> Login Dengan
+                                Google</button>
                         </div>
                     </form>
 
@@ -486,7 +512,7 @@
                             <div class="input-wrap">
                                 <input class="input-field" type="text" name="phone" value="{{ old('phone') }}"
                                     autocomplete="off">
-                                <label>Phone Number</label>
+                                <label>Nomor Telpon</label>
                             </div>
 
                             <div class="input-wrap">
@@ -669,9 +695,14 @@
                 }
             }
 
-            signInBtn.addEventListener("click", validateForm);
-            signUpBtn.addEventListener("click", validateForm);
+            // signInBtn.addEventListener("click", validateForm);
+            // signUpBtn.addEventListener("click", validateForm);
         });
+    </script>
+    <script>
+        $('#google').click(() => {
+            location.href = '{{ url('/auth/google') }}';
+        })
     </script>
 </body>
 
