@@ -418,7 +418,7 @@
 </head>
 
 <body>
-    <main>
+    <main class=" @if (session('register')) sign-up-mode @endif">
         <div class="box">
             <div class="inner-box">
                 <div class="forms-wrap">
@@ -427,7 +427,7 @@
                         @csrf
                         <div class="logo">
                             <img src="{{ asset('dashboard/img/logo.png') }}" alt="easyclass" />
-                            <h4>Laundry</h4>
+                            <h2>Laundry</h2>
                         </div>
 
                         <div class="heading">
