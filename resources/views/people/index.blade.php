@@ -2,8 +2,8 @@
 @section('content')
     <h1>
         Daftar Karyawan
-            <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-        @if(\App\Models\User::onlyTrashed()->where('role', 2)->count() > 0)
+        <a href="/people/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
+        @if (\App\Models\User::onlyTrashed()->where('role', 2)->count() > 0)
             <a href="/people/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
         @endif
     </h1>
@@ -49,7 +49,7 @@
                                         Swal.fire({
                                             title: "Apa Kamu Yakin?",
                                             text: "Yakin Hapus Karyawan {{ $user->name }}?",
-                                            icon: "warning",
+                                            icon: "question",
                                             showCancelButton: true,
                                             confirmButtonColor: "#3085d6",
                                             cancelButtonColor: "#d33",

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
-use Illuminate\Support\Facades\Gate;
 
 class ProductsController extends Controller
 {
@@ -65,14 +66,14 @@ class ProductsController extends Controller
     public function show(Products $product)
     {
         Gate::authorize('view', $product);
-    
+
         $data = [
             'title' => 'Layanan',
             'product' => $product
         ];
         return view('products.show', $data);
     }
-    
+
 
     public function edit(Request $request, Products $product)
     {
@@ -120,7 +121,9 @@ class ProductsController extends Controller
     public function destroy(Request $request, Products $product)
     {
         Gate::authorize('delete', $product);
-
+        if (Orders::where('product_id', $product->id)->where('status', '<', 4)->count() > 0) {
+            return redirect()->route('products.index')->with('error', "Pesanan Dengan Layanan $product->name Belum Selesai!");
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');
     }

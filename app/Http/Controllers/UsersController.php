@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +30,11 @@ class UsersController extends Controller
         return view('users.show', $data);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-
-        $user = User::findOrFail($id);
+        if (Orders::where('user_id', $user->id)->where('status', '<', 4)->count() > 0) {
+            return redirect()->route('users.index')->with('error', "Pesanan Milik $user->name Belum Selesai!");
+        }
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Hapus data berhasil!');
     }
@@ -41,7 +43,7 @@ class UsersController extends Controller
     {
         $users = User::onlyTrashed()->get();
         if ($users->isEmpty()) {
-            return redirect()->route('users.index')->with('info', 'Tidak ada pengguna di sampah.');
+            abort(403);
         }
 
         $data = [
@@ -52,20 +54,15 @@ class UsersController extends Controller
         return view('users.trash', $data);
     }
 
-    public function restore($id)
+    public function restore(User $user)
     {
-        $user = User::withTrashed()->findOrFail($id);
         $user->restore();
-
         return redirect()->route(User::onlyTrashed()->count() > 0 ? 'users.trash' : 'users.index')->with('success', 'Pengguna berhasil dipulihkan!');
     }
 
     public function force(User $user)
     {
-        $user = User::withTrashed()->findOrFail($id);
         $user->forceDelete();
-
-
         return redirect()->route(User::onlyTrashed()->count() > 0 ? 'users.trash' : 'users.index')->with('success', 'Pengguna berhasil dihapus permanen!');
     }
 }
