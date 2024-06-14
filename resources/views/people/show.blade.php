@@ -1,5 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
+
     <h1><a href="{{ $user->trashed() ? '/users/trash' : '/users' }}"><i class="fa-solid fa-chevron-left"></i></a> Data
         Karyawan {{ $user->name }}</h1>
     <div class="row">
