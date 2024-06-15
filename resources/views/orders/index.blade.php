@@ -244,15 +244,4 @@
             // set local storage
         </script>
     @endpush
-    @push('scripts')
-        <script>
-            window.onload = function() {
-
-                var channel = Echo.channel('alert-channel');
-                channel.listen("AlertEvent", function(data) {
-                    console.log(data);
-                })
-            }
-        </script>
-    @endpush
 @endsection

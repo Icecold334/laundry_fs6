@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
+use App\Events\AlertEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 
 class AuthController extends Controller
 {
@@ -76,7 +77,14 @@ class AuthController extends Controller
 
         $user = User::create($data);
 
-
+        event(new AlertEvent(
+            role: [1],
+            user_id: 0,
+            alert: $request->name . ' Berhasil Registrasi!',
+            color: 'success',
+            icon: 'fa-solid fa-user-plus',
+            link: '/users/' . $user->id
+        ));
         return redirect('/login')->with('daftar', 'success');
     }
 
@@ -106,6 +114,14 @@ class AuthController extends Controller
                 // Login user yang baru dibuat
                 auth()->login($user);
                 session()->regenerate();
+                event(new AlertEvent(
+                    role: [1],
+                    user_id: 0,
+                    alert: $user->name . ' Berhasil Registrasi!',
+                    color: 'success',
+                    icon: 'fa-solid fa-user-plus',
+                    link: '/users/' . $user->id
+                ));
                 return redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
             }
             auth()->login($userFromDatabase);

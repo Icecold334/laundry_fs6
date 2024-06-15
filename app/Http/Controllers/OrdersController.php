@@ -85,6 +85,14 @@ class OrdersController extends Controller
         $order->address = $request->address;
         $order->status = 0;
         $order->save();
+        event(new AlertEvent(
+            role: [1, 2],
+            user_id: 0,
+            alert: '<b>' . Auth::user()->name . '</b> membuat pesanan baru!',
+            color: 'secondary',
+            icon: 'fa-solid fa-people-carry-box',
+            link: '/orders/' . $order->code
+        ));
         return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Dibuat!');
     }
 
@@ -129,24 +137,62 @@ class OrdersController extends Controller
         if (Auth::user()->role == 3) {
             $order->review = $request->review;
             $order->status = $order->status + 1;
+            event(new AlertEvent(
+                role: [1, 2],
+                user_id: 0,
+                alert: '<b>' . Auth::user()->name . '</b> menambahkan ulasan!',
+                color: 'secondary',
+                icon: 'fa-solid fa-people-carry-box',
+                link: '/orders/' . $order->code
+            ));
             $order->update();
         } else {
             if ($request->status == 1) {
                 $order->quantity = $request->quantity;
                 $order->total = str_replace('.', '', $request->total);
                 $order->status = 1;
-                $order->update();
                 $order->staff_id = Auth::user()->id;
+                event(new AlertEvent(
+                    role: [1, 2],
+                    user_id: 0,
+                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
+                    color: 'secondary',
+                    icon: 'fa-solid fa-people-carry-box',
+                    link: '/orders/' . $order->code
+                ));
+                event(new AlertEvent(
+                    role: [3],
+                    user_id: $order->user_id,
+                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
+                    color: 'secondary',
+                    icon: 'fa-solid fa-people-carry-box',
+                    link: '/orders/' . $order->code
+                ));
+                $order->update();
             } else {
                 $order->staff_id = Auth::user()->id;
                 $order->status = $order->status + 1;
                 $order->update();
+                event(new AlertEvent(
+                    role: [1, 2],
+                    user_id: 0,
+                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
+                    color: 'secondary',
+                    icon: 'fa-solid fa-people-carry-box',
+                    link: '/orders/' . $order->code
+                ));
+                event(new AlertEvent(
+                    role: [3],
+                    user_id: $order->user_id,
+                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
+                    color: 'secondary',
+                    icon: 'fa-solid fa-people-carry-box',
+                    link: '/orders/' . $order->code
+                ));
             }
         }
 
-        event(new AlertEvent(
-            alert: 'Pesanan Berhasil Diproses!'
-        ));
+
 
 
         return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Diproses!');
@@ -160,6 +206,7 @@ class OrdersController extends Controller
         Gate::authorize('delete', $order);
         // delete product
         $order->delete();
+
         return redirect()->route('orders.index')->with('success', 'Hapus Pesanan Berhasil!');
     }
 

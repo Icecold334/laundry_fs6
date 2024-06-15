@@ -40,4 +40,85 @@
         return angka.replace(/[^\d.]/g, '').toString()
     }
 </script>
+@if (Auth::user()->role == 1)
+    <script>
+        window.onload = function() {
+
+            var channel = Echo.channel('alert-channel');
+            channel.listen("AlertEvent", function(data) {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "info",
+                    html: data.alert
+                });
+            })
+        }
+    </script>
+@endif
+<script>
+    let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
+    window.onload = function() {
+
+        var channel = Echo.channel('alert-channel');
+        channel.listen("AlertEvent", function(data) {
+            var icon
+            if (data.color == "secondary") {
+                icon = 'info'
+            } else if (data.icon == 'danger') {
+                icon = 'error'
+            } else {
+                icon = data.color
+            }
+
+            setTimeout(() => {
+                if (data.role.includes(user.role)) {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: icon,
+                        html: data.alert
+                    });
+                } else if (data.user_id == user.id) {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: icon,
+                        html: data.alert
+                    });
+                }
+            }, 800);
+
+
+        })
+    }
+</script>
+
 @stack('scripts')
