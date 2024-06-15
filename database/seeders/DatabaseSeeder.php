@@ -60,11 +60,9 @@ class DatabaseSeeder extends Seeder
             'product_id' => 2,
             'staff_id' => 1,
             'user_id' => 3,
-            'quantity' => 3,
-            'total' => 21000,
             'before' => 0,
             'after' => 0,
-            'method' => 1,
+            'method' => 0,
             'status' => 1
         ]);
         Orders::factory()->create([
@@ -72,11 +70,9 @@ class DatabaseSeeder extends Seeder
             'product_id' => 2,
             'staff_id' => 1,
             'user_id' => 3,
-            'quantity' => 5,
-            'total' => 35000,
             'before' => 0,
             'after' => 0,
-            'method' => 1,
+            'method' => 0,
             'status' => 1
         ]);
     }
