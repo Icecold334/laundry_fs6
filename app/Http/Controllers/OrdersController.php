@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Events\AlertEvent;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
@@ -143,6 +143,12 @@ class OrdersController extends Controller
                 $order->update();
             }
         }
+
+        event(new AlertEvent(
+            alert: 'Pesanan Berhasil Diproses!'
+        ));
+
+
         return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Diproses!');
     }
 

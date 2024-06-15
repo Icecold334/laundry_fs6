@@ -556,7 +556,7 @@
     </main>
     @if (session('login'))
         <script>
-            const Toast = Swal.mixin({
+            var Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
@@ -575,7 +575,7 @@
     @endif
     @if (session('register'))
         <script>
-            const Toast = Swal.mixin({
+            var Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
@@ -594,7 +594,7 @@
     @endif
     @if (session('daftar'))
         <script>
-            const Toast = Swal.mixin({
+            var Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
