@@ -43,9 +43,10 @@ class ProfileController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $ruleUsername = $user->google_id == null ? 'required|string|max:255' : '';
         $credentials = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
+            'username' => $ruleUsername,
             'phone' => 'required|string|max:15',
             'email' => 'required|string|email|max:255',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -77,6 +78,9 @@ class ProfileController extends Controller
 
     public function password()
     {
+        if (Auth::user()->google_id != null) {
+            abort(403);
+        }
         return view('profile.password', [
             'title' => 'Profil'
         ]);

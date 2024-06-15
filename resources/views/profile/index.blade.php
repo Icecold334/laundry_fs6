@@ -22,11 +22,13 @@
                                 <th>:</th>
                                 <th>{{ $user->name }}</th>
                             </tr>
-                            <tr>
-                                <th>Username</th>
-                                <th>:</th>
-                                <th>{{ $user->username ?? '-' }}</th>
-                            </tr>
+                            @if (Auth::user()->google_id == null)
+                                <tr>
+                                    <th>Username</th>
+                                    <th>:</th>
+                                    <th>{{ $user->username ?? '-' }}</th>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>No Telepon</th>
                                 <th>:</th>
@@ -39,7 +41,9 @@
                             </tr>
                         </table>
                         <a href="/profile/edit" class="btn btn-primary">Ubah Profil</a>
-                        <a href="/profile/password" class="btn btn-outline-primary">Ubah Password</a>
+                        @if (Auth::user()->google_id == null)
+                            <a href="/profile/password" class="btn btn-outline-primary">Ubah Password</a>
+                        @endif
                     </div>
                 </div>
             </div>

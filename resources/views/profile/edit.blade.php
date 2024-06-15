@@ -23,7 +23,8 @@
                         <div class="form-group">
                             <label for="username">Username<span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                id="username" name="username" value="{{ old('username') ?? $user->username }}">
+                                id="username" name="username" value="{{ old('username') ?? $user->username }}"
+                                @if (Auth::user()->google_id != null) readonly @endif>
                             @error('username')
                                 <div class="invalid-feedback">
                                     {{ $message }}
