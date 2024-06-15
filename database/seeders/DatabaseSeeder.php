@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'before' => 0,
             'after' => 0,
             'method' => 0,
-            'status' => 1
+            'status' => 0
         ]);
         Orders::factory()->create([
             'code' => 'INS000002',
@@ -73,7 +73,37 @@ class DatabaseSeeder extends Seeder
             'before' => 0,
             'after' => 0,
             'method' => 0,
-            'status' => 1
+            'status' => 0
+        ]);
+        Orders::factory()->create([
+            'code' => 'INS000003',
+            'product_id' => 2,
+            'staff_id' => 1,
+            'user_id' => 3,
+            'before' => 0,
+            'after' => 0,
+            'method' => 0,
+            'status' => 0
+        ]);
+        Orders::factory()->create([
+            'code' => 'INS000004',
+            'product_id' => 2,
+            'staff_id' => 1,
+            'user_id' => 3,
+            'before' => 0,
+            'after' => 0,
+            'method' => 0,
+            'status' => 0
+        ]);
+        Orders::factory()->create([
+            'code' => 'INS000005',
+            'product_id' => 2,
+            'staff_id' => 1,
+            'user_id' => 3,
+            'before' => 0,
+            'after' => 0,
+            'method' => 0,
+            'status' => 0
         ]);
     }
 }
