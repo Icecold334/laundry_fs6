@@ -17,13 +17,13 @@
                                     <tr>
                                         <th style="width:  50%">Nama Pengguna</th>
                                         <th style="width: 5%">:</th>
-                                        <th style="width: 30%">{{ $order->user->name }}</th>
+                                        <th style="width: 30%">{{ $order->user->name ?? '-' }}</th>
                                     </tr>
                                 @endif
                                 <tr>
                                     <th style="width:  50%">Jenis Layanan</th>
                                     <th style="width: 5%">:</th>
-                                    <th style="width: 30%">{{ $order->product->name }}</th>
+                                    <th style="width: 30%">{{ $order->product->name ?? '-' }}</th>
                                 </tr>
                                 <tr>
                                     <th style="width:  50%">Status</th>
@@ -121,7 +121,7 @@
                                     <th colspan="3">
                                         <div class="d-grid gap-2">
                                             <button id="next"
-                                                class="btn btn-primary btn-block @if ($order->status === 0 && $order->method == 1) disabled @endif">
+                                                class="btn btn-primary btn-block  @if ($order->status == 0 && $order->method == 0) disabled @endif">
                                                 Lanjutkan Pesanan Ke Tahap Selanjutnya
                                             </button>
                                         </div>
@@ -144,7 +144,7 @@
                 } else {
                     $('#next').addClass('disabled');
                 }
-                let total = quantity.replace(',', '.') * {{ $order->product->price }};
+                let total = quantity.replace(',', '.') * {{ $order->product->price ?? 0 }};
                 $('#total').val(rupiah(`${total}`));
             });
 

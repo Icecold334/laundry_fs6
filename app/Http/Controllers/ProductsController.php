@@ -18,6 +18,7 @@ class ProductsController extends Controller
             'title' => 'Layanan',
             'products' => Products::orderBy('price', 'asc')->get()
         ];
+
         return view('products.index', $data);
     }
 

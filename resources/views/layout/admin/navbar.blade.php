@@ -12,60 +12,68 @@
 
 
 
-        {{-- <!-- Nav Item - Alerts -->
+        <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-            </a>
-            <!-- Dropdown - Alerts -->
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                    Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                            <i class="fas fa-file-alt text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 12, 2019</div>
-                        <span class="font-weight-bold">A new monthly report is ready to
-                            download!</span>
-                    </div>
+            @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
+                <a class="nav-link text-warning dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw"></i>
+                    <!-- Counter - Alerts -->
+                    <span class="badge badge-danger badge-counter"></span>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-success">
-                            <i class="fas fa-donate text-white"></i>
-                        </div>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">
+                        Notifikasi
+                    </h6>
+                    <div id="alert">
+                        @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->limit(3)->orderBy('created_at', 'desc')->get() as $alert)
+                            <a class="dropdown-item d-flex align-items-center" href="{{ $alert->link }}">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-{{ $alert->color }}">
+                                        <i class="{{ $alert->icon }} text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">
+                                        {{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}
+                                    </div>
+                                    <span class="font-weight-bold">{!! $alert->message !!}</span>
+                                </div>
+                            </a>
+                        @endforeach
                     </div>
-                    <div>
-                        <div class="small text-gray-500">December 7, 2019</div>
-                        $290.29 has been deposited into your account!
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-warning">
-                            <i class="fas fa-exclamation-triangle text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 2, 2019</div>
-                        Spending Alert: We've noticed unusually high spending for your account.
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                    Alerts</a>
-            </div>
+                    @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 3)
+                        <button class="dropdown-item text-center small text-gray-500" data-bs-toggle="modal"
+                            data-bs-target="#alertlist">Lihat Semua</button>
+                    @endif
+                    @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
+                        <button id="alltop" class="dropdown-item text-center small text-gray-500">Hapus
+                            Semua</button>
+                        @push('scripts')
+                            <script>
+                                $('#alltop').click(() => {
+
+                                    // ajax get
+                                    $.ajax({
+                                        url: "/notification/delete/{{ $alert->user_id }}/0",
+                                        type: "GET",
+                                        success: function(data) {
+                                            $('#alertsDropdown').hide()
+                                        }
+                                    });
+                                });
+                            </script>
+                        @endpush
+                    @endif
+
+                </div>
+            @endif
+
         </li>
 
-        <!-- Nav Item - Messages -->
+        {{-- <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -160,3 +168,73 @@
     </ul>
 
 </nav>
+
+
+@if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
+    <!-- Modal -->
+    <div class="modal fade " id="alertlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable" style="max-height: 40rem;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Notifikasi</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table" id="notif-table">
+                        @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get() as $alert)
+                            <tr id="full{{ $alert->id }}">
+                                <th class="align-middle" style="width: 10%">
+                                    <div class="icon-circle bg-{{ $alert->color }}">
+                                        <i class="{{ $alert->icon }} text-white"></i>
+                                    </div>
+                                </th>
+                                <th class="align-middle" style="width: ">
+                                    <span
+                                        class="d-flex small text-gray-500">{{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}</span>
+                                    <a href="{{ $alert->link }}" class="text-black">{!! $alert->message !!}</a>
+                                </th>
+                                <th class="align-middle" style="width: 5%">
+                                    <button class="btn" id="notif{{ $alert->id }}"><i
+                                            class="fa-solid fa-xmark fa-2x"></i></button>
+                                    @push('scripts')
+                                        <script>
+                                            $('#notif{{ $alert->id }}').click(() => {
+                                                // ajax get
+                                                $.ajax({
+                                                    url: "/notification/delete/0/{{ $alert->id }}",
+                                                    type: "GET",
+                                                    success: function(data) {
+                                                        $('#full{{ $alert->id }}').remove();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                    @endpush
+                                </th>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                    <button type="button" class="btn btn-danger" id="allbottom" data-bs-dismiss="modal">Hapus
+                        Semua</button>
+                    @push('scripts')
+                        <script>
+                            $('#allbottom').click(() => {
+                                // ajax get
+                                $.ajax({
+                                    url: "/notification/delete/{{ $alert->user_id }}/0",
+                                    type: "GET",
+                                    success: function(data) {
+                                        $('#alertsDropdown').hide()
+                                    }
+                                });
+                            });
+                        </script>
+                    @endpush
+                </div>
+            </div>
+        </div>
+    </div>
+@endif

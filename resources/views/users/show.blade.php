@@ -40,6 +40,7 @@
                                 <th>:</th>
                                 <th>{{ $user->email }}</th>
                             </tr>
+
                         </table>
                     </div>
                 </div>

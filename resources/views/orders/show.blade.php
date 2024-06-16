@@ -98,7 +98,12 @@
                                             <th style="width:  50%">Ulasan</th>
                                             <th style="width: 5%">:</th>
                                             <th style="width: 30%">
-                                                <textarea class="form-control" rows="3" name="review"></textarea>
+                                                <textarea class="form-control @error('review') is-invalid @enderror" rows="3" name="review">{{ old('review') }}</textarea>
+                                                @error('review')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </th>
                                         </tr>
                                         <tr>
@@ -121,6 +126,72 @@
                                         </th>
                                     </tr>
                                 @endif
+                                @if (
+                                    !($order->status == 1 && $order->method == 1) &&
+                                        $order->status != 3 &&
+                                        $order->status != 4 &&
+                                        Auth::user()->role != 3)
+                                    <tr>
+                                        <th colspan="3">
+                                            <a href="/orders/{{ $order->code }}/edit"
+                                                class="btn btn-warning btn-block">Proses
+                                                Pesanan</a>
+                                        </th>
+                                    </tr>
+                                @endif
+                                @if ($order->status == 1 && $order->method == 1 && $order->user_id == Auth::user()->id)
+                                    <tr>
+                                        <th colspan="3">
+                                            <button id="pay{{ $order->id }}" class="btn btn-success btn-block">Bayar
+                                                Pesanan</button>
+                                        </th>
+                                        @push('scripts')
+                                            <script>
+                                                $('#pay{{ $order->id }}').click(() => {
+                                                    Swal.fire({
+                                                        title: "Tunggu Sebentar",
+                                                        showConfirmButton: false,
+                                                        allowOutsideClick: false
+                                                    });
+                                                    Swal.showLoading(Swal.getDenyButton());
+                                                    // ajax with post method
+                                                    $.ajax({
+                                                        url: '/midtrans/pay',
+                                                        type: 'GET',
+                                                        data: {
+                                                            total: {{ $order->total }},
+                                                            item_details: JSON.stringify({
+                                                                id: '{{ $order->code }}',
+                                                                price: {{ $order->product->price }},
+                                                                quantity: Math.floor({{ $order->quantity }}),
+                                                                name: 'Paket {{ $order->product->name }}',
+                                                            }),
+                                                            name: '{{ $order->user->name }}',
+                                                            email: '{{ $order->user->email }}',
+                                                            phone: '{{ $order->user->phone }}',
+                                                        },
+                                                        success: function(data) {
+                                                            snap.pay(data, {
+                                                                onSuccess: function(result) {
+                                                                    window.location.href =
+                                                                        "/midtrans/success/{{ $order->id }}"; // Redirect to callback URL
+                                                                },
+                                                                onPending: function(result) {},
+                                                                onError: function(result) {
+                                                                    window.location.href = "/midtrans/error";
+                                                                }
+                                                            });
+                                                            Swal.close();
+                                                        },
+                                                    });
+
+
+                                                });
+                                            </script>
+                                        @endpush
+                                    </tr>
+                                @endif
+
                             </thead>
                         </table>
                     </div>

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Orders;
+use Carbon\Carbon;
 use Midtrans\Snap;
 use Midtrans\Config;
+use App\Models\Orders;
+use App\Events\AlertEvent;
+use App\Events\OrderEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MidtransController extends Controller
 {
@@ -41,6 +45,16 @@ class MidtransController extends Controller
         $order = $orders->all()->find($request->id);
         $order->status = 2;
         $order->update();
+        event(new OrderEvent(Orders::all()));
+        event(new AlertEvent(
+            role: [1, 2],
+            user_id: 0,
+            time: Carbon::now()->diffForHumans(),
+            alert: '<b>' . Auth::user()->name . '</b> berhasil melakukan pembayaran untuk pesanan <b>' . $order->code . '</b>!',
+            color: 'secondary',
+            icon: 'fa-solid fa-people-carry-box',
+            link: '/orders/' . $order->code
+        ));
         return redirect()->route('orders.index')->with('success', 'Pembayaran Berhasil!');
     }
     public function error()

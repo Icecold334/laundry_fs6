@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 
 // landing page controller
 Route::get('/', [HomeController::class, 'index']);
@@ -56,6 +57,9 @@ Route::get('/users/trash', [UsersController::class, 'trash'])->name('users.trash
 Route::delete('/users/force/{user}', [UsersController::class, 'force'])->withTrashed()->name('users.force')->middleware('superadmin');
 Route::get('/users/restore/{user}', [UsersController::class, 'restore'])->withTrashed()->name('users.restore')->middleware('superadmin');
 Route::resource('/users', UsersController::class)->withTrashed()->middleware('auth');
+
+// notifications controller
+Route::get('/notification/delete/{user_id}/{id}', [NotificationController::class, 'delete']);
 
 // midtrans controller
 Route::controller(MidtransController::class)->group(function () {

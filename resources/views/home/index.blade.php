@@ -228,8 +228,8 @@
     <div class="container-fluid pt-5 mb-5 gambar"
         style="background-image: url('/home/img/4.png'); background-attachment: fixed; background-size: cover; background-position: center;">
         <div class="container">
-            <h6 class="text-white text-uppercase text-center font-weight-medium mb-3">Working Process</h6>
-            <h1 class="display-4 text-center mb-5 text-secondary">How We Work</h1>
+            <h6 class="text-white text-uppercase text-center font-weight-medium mb-3">Proses Laundry</h6>
+            <h1 class="display-4 text-center mb-5 text-secondary">Bagaimana Kami Bekerja</h1>
             <div class="d-flex justify-content-center flex-wrap">
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
@@ -278,34 +278,36 @@
     </div>
     <!-- Process End -->
 
-
-    <!-- Paket -->
-    <div class="container-fluid pt-2 pb-3" style="margin-top: 100px;">
-        <div class="container" id="paket" data-aos="zoom-in">
-            <h1 class="display-4 text-center mb-5">Paket Laundry</h1>
-            <div class="row justify-content-center">
-                @foreach ($products as $product)
-                    <div class="col-lg-4 mb-4 zoom-in">
-                        <div class="bg-light text-center mb-2 pt-4">
-                            <div class="d-inline-flex flex-column align-items-center justify-content-center bg-primary rounded-circle shadow mt-2 mb-4 p-3"
-                                style="width: auto; height: 200px; border: 15px solid #ffffff;">
-                                <h1 class="display-4 text-white mb-0">
-                                    {{ $product->name }}
-                                </h1>
+    @if ($products->count() > 0)
+        <!-- Paket -->
+        <div class="container-fluid pt-2 pb-3" style="margin-top: 100px;">
+            <div class="container" id="paket" data-aos="zoom-in">
+                <h1 class="display-4 text-center mb-5">Paket Laundry</h1>
+                <div class="row justify-content-center">
+                    @foreach ($products as $product)
+                        <div class="col-lg-4 mb-4 zoom-in">
+                            <div class="bg-light text-center mb-2 pt-4">
+                                <div class="d-inline-flex flex-column align-items-center justify-content-center bg-primary shadow mt-2 mb-4 p-3"
+                                    style="width: auto; height: auto; border: 15px solid #ffffff;">
+                                    <h1 class="display-4 text-white mb-0">
+                                        {{ $product->name }}
+                                    </h1>
+                                </div>
+                                <div class="d-flex flex-column align-items-center py-3">
+                                    <p>Rp {{ number_format($product->price, 2, ',', '.') }} per kg</p>
+                                    <p>Garansi Tepat Waktu</p>
+                                    <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
+                                </div>
+                                <a href="/orders" class="btn btn-primary py-2 px-4">Pilih Paket</a>
                             </div>
-                            <div class="d-flex flex-column align-items-center py-3">
-                                <p>Rp {{ number_format($product->price, 2, ',', '.') }} per kg</p>
-                                <p>Garansi Tepat Waktu</p>
-                                <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
-                            </div>
-                            <a href="/orders" class="btn btn-primary py-2 px-4">Pilih Paket</a>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Paket End -->
+        <!-- Paket End -->
+    @endif
+
 
     <!-- Blog Start -->
     <div class="container-fluid mt-5 pb-2">
@@ -313,26 +315,107 @@
             <div data-aos="fade-down">
                 <h1 class="display-4 text-center mb-5">Ulasan Pelanggan</h1>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-4 mb-2" data-aos="fade-up">
-                    <div class="shadow mb-4">
-                        <div class="position-relative">
-                            <img class="img-fluid  w-100" src="{{ asset('storage/people') . '/default_pict.svg' }}"
-                                alt="" style="height: 150px;overflow: hidden;ba">
-                            <a href="/orders"
-                                class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
-                                style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
-                                <h4 class="text-center text-white font-weight-medium mb-3">Dolor site amet clita kasd
-                                    sanct ipsum</h4>
-                            </a>
+            @if ($reviews->count() < 3)
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 mb-2" style="width: 100%" data-aos="fade-up">
+                        <div class="shadow mb-4">
+                            <div class="position-relative">
+                                <img class="img-fluid  w-100" src="{{ asset('dashboard/img/undraw_profile.svg') }}"
+                                    alt=""
+                                    style="height: 150px;width: 100%;object-fit: cover;overflow: hidden;">
+                                <a href="/orders"
+                                    class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
+                                    style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
+                                    <h4 class="text-center text-white font-weight-medium mb-3">
+                                        {{ fake('id_ID')->name }}
+                                    </h4>
+                                </a>
+                            </div>
+                            <p class="m-0 p-4" style="max-height: 400px;">
+                                Usaha laundry adalah solusi praktis bagi mereka yang tidak sempat mencuci pakaian
+                                sendiri.
+                                Kualitas layanan mencuci yang baik dan pengeringan yang cepat sangat dihargai oleh
+                                pelanggan. Namun, persaingan ketat di industri ini menuntut inovasi dan promosi yang
+                                lebih
+                                gencar untuk menarik lebih banyak pelanggan dan mempertahankan yang sudah ada.
+                            </p>
                         </div>
-                        <p class="m-0 p-4">Paket Laundry Reguler adalah pilihan yang sempurna untuk kebutuhan laundry
-                            sehari-hari Anda. Layanan ini menawarkan pencucian berkualitas tinggi dengan detergen ramah
-                            lingkungan, pengeringan profesional, dan setrika rapi. Paket ini memastikan pakaian Anda
-                            bersih, lembut, dan siap pakai dalam waktu yang efisien.</p>
+                    </div>
+                    <div class="col-lg-12 mb-2" style="width: 100%" data-aos="fade-up">
+                        <div class="shadow mb-4">
+                            <div class="position-relative">
+                                <img class="img-fluid  w-100" src="{{ asset('dashboard/img/undraw_profile.svg') }}"
+                                    alt=""
+                                    style="height: 150px;width: 100%;object-fit: cover;overflow: hidden;">
+                                <a href="/orders"
+                                    class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
+                                    style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
+                                    <h4 class="text-center text-white font-weight-medium mb-3">
+                                        {{ fake('id_ID')->name }}
+                                    </h4>
+                                </a>
+                            </div>
+                            <p class="m-0 p-4" style="max-height: 400px;">
+                                Usaha laundry menawarkan layanan yang sangat membantu, terutama bagi masyarakat
+                                perkotaan
+                                yang sibuk. Dengan harga terjangkau, kualitas cuci yang baik, serta waktu penyelesaian
+                                yang
+                                cepat, usaha ini menjadi solusi praktis. Namun, perlu peningkatan pada layanan pelanggan
+                                dan
+                                penambahan variasi layanan untuk memenuhi kebutuhan yang beragam.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-2" style="width: 100%" data-aos="fade-up">
+                        <div class="shadow mb-4">
+                            <div class="position-relative">
+                                <img class="img-fluid  w-100" src="{{ asset('dashboard/img/undraw_profile.svg') }}"
+                                    alt=""
+                                    style="height: 150px;width: 100%;object-fit: cover;overflow: hidden;">
+                                <a href="/orders"
+                                    class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
+                                    style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
+                                    <h4 class="text-center text-white font-weight-medium mb-3">
+                                        {{ fake('id_ID')->name }}
+                                    </h4>
+                                </a>
+                            </div>
+                            <p class="m-0 p-4" style="max-height: 400px;">
+                                Usaha laundry memberikan kemudahan bagi pelanggan dengan layanan cuci dan setrika yang
+                                efisien. Harga yang kompetitif dan layanan antar-jemput menjadi nilai tambah. Meski
+                                begitu,
+                                tantangan utama adalah menjaga konsistensi kualitas dan menangani peningkatan permintaan
+                                pada waktu-waktu sibuk, sehingga manajemen operasional yang baik sangat diperlukan.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @else
+                <div class="row justify-content-center">
+                    @foreach ($reviews as $review)
+                        <div class="col-lg-12 mb-2" style="width: 100%" data-aos="fade-up">
+                            <div class="shadow mb-4">
+                                <div class="position-relative">
+                                    <img class="img-fluid  w-100"
+                                        src="{{ $review->user->img ? asset('storage/people') . '/' . $review->user->img : asset('dashboard/img/undraw_profile.svg') }}"
+                                        alt=""
+                                        style="height: 150px;width: 100%;object-fit: cover;overflow: hidden;">
+                                    <a href="/orders"
+                                        class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center   text-decoration-none p-4"
+                                        style="top: 0; left: 0; background: rgba(0, 0, 0, .4);">
+                                        <h4 class="text-center text-white font-weight-medium mb-3">
+                                            {{ $review->user->name }}
+                                        </h4>
+                                    </a>
+                                </div>
+                                <p class="m-0 p-4" style="max-height: 400px;">
+                                    {{ $review->review }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
     <!-- Blog End -->
@@ -343,17 +426,14 @@
         <div class="row pt-5 d-flex flex-wrap justify-content-between">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="/orders">
-                    <h1 class="text-secondary mb-3"><span class="text-white">LAUN</span>DRY</h1>
+                    <h1 class="text-secondary mb-3">{{ env('APP_NAME') }}</h1>
                 </a>
-                <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sit no, sed kasd
-                    et ipsum dolor duo dolor</p>
+                <h5 class="text-white">Penyedia layanan laundry berkualitas</h5>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-white mb-4">Get In Touch</h4>
-                <p>Dolor clita stet nonumy clita diam vero, et et ipsum diam labore</p>
-                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                <h4 class="text-white mb-4">Hubungi Kami</h4>
+                <p><i class="fa fa-phone-alt mr-2"></i>{{ $admin->phone }}</p>
+                <p><i class="fa fa-envelope mr-2"></i>{{ $admin->email }}</p>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-white mb-4">Quick Links</h4>
@@ -368,8 +448,8 @@
 
     <div class="container-fluid bg-dark text-white py-4 px-sm-3 px-md-5">
         <p class="m-0 text-center text-white">
-            &copy; <a class="text-white font-weight-medium" href="#">Your Site Name</a>. All Rights Reserved.
-            Designed by <a class="text-white font-weight-medium">HTML Codex</a>
+            &copy; <a class="text-white font-weight-medium" href="#">{{ env('APP_NAME') }}</a>. All Rights
+            Reserved.
         </p>
     </div>
     <!-- Footer End -->

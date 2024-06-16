@@ -88,9 +88,9 @@
     @push('scripts')
         @if (session('success'))
             <script>
-                const Toast = Swal.mixin({
+                var Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "top-start",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
@@ -107,9 +107,9 @@
         @endif
         @if (session('error'))
             <script>
-                const Toast = Swal.mixin({
+                var Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "top-start",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,

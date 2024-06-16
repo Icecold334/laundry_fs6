@@ -31,7 +31,7 @@
                                 </button>
                                 @push('scripts')
                                     <script>
-                                        document.getElementById('restore{{ $product->id }}').addEventListener('click', function () {
+                                        document.getElementById('restore{{ $product->id }}').addEventListener('click', function() {
                                             Swal.fire({
                                                 title: "Apa Kamu Yakin?",
                                                 html: "Yakin Memulihkan Layanan <b>{{ $product->name }}</b>?",
@@ -51,7 +51,8 @@
                                 @endpush
                             @endcan
                             @can('forceDelete', [App\Models\Products::class, $product])
-                                <form class="d-inline" action="/products/{{ $product->id }}/force" method="POST" id="formDel{{ $product->id }}">
+                                <form class="d-inline" action="/products/{{ $product->id }}/force" method="POST"
+                                    id="formDel{{ $product->id }}">
                                     @csrf
                                     @method('DELETE')
                                 </form>
@@ -60,7 +61,7 @@
                                 </button>
                                 @push('scripts')
                                     <script>
-                                        document.getElementById('delete{{ $product->id }}').addEventListener('click', function () {
+                                        document.getElementById('delete{{ $product->id }}').addEventListener('click', function() {
                                             Swal.fire({
                                                 title: "Apa Kamu Yakin?",
                                                 html: "Yakin Hapus Permanen Layanan <b>{{ $product->name }}</b>?",

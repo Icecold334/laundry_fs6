@@ -56,7 +56,7 @@ class ProductsPolicy
      */
     public function restore(User $user, $products): bool
     {
-        return $user->role == 1 && $products->count() > 0;
+        return $user->role == 1 && $products->onlyTrashed()->count() > 0;
     }
 
     /**
