@@ -142,13 +142,14 @@ class OrdersController extends Controller
         if (Auth::user()->role == 3) {
             // validate
             $credentials = Validator::make($request->all(), [
-                'review' => ['required'],
+                'review' => ['required', 'min:30'],
             ], [
                 'review.required' => 'Ulasan Tidak Boleh Kosong!',
+                'review.min' => 'Ulasan minimal 30 karakter!',
             ]);
 
             if ($credentials->fails()) {
-                return redirect()->back()->with('error', 'Ulasan tidak boleh kosong!')->withErrors($credentials);
+                return redirect()->back()->with('error', 'Menambahkan ulasan gagal!')->withErrors($credentials)->onlyInput('review');
             }
 
             $order->review = $request->review;

@@ -49,8 +49,23 @@
                             data-bs-target="#alertlist">Lihat Semua</button>
                     @endif
                     @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
-                        <a class="dropdown-item text-center small text-gray-500" href="#">Hapus
-                            Semua</a>
+                        <button id="alltop" class="dropdown-item text-center small text-gray-500">Hapus
+                            Semua</button>
+                        @push('scripts')
+                            <script>
+                                $('#alltop').click(() => {
+
+                                    // ajax get
+                                    $.ajax({
+                                        url: "/notification/delete/{{ $alert->user_id }}/0",
+                                        type: "GET",
+                                        success: function(data) {
+                                            $('#alertsDropdown').hide()
+                                        }
+                                    });
+                                });
+                            </script>
+                        @endpush
                     @endif
 
                 </div>
@@ -154,39 +169,72 @@
 
 </nav>
 
-<!-- Modal -->
-<div class="modal fade " id="alertlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable" style="max-height: 40rem;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Notifikasi</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table" id="notif-table">
-                    @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get() as $alert)
-                        <tr>
-                            <th class="align-middle" style="width: 10%">
-                                <div class="icon-circle bg-{{ $alert->color }}">
-                                    <i class="{{ $alert->icon }} text-white"></i>
-                                </div>
-                            </th>
-                            <th class="align-middle" style="width: ">
-                                <span
-                                    class="d-flex small text-gray-500">{{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}</span>
-                                <a href="{{ $alert->link }}" class="text-black">{!! $alert->message !!}</a>
-                            </th>
-                            <th class="align-middle" style="width: 5%">
-                                <button class="btn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-                            </th>
-                        </tr>
-                    @endforeach
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-                <button type="button" class="btn btn-danger">Hapus Semua</button>
+
+@if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
+    <!-- Modal -->
+    <div class="modal fade " id="alertlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable" style="max-height: 40rem;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Notifikasi</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table" id="notif-table">
+                        @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get() as $alert)
+                            <tr id="full{{ $alert->id }}">
+                                <th class="align-middle" style="width: 10%">
+                                    <div class="icon-circle bg-{{ $alert->color }}">
+                                        <i class="{{ $alert->icon }} text-white"></i>
+                                    </div>
+                                </th>
+                                <th class="align-middle" style="width: ">
+                                    <span
+                                        class="d-flex small text-gray-500">{{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}</span>
+                                    <a href="{{ $alert->link }}" class="text-black">{!! $alert->message !!}</a>
+                                </th>
+                                <th class="align-middle" style="width: 5%">
+                                    <button class="btn" id="notif{{ $alert->id }}"><i
+                                            class="fa-solid fa-xmark fa-2x"></i></button>
+                                    @push('scripts')
+                                        <script>
+                                            $('#notif{{ $alert->id }}').click(() => {
+                                                // ajax get
+                                                $.ajax({
+                                                    url: "/notification/delete/0/{{ $alert->id }}",
+                                                    type: "GET",
+                                                    success: function(data) {
+                                                        $('#full{{ $alert->id }}').remove();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                    @endpush
+                                </th>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                    <button type="button" class="btn btn-danger" id="allbottom" data-bs-dismiss="modal">Hapus
+                        Semua</button>
+                    @push('scripts')
+                        <script>
+                            $('#allbottom').click(() => {
+                                // ajax get
+                                $.ajax({
+                                    url: "/notification/delete/{{ $alert->user_id }}/0",
+                                    type: "GET",
+                                    success: function(data) {
+                                        $('#alertsDropdown').hide()
+                                    }
+                                });
+                            });
+                        </script>
+                    @endpush
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif

@@ -448,10 +448,10 @@
                     <!-- Sign In Form -->
                     <form action="/login" method="post" class="form sign-in-form">
                         @csrf
-                        <div class="logo">
+                        <a class="logo" href="/" style="text-decoration: none">
                             <img src="{{ asset('dashboard/img/logo.png') }}" alt="easyclass" />
-                            <h2>Laundry</h2>
-                        </div>
+                            <h2>{{ env('APP_NAME') }}</h2>
+                        </a>
 
                         <div class="heading">
                             <h2>Login</h2>

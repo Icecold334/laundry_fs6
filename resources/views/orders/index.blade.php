@@ -1,5 +1,6 @@
 @extends('layout.admin.main')
 @section('content')
+
     <h1>
         Daftar Pesanan
         @can('create', App\Models\Orders::class)
@@ -35,9 +36,9 @@
                         <td class="text-center number">{{ $loop->iteration }}</td>
                         <td class="code">{{ $order->code }}</td>
                         @if (Auth::user()->role !== 3)
-                            <td class="name">{{ $order->user->name }}</td>
+                            <td class="name">{{ $order->user->name ?? '-' }}</td>
                         @endif
-                        <td class="product">{{ $order->product->name }}</td>
+                        <td class="product">{{ $order->product->name ?? '-' }}</td>
                         <td class="{{ $order->quantity ? 'text-right' : 'text-center' }} qty">
                             {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
                         <td class="{{ $order->total ? 'text-right' : 'text-center' }} total">

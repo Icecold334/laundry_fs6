@@ -98,7 +98,12 @@
                                             <th style="width:  50%">Ulasan</th>
                                             <th style="width: 5%">:</th>
                                             <th style="width: 30%">
-                                                <textarea class="form-control" rows="3" name="review"></textarea>
+                                                <textarea class="form-control @error('review') is-invalid @enderror" rows="3" name="review">{{ old('review') }}</textarea>
+                                                @error('review')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </th>
                                         </tr>
                                         <tr>

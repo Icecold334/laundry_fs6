@@ -99,7 +99,9 @@
                                 <button class="btn badge bg-danger text-white px-1"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i></button>
                             </th></tr>`
                     ))
-                    $('#alert a').last().remove();
+                    if ($('#alert a').length >= 3) {
+                        $('#alert a').last().remove();
+                    }
                     var Toast = Swal.mixin({
                         toast: true,
                         position: "top-start",
@@ -135,7 +137,9 @@
                             </th>
                             </tr>`
                     ))
-                    $('#alert a').last().remove();
+                    if ($('#alert a').length >= 3) {
+                        $('#alert a').last().remove();
+                    }
                     var Toast = Swal.mixin({
                         toast: true,
                         position: "top-start",
@@ -158,5 +162,43 @@
         })
     }
 </script>
-
+@if (App\Models\Products::count() == 0 && (Auth::user()->role == 2 || Auth::user()->role == 3))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Hubungi pihak laundry untuk informasi lebih lanjut.',
+            allowOutsideClick: false,
+            showCancelButton: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Keluar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '/logout';
+            }
+        });
+    </script>
+@endif
+@if (App\Models\Products::count() == 0)
+    @if (Auth::user()->role == 1 && !Request::is('products*'))
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Layanan Kosong!',
+                text: 'Tambahkan layanan laundry anda!',
+                showCancelButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Tambahkan Layanan",
+                cancelButtonText: "Keluar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = '/products/create';
+                } else {
+                    location.href = '/logout';
+                }
+            });
+        </script>
+    @endif
+@endif
 @stack('scripts')

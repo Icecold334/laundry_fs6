@@ -5,7 +5,6 @@
 @include('layout.admin.head')
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
