@@ -15,12 +15,11 @@
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
             @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link text-warning dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell fa-fw"></i>
                     <!-- Counter - Alerts -->
-                    <span
-                        class="badge badge-danger badge-counter">{{ App\Models\Notification::where('user_id', Auth::user()->id)->count() }}</span>
+                    <span class="badge badge-danger badge-counter"></span>
                 </a>
                 <!-- Dropdown - Alerts -->
                 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -38,7 +37,7 @@
                                 </div>
                                 <div>
                                     <div class="small text-gray-500">
-                                        {{ Carbon\Carbon::parse($alert->created_at)->locale('id')->translatedFormat('l, d F Y') }}
+                                        {{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}
                                     </div>
                                     <span class="font-weight-bold">{!! $alert->message !!}</span>
                                 </div>
@@ -46,7 +45,8 @@
                         @endforeach
                     </div>
                     @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 3)
-                        <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Semua</a>
+                        <button class="dropdown-item text-center small text-gray-500" data-bs-toggle="modal"
+                            data-bs-target="#alertlist">Lihat Semua</button>
                     @endif
                     @if (App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
                         <a class="dropdown-item text-center small text-gray-500" href="#">Hapus
@@ -153,3 +153,40 @@
     </ul>
 
 </nav>
+
+<!-- Modal -->
+<div class="modal fade " id="alertlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable" style="max-height: 40rem;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Notifikasi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table" id="notif-table">
+                    @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get() as $alert)
+                        <tr>
+                            <th class="align-middle" style="width: 10%">
+                                <div class="icon-circle bg-{{ $alert->color }}">
+                                    <i class="{{ $alert->icon }} text-white"></i>
+                                </div>
+                            </th>
+                            <th class="align-middle" style="width: ">
+                                <span
+                                    class="d-flex small text-gray-500">{{ Carbon\Carbon::parse($alert->created_at)->diffForHumans() }}</span>
+                                <a href="{{ $alert->link }}" class="text-black">{!! $alert->message !!}</a>
+                            </th>
+                            <th class="align-middle" style="width: 5%">
+                                <button class="btn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+                            </th>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                <button type="button" class="btn btn-danger">Hapus Semua</button>
+            </div>
+        </div>
+    </div>
+</div>

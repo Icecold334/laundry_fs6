@@ -31,19 +31,19 @@
                 @php
                 @endphp
                 @foreach ($orders as $order)
-                    <tr>
-                        <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $order->code }}</td>
+                    <tr id="{{ $order->id }}">
+                        <td class="text-center number">{{ $loop->iteration }}</td>
+                        <td class="code">{{ $order->code }}</td>
                         @if (Auth::user()->role !== 3)
-                            <td>{{ $order->user->name }}</td>
+                            <td class="name">{{ $order->user->name }}</td>
                         @endif
-                        <td>{{ $order->product->name }}</td>
-                        <td class="{{ $order->quantity ? 'text-right' : 'text-center' }}">
+                        <td class="product">{{ $order->product->name }}</td>
+                        <td class="{{ $order->quantity ? 'text-right' : 'text-center' }} qty">
                             {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
-                        <td class="{{ $order->total ? 'text-right' : 'text-center' }}">
+                        <td class="{{ $order->total ? 'text-right' : 'text-center' }} total">
                             {{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center status">
                             @switch($order->status)
                                 @case(0)
                                     <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
@@ -66,8 +66,8 @@
                                 @break
                             @endswitch
                         </td>
-                        <td class="text-center">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
-                        <td class="text-center">
+                        <td class="text-center method">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
+                        <td class="text-center pay">
                             @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
                                 <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
                                     <i class="fa-solid fa-money-bill"></i>
@@ -169,7 +169,7 @@
             <script>
                 var Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "top-start",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
@@ -188,7 +188,7 @@
             <script>
                 var Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "top-start",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
@@ -244,4 +244,5 @@
             // set local storage
         </script>
     @endpush
+
 @endsection

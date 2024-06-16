@@ -121,7 +121,7 @@
                                     <th colspan="3">
                                         <div class="d-grid gap-2">
                                             <button id="next"
-                                                class="btn btn-primary btn-block @if ($order->status === 0 && $order->method == 1) disabled @endif">
+                                                class="btn btn-primary btn-block  @if ($order->status == 0 && $order->method == 0) disabled @endif">
                                                 Lanjutkan Pesanan Ke Tahap Selanjutnya
                                             </button>
                                         </div>

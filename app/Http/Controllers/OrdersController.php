@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\AlertEvent;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Orders;
 use App\Models\Products;
+use App\Events\AlertEvent;
+use App\Events\OrderEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreOrdersRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateOrdersRequest;
-use App\Models\User;
-use Carbon\Carbon;
 
 
 class OrdersController extends Controller
@@ -85,14 +86,18 @@ class OrdersController extends Controller
         $order->address = $request->address;
         $order->status = 0;
         $order->save();
+        $order->user_name = $order->user->name;
+        $order->product_name = $order->product->name;
         event(new AlertEvent(
             role: [1, 2],
             user_id: 0,
+            time: Carbon::now()->diffForHumans(),
             alert: '<b>' . Auth::user()->name . '</b> membuat pesanan baru!',
             color: 'secondary',
             icon: 'fa-solid fa-people-carry-box',
             link: '/orders/' . $order->code
         ));
+        event(new OrderEvent(order: $order));
         return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Dibuat!');
     }
 
@@ -135,55 +140,78 @@ class OrdersController extends Controller
     public function update(UpdateOrdersRequest $request, Orders $order)
     {
         if (Auth::user()->role == 3) {
+            // validate
+            $credentials = Validator::make($request->all(), [
+                'review' => ['required'],
+            ], [
+                'review.required' => 'Ulasan Tidak Boleh Kosong!',
+            ]);
+
+            if ($credentials->fails()) {
+                return redirect()->back()->with('error', 'Ulasan tidak boleh kosong!')->withErrors($credentials);
+            }
+
             $order->review = $request->review;
             $order->status = $order->status + 1;
+            $order->update();
             event(new AlertEvent(
                 role: [1, 2],
                 user_id: 0,
+                time: Carbon::now()->diffForHumans(),
                 alert: '<b>' . Auth::user()->name . '</b> menambahkan ulasan!',
                 color: 'secondary',
                 icon: 'fa-solid fa-people-carry-box',
                 link: '/orders/' . $order->code
             ));
-            $order->update();
+            event(new OrderEvent(Orders::all()));
         } else {
             if ($request->status == 1) {
                 $order->quantity = $request->quantity;
                 $order->total = str_replace('.', '', $request->total);
                 $order->status = 1;
                 $order->staff_id = Auth::user()->id;
+                $order->update();
+                event(
+                    new OrderEvent(order: $order)
+                );
                 event(new AlertEvent(
                     role: [1, 2],
                     user_id: 0,
+                    time: Carbon::now()->diffForHumans(),
                     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
                     color: 'secondary',
                     icon: 'fa-solid fa-people-carry-box',
                     link: '/orders/' . $order->code
                 ));
                 event(new AlertEvent(
-                    role: [3],
+                    role: [],
                     user_id: $order->user_id,
+                    time: Carbon::now()->diffForHumans(),
                     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
                     color: 'secondary',
                     icon: 'fa-solid fa-people-carry-box',
                     link: '/orders/' . $order->code
                 ));
-                $order->update();
             } else {
                 $order->staff_id = Auth::user()->id;
                 $order->status = $order->status + 1;
                 $order->update();
+                event(
+                    new OrderEvent(order: $order)
+                );
                 event(new AlertEvent(
                     role: [1, 2],
                     user_id: 0,
+                    time: Carbon::now()->diffForHumans(),
                     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
                     color: 'secondary',
                     icon: 'fa-solid fa-people-carry-box',
                     link: '/orders/' . $order->code
                 ));
                 event(new AlertEvent(
-                    role: [3],
+                    role: [],
                     user_id: $order->user_id,
+                    time: Carbon::now()->diffForHumans(),
                     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
                     color: 'secondary',
                     icon: 'fa-solid fa-people-carry-box',

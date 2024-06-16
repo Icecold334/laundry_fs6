@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Events\AlertEvent;
 use Illuminate\Http\Request;
@@ -80,6 +81,7 @@ class AuthController extends Controller
         event(new AlertEvent(
             role: [1],
             user_id: 0,
+            time: Carbon::now()->diffForHumans(),
             alert: $request->name . ' Berhasil Registrasi!',
             color: 'success',
             icon: 'fa-solid fa-user-plus',
@@ -117,6 +119,7 @@ class AuthController extends Controller
                 event(new AlertEvent(
                     role: [1],
                     user_id: 0,
+                    time: Carbon::now()->diffForHumans(),
                     alert: $user->name . ' Berhasil Registrasi!',
                     color: 'success',
                     icon: 'fa-solid fa-user-plus',

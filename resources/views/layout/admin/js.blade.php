@@ -48,7 +48,7 @@
             channel.listen("AlertEvent", function(data) {
                 var Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "top-start",
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
@@ -65,6 +65,7 @@
         }
     </script>
 @endif
+
 <script>
     let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
     window.onload = function() {
@@ -79,12 +80,29 @@
             } else {
                 icon = data.color
             }
-
             setTimeout(() => {
-                if (data.role.includes(user.role)) {
+                if (data.user_id == user.id) {
+                    $('#alert').prepend($(
+                        `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
+                    ))
+                    $('#notif-table').prepend($(
+                        `<tr><th class="align-middle" style="width: 10%">
+                                <div class="icon-circle bg-secondary">
+                                    <i class="${data.icon} text-white" aria-hidden="true"></i>
+                                </div>
+                            </th>
+                            <th class="align-middle" style="width: ">
+                                <span class="d-flex small text-gray-500">${data.time}</span>
+                                <a href="${data.link}" class="text-black">${data.alert}</a>
+                            </th>
+                            <th class="align-middle" style="width: 5%">
+                                <button class="btn badge bg-danger text-white px-1"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i></button>
+                            </th></tr>`
+                    ))
+                    $('#alert a').last().remove();
                     var Toast = Swal.mixin({
                         toast: true,
-                        position: "top-end",
+                        position: "top-start",
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true,
@@ -97,10 +115,30 @@
                         icon: icon,
                         html: data.alert
                     });
-                } else if (data.user_id == user.id) {
+
+                } else if (data.role.includes(user.role)) {
+                    $('#alert').prepend($(
+                        `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
+                    ))
+                    $('#notif-table').prepend($(
+                        `<tr><th class="align-middle" style="width: 10%">
+                                <div class="icon-circle bg-secondary">
+                                    <i class="${data.icon} text-white" aria-hidden="true"></i>
+                                </div>
+                            </th>
+                            <th class="align-middle" style="width: ">
+                                <span class="d-flex small text-gray-500">${data.time}</span>
+                                <a href="${data.link}" class="text-black">${data.alert}</a>
+                            </th>
+                            <th class="align-middle" style="width: 5%">
+                                <button class="btn badge bg-danger text-white px-1"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i></button>
+                            </th>
+                            </tr>`
+                    ))
+                    $('#alert a').last().remove();
                     var Toast = Swal.mixin({
                         toast: true,
-                        position: "top-end",
+                        position: "top-start",
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true,
@@ -114,7 +152,7 @@
                         html: data.alert
                     });
                 }
-            }, 800);
+            }, 1000);
 
 
         })

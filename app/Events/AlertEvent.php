@@ -23,6 +23,7 @@ class AlertEvent implements ShouldBroadcastNow
     public function __construct(
         public array $role,
         public int $user_id,
+        public string $time,
         public string $alert,
         public string $color,
         public string $icon,
