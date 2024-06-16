@@ -61,7 +61,7 @@ class PeopleController extends Controller
             'email.unique' => 'Email sudah digunakan',
         ]);
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
+            return back()->with('error', 'Tambah karyawan gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
         //store the resource
         $user = new User;
@@ -73,7 +73,7 @@ class PeopleController extends Controller
         $user->role = 2;
         $user->status = 0;
         $user->save();
-        return redirect()->route('people.index')->with('success', 'Tambah data berhasil!');
+        return redirect()->route('people.index')->with('success', 'Tambah karyawan berhasil!');
     }
 
     /**
@@ -137,7 +137,7 @@ class PeopleController extends Controller
         ]);
 
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Karyawan Gagal')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
+            return back()->with('error', 'Ubah karyawan gagal!')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
         //update the resource
         $person->name = $request->name;
@@ -145,7 +145,7 @@ class PeopleController extends Controller
         $person->phone = $request->phone;
         $person->email = $request->email;
         $person->update();
-        return redirect()->route('people.index')->with('success', 'Ubah data berhasil!');
+        return redirect()->route('people.index')->with('success', 'Ubah karyawan berhasil!');
     }
 
     /**
@@ -165,7 +165,7 @@ class PeopleController extends Controller
     {
         // Force delete the resource
         $person->forceDelete();
-        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan Berhasil Dihapus!');
+        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan berhasil dihapus!');
     }
 
     /**
@@ -191,6 +191,6 @@ class PeopleController extends Controller
     public function restore(User $person)
     {
         $person->restore();
-        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan Berhasil Dipulihkan!');
+        return redirect()->route(User::onlyTrashed()->where('role', 2)->count() > 0 ? 'people.trash' : 'people.index')->with('success', 'Karyawan berhasil dipulihkan!');
     }
 }
