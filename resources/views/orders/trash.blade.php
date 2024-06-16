@@ -189,6 +189,7 @@
                     }
                 });
                 Toast.fire({
+                    showCloseButton: true,
                     icon: "success",
                     title: "{{ session('success') }}"
                 });
@@ -208,6 +209,7 @@
                     }
                 });
                 Toast.fire({
+                    showCloseButton: true,
                     icon: "success",
                     title: "{{ session('error') }}"
                 });

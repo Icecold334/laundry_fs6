@@ -461,7 +461,7 @@
 
                         <div class="actual-form">
                             <div class="input-wrap">
-                                <input class="input-field" type="text" name="username"
+                                <input class="input-field" type="text" name="username" id="username-login"
                                     @if (session('login')) value="{{ old('username') }}" @endif
                                     autocomplete="off">
                                 <label>Username</label>
@@ -523,10 +523,10 @@
                             <div class="input-wrap">
                                 <input class="input-field" type="password" name="password_confirmation"
                                     autocomplete="off">
-                                <label>Confirm Password</label>
+                                <label>Konfirmasi Password</label>
                             </div>
 
-                            <input type="submit" value="Sign Up" class="sign-btn" />
+                            <input type="submit" value="Daftar" class="sign-btn" />
                         </div>
                     </form>
                 </div>
@@ -568,6 +568,7 @@
                 }
             });
             Toast.fire({
+                showCloseButton: true,
                 icon: "error",
                 title: "Login gagal!"
             });
@@ -587,6 +588,7 @@
                 }
             });
             Toast.fire({
+                showCloseButton: true,
                 icon: "error",
                 title: "Registrasi gagal!"
             });
@@ -606,6 +608,7 @@
                 }
             });
             Toast.fire({
+                showCloseButton: true,
                 icon: "success",
                 title: "Registrasi berhasil!"
             });
@@ -703,6 +706,8 @@
         $('#google').click(() => {
             location.href = '{{ url('/auth/google') }}';
         })
+        $('input#username-login').focus();
+        $('input#username-login').addClass('active');
     </script>
 </body>
 

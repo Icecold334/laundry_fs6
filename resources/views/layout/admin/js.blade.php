@@ -58,6 +58,7 @@
                     }
                 });
                 Toast.fire({
+                    showCloseButton: true,
                     icon: "info",
                     html: data.alert
                 });
@@ -114,6 +115,7 @@
                         }
                     });
                     Toast.fire({
+                        showCloseButton: true,
                         icon: icon,
                         html: data.alert
                     });
@@ -152,8 +154,9 @@
                         }
                     });
                     Toast.fire({
+                        showCloseButton: true,
                         icon: icon,
-                        html: data.alert
+                        html: data.alert,
                     });
                 }
             }, 1000);
