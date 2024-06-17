@@ -15,7 +15,7 @@
     $('#logout').click(() => {
         Swal.fire({
             title: "Apa Kamu Yakin?",
-            html: "Yakin Keluar Dari Aplikasi?",
+            html: "Yakin keluar dari aplikasi?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

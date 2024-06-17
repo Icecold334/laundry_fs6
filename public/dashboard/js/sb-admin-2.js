@@ -10,11 +10,32 @@ if (window.innerWidth < 768) {
 
     // Toggle the side navigation
     $("#sidebarToggle, #sidebarToggleTop").on("click", function (e) {
+        let img = $("#logo-app");
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
-        if ($(".sidebar").hasClass("toggled")) {
-            $(".sidebar .collapse").collapse("hide");
+
+        if (window.matchMedia("(max-width: 767px)").matches) {
+            // Small screen behavior
+            if ($(".sidebar").hasClass("toggled")) {
+                img.css("width", "30%"); // Shrink when sidebar is shown
+            } else {
+                img.css("width", "60%"); // Expand when sidebar is hidden
+            }
+        } else {
+            // Larger screen behavior
+            if ($(".sidebar").hasClass("toggled")) {
+                img.css("width", "60%"); // Expand when sidebar is shown
+            } else {
+                img.css("width", "30%"); // Shrink when sidebar is hidden
+            }
         }
+
+        // if ($(".sidebar").hasClass("toggled")) {
+        //     img.css("width", "60%");
+        //     $(".sidebar .collapse").collapse("hide");
+        // } else {
+        //     img.css("width", "30%");
+        // }
     });
 
     // Close any open menu accordions when window is resized below 768px
