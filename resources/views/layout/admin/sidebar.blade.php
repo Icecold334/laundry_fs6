@@ -3,8 +3,8 @@
     <!-- Sidebar - Brand -->
     <div class="sidebar-brand d-flex align-items-center justify-content-center">
         <div class="sidebar-brand-icon">
+            <img src="{{ asset('dashboard/img/logo.png') }}" alt="" id="logo-app" width="30%">
             {{-- <i class="fas fa-laugh-wink"></i> --}}
-            {{-- <img src="{{ asset('dashboard/img/logo.png') }}" alt="" width="30%"> --}}
             <div class="sidebar-brand-text">{{ env('APP_NAME') }}</div>
         </div>
     </div>

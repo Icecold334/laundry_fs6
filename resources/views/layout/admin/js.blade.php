@@ -169,7 +169,7 @@
     <script>
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
+            title: 'Layanan Kosong!',
             text: 'Hubungi pihak laundry untuk informasi lebih lanjut.',
             allowOutsideClick: false,
             showCancelButton: false,
