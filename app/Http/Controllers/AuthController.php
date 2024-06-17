@@ -38,7 +38,7 @@ class AuthController extends Controller
         ];
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return Auth::user()->role == 3 ? redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!') : redirect()->intended('panel')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+            return Auth::user()->role == 3 ? redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!') : redirect()->intended('panel')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!');
         }
 
         return back()->with('login', 'errors')->onlyInput('username');

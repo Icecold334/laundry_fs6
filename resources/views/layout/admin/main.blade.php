@@ -55,7 +55,7 @@
                     Toast.fire({
                         showCloseButton: true,
                         icon: "success",
-                        html: {!! session('success') !!},
+                        html: '{!! session('success') !!}',
 
                     });
                 </script>
@@ -76,7 +76,7 @@
                     Toast.fire({
                         showCloseButton: true,
                         icon: "error",
-                        html: {!! session('error') !!}
+                        html: '{!! session('error') !!}'
                     });
                 </script>
             @endif

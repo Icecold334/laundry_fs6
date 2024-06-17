@@ -8,9 +8,5 @@
         @case(2)
             @include('dashboard.admin')
         @break
-
-        @case(3)
-            @include('dashboard.user')
-        @break
     @endswitch
 @endsection
