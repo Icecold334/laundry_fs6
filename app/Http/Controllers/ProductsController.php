@@ -36,13 +36,13 @@ class ProductsController extends Controller
         Gate::authorize('create', $product);
 
         $credentials = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'min:3'],
             'price' => ['required', 'string'],
             'duration' => ['required', 'numeric', 'max:15'],
         ], [
             'name.required' => 'Nama Layanan Wajib Diisi!',
             'name.string' => 'Nama Layanan Wajib Diisi!',
-            'name.max:255' => 'Nama Layanan Wajib Diisi!',
+            'name.min' => 'Nama Layanan Minimal :min Karakter!',
             'price.required' => 'Harga Layanan Wajib Diisi!',
             'price.string' => 'Harga Layanan Wajib Diisi!',
             'duration.required' => 'Durasi Layanan Wajib Diisi!',

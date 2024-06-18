@@ -256,6 +256,11 @@ class OrdersController extends Controller
 
     public function restore(Orders $order)
     {
+        if ($order->user == null) {
+            return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('error', 'Pengguna tidak tersedia!');
+        } elseif ($order->product == null) {
+            return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('error', 'Layanan tidak tersedia!');
+        }
         // restore the order
         $order->restore();
         return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan berhasil dipulihkan!');

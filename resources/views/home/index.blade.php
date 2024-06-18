@@ -193,7 +193,7 @@
                         style="height: 300px;">
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4"
                             style="width: 100px; height: 100px;">
-                            <i class="fa fa-3x fa-cloud-sun text-secondary"></i>
+                            <i class="fa fa-3x fa-cloud-sun text-primary"></i>
                         </div>
                         <h4 class="font-weight-bold m-0">Pengering</h4>
                     </div>
@@ -203,7 +203,7 @@
                         style="height: 300px;">
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4"
                             style="width: 100px; height: 100px;">
-                            <i class="fas fa-3x fa-soap text-secondary"></i>
+                            <i class="fas fa-3x fa-soap text-primary"></i>
                         </div>
                         <h4 class="font-weight-bold m-0">Cuci & Laundry</h4>
                     </div>
@@ -213,7 +213,7 @@
                         style="height: 300px;">
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4"
                             style="width: 100px; height: 100px;">
-                            <i class="fa fa-3x fa-burn text-secondary"></i>
+                            <i class="fa fa-3x fa-burn text-primary"></i>
                         </div>
                         <h4 class="font-weight-bold m-0">Laundry Express</h4>
                     </div>
@@ -229,49 +229,49 @@
         style="background-image: url('/home/img/c.jpeg'); background-attachment: fixed; background-size: cover; background-position: center;">
         <div class="container">
             <h6 class="text-white text-uppercase text-center font-weight-medium mb-3">Proses Laundry</h6>
-            <h1 class="display-4 text-center mb-5 text-secondary">Bagaimana Kami Bekerja</h1>
+            <h1 class="display-4 text-center mb-5 text-primary">Bagaimana Kami Bekerja</h1>
             <div class="d-flex justify-content-center flex-wrap">
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">1</h2>
+                        <h2 class="display-2 text-primary m-0">1</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Buat</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Buat</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">2</h2>
+                        <h2 class="display-2 text-primary m-0">2</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Antar</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Antar</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">3</h2>
+                        <h2 class="display-2 text-primary m-0">3</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Bayar</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Bayar</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">4</h2>
+                        <h2 class="display-2 text-primary m-0">4</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Proses</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Proses</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">5</h2>
+                        <h2 class="display-2 text-primary m-0">5</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Ambil</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Ambil</h3>
                 </div>
                 <div class="d-flex flex-column align-items-center text-center mb-5 mx-3">
                     <div class="d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4 "
                         style="width: 150px; height: 150px; border-width: 15px !important;">
-                        <h2 class="display-2 text-secondary m-0">6</h2>
+                        <h2 class="display-2 text-primary m-0">6</h2>
                     </div>
-                    <h3 class="text-white font-weight-bold m-0 mt-2">Selesai</h3>
+                    <h3 class="text-primary font-weight-bold m-0 mt-2">Selesai</h3>
                 </div>
             </div>
         </div>
@@ -470,7 +470,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
-            disable: 'mobile'
+            disable: ['mobile', 'phone'],
         });
     </script>
 
