@@ -126,19 +126,21 @@
                                         </th>
                                     </tr>
                                 @endif
-                                @if (
-                                    !($order->status == 1 && $order->method == 1) &&
-                                        $order->status != 3 &&
-                                        $order->status != 4 &&
-                                        Auth::user()->role != 3)
-                                    <tr>
-                                        <th colspan="3">
-                                            <a href="/orders/{{ $order->code }}/edit"
-                                                class="btn btn-warning btn-block">Proses
-                                                Pesanan</a>
-                                        </th>
-                                    </tr>
-                                @endif
+                                @can('update', [App\Models\Orders::class, $order])
+                                    @if (
+                                        !($order->status == 1 && $order->method == 1) &&
+                                            $order->status != 3 &&
+                                            $order->status != 4 &&
+                                            Auth::user()->role != 3)
+                                        <tr>
+                                            <th colspan="3">
+                                                <a href="/orders/{{ $order->code }}/edit"
+                                                    class="btn btn-warning btn-block">Proses
+                                                    Pesanan</a>
+                                            </th>
+                                        </tr>
+                                    @endif
+                                @endcan
                                 @if ($order->status == 1 && $order->method == 1 && $order->user_id == Auth::user()->id)
                                     <tr>
                                         <th colspan="3">
