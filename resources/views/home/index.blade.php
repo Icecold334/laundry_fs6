@@ -59,7 +59,7 @@
         <div id="header-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="/home/img/1.png" alt="Image">
+                    <img class="w-100" src="/home/img/a.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Laundry & Dry Cleaning</h4>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="/home/img/5.png" alt="Image">
+                    <img class="w-100" src="/home/img/b.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Laundry & Dry Cleaning</h4>
@@ -136,7 +136,7 @@
         <div class="container pt-0 pt-lg-4">
             <div class="row align-items-center" id="about">
                 <div class="col-lg-5" data-aos="fade-right">
-                    <img class="img-fluid" src="/home/img/9.png" alt="">
+                    <img class="img-fluid" src="/home/img/sec.jpg" alt="">
                 </div>
                 <div class="col-lg-7 mt-5 mt-lg-0 pl-lg-5" data-aos="fade-left">
                     <h6 class="text-secondary text-uppercase font-weight-medium mb-3">Tentang Kami</h6>
@@ -226,7 +226,7 @@
 
     <!-- Process Start -->
     <div class="container-fluid pt-5 mb-5 gambar"
-        style="background-image: url('/home/img/4.png'); background-attachment: fixed; background-size: cover; background-position: center;">
+        style="background-image: url('/home/img/c.jpeg'); background-attachment: fixed; background-size: cover; background-position: center;">
         <div class="container">
             <h6 class="text-white text-uppercase text-center font-weight-medium mb-3">Proses Laundry</h6>
             <h1 class="display-4 text-center mb-5 text-secondary">Bagaimana Kami Bekerja</h1>
@@ -422,25 +422,25 @@
 
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-primary text-white mt-5 pt-5 px-sm-3 px-md-5">
+    <div class="container-fluid bg-secondary text-dark mt-5 pt-5 px-sm-3 px-md-5">
         <div class="row pt-5 d-flex flex-wrap justify-content-between">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="/orders">
-                    <h1 class="text-secondary mb-3">{{ env('APP_NAME') }}</h1>
+                    <h1 class="text-primary text-uppercase mb-3">{{ env('APP_NAME') }}</h1>
                 </a>
-                <h5 class="text-white">Penyedia layanan laundry berkualitas</h5>
+                <h5 class="text-dark">Penyedia layanan laundry berkualitas</h5>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-white mb-4">Hubungi Kami</h4>
+                <h4 class="text-dark mb-4">Hubungi Kami</h4>
                 <p><i class="fa fa-phone-alt mr-2"></i>{{ $admin->phone }}</p>
                 <p><i class="fa fa-envelope mr-2"></i>{{ $admin->email }}</p>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-white mb-4">Quick Links</h4>
+                <h4 class="text-dark mb-4">Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="#about"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
-                    <a class="text-white mb-2" href="#service"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
-                    <a class="text-white mb-2" href="#paket"><i class="fa fa-angle-right mr-2"></i>Paket</a>
+                    <a class="text-dark mb-2" href="#about"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
+                    <a class="text-dark mb-2" href="#service"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
+                    <a class="text-dark mb-2" href="#paket"><i class="fa fa-angle-right mr-2"></i>Paket</a>
                 </div>
             </div>
         </div>

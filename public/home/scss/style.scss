@@ -1,9 +1,9 @@
 /******* Bootstrap Theming ********/
 
-$primary: #194376;
-$secondary: #46C6CE;
-$light: #F3F6FF;
-$dark: #1A1A1A;
+$primary: #0d6efd;
+$secondary: #74abff;
+$light: #f3f6ff;
+$dark: #1a1a1a;
 
 $theme-colors: (
     "primary": $primary,
@@ -12,7 +12,7 @@ $theme-colors: (
     "dark": $dark,
 );
 
-$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-family-sans-serif: "Open Sans", sans-serif;
 
 $body-color: #757575;
 
@@ -23,7 +23,6 @@ $enable-responsive-font-sizes: true;
 $enable-rounded: false;
 
 @import "bootstrap/scss/bootstrap";
-
 
 /********** Template CSS ************/
 h1,
@@ -44,9 +43,9 @@ h6,
     font-weight: 400 !important;
 }
 
-[class^=flaticon-]:before,
+[class^="flaticon-"]:before,
 [class*=" flaticon-"]:before,
-[class^=flaticon-]:after,
+[class^="flaticon-"]:after,
 [class*=" flaticon-"]:after {
     font-size: inherit;
     margin-left: 0;
@@ -105,7 +104,7 @@ h6,
 }
 
 @media (max-width: 991.98px) {
-    .navbar-light .navbar-nav .nav-link  {
+    .navbar-light .navbar-nav .nav-link {
         padding: 10px 15px;
     }
 }
@@ -122,7 +121,7 @@ h6,
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
