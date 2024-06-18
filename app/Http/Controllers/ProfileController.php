@@ -77,7 +77,7 @@ class ProfileController extends Controller
             'email.unique' => 'Email sudah digunakan',
         ]);
         if ($credentials->fails()) {
-            return back()->with('error', 'Ubah Profil Gagal!')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
+            return back()->with('error', 'Ubah profil gagal!')->withErrors($credentials)->onlyInput('username', 'name', 'email', 'phone');
         }
 
 
@@ -97,7 +97,7 @@ class ProfileController extends Controller
         $user->img = $img;
         $user->update();
 
-        return redirect()->route('profile.index')->with('success', 'Profil Berhasil Diperbarui!');
+        return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui!');
     }
 
 
@@ -124,18 +124,18 @@ class ProfileController extends Controller
             'password_confirmation.required' => 'Password Tidak Boleh Kosong.',
         ]);
         if ($credentials->fails()) {
-            return redirect()->back()->with('error', 'Ubah Password Gagal!')->withErrors($credentials);
+            return redirect()->back()->with('error', 'Ubah password gagal!')->withErrors($credentials);
         }
 
         $user = User::find(Auth::user()->id);
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->with('error', 'Ubah Password Gagal!')->withErrors(['current_password' => 'Password Salah.']);
+            return redirect()->back()->with('error', 'Ubah password gagal!')->withErrors(['current_password' => 'Password Salah.']);
         }
 
         $user->password = Hash::make($request->password);
         $user->update();
 
-        return redirect()->route('profile.index')->with('success', 'Ubah Password Berhasil!');
+        return redirect()->route('profile.index')->with('success', 'Ubah password berhasil!');
     }
 }

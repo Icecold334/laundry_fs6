@@ -97,7 +97,7 @@
                                 <a href="${data.link}" class="text-black">${data.alert}</a>
                             </th>
                             <th class="align-middle" style="width: 5%">
-                                <button class="btn badge bg-danger text-white px-1"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i></button>
+                                
                             </th></tr>`
                     ))
                     if ($('#alert a').length >= 3) {
@@ -135,7 +135,7 @@
                                 <a href="${data.link}" class="text-black">${data.alert}</a>
                             </th>
                             <th class="align-middle" style="width: 5%">
-                                <button class="btn badge bg-danger text-white px-1"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i></button>
+                                
                             </th>
                             </tr>`
                     ))
