@@ -20,7 +20,7 @@
     <div class="container-fluid position-relative nav-bar p-0">
         <div class="position-relative p-0 " style="z-index: 9;">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 pl-3 pl-lg-5">
-                <a href="/orders" class="navbar-brand d-flex align-items-center">
+                <a href="/" class="navbar-brand d-flex align-items-center">
                     <img src="/home/img/logo.png" alt="Logo" style="height: 50px; width: auto; margin-right: 10px;">
                     <h2 class="m-0 text-secondary">{{ Str::upper(env('APP_NAME')) }}</h2>
                 </a>
