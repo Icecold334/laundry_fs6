@@ -52,6 +52,14 @@
                                         @endswitch
                                     </th>
                                 </tr>
+                                @if ($order->status > 0 && Auth::user()->role != 3)
+                                    <tr>
+                                        <th style="width:  50%">Penanggung Jawab</th>
+                                        <th style="width: 5%">:</th>
+                                        <th style="width: 30%">
+                                            {{ $order->staff->name ?? \App\Models\User::find(1)->name }}</th>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <th style="width:  50%">Metode Pembayaran</th>
                                     <th style="width: 5%">:</th>
