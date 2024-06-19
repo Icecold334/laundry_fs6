@@ -29,7 +29,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="index.html" class="nav-item nav-link active">Beranda</a>
+                        <a href="/" class="nav-item nav-link">Beranda</a>
                         <a href="#about" class="nav-item nav-link">Tentang</a>
                         <a href="#service" class="nav-item nav-link">Layanan</a>
                         <a href="#paket" class="nav-item nav-link">Paket</a>
@@ -283,7 +283,7 @@
         <div class="container-fluid pt-2 pb-3" style="margin-top: 100px;">
             <div class="container" id="paket" data-aos="zoom-in">
                 <h1 class="display-4 text-center mb-5">Layanan Laundry</h1>
-                <div class="row justify-content-center">
+                <div class="row justify-content-around">
                     @foreach ($products as $product)
                         <div class="col-lg-4 mb-4 zoom-in card shadow-lg py-4 ">
                             <div class="bg-light text-center mb-2 pt-4">
