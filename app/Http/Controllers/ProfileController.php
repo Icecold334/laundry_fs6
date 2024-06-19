@@ -82,7 +82,7 @@ class ProfileController extends Controller
 
 
         if ($request->hasFile('img')) {
-            // Hapus gambar lama jika ada dan bukan foto default
+            // Hapus gambar lama jika ada
             Storage::delete('public/people/' . $user->img);
             $img = $request->file('img')->store('public/people');
             $img = str_replace('public/people/', '', $img);

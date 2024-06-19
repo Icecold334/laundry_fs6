@@ -95,7 +95,7 @@
     <div class="container-fluid contact-info mt-5 mb-4">
         <div class="container" style="padding: 0 30px;">
             <div class="row" id="">
-                <div class="col-md-4 d-flex align-items-center justify-content-center bg-secondary mb-4 mb-lg-0"
+                <div class="col-xl-4 d-flex align-items-center justify-content-center bg-secondary mb-4 mb-lg-0"
                     style="height: 100px; border-top-left-radius: 15px;">
                     <div class="d-inline-flex">
                         <i class="fa fa-2x fa-map-marker-alt text-white m-0 mr-3"></i>
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex align-items-center justify-content-center bg-primary mb-4 mb-lg-0"
+                <div class="col-xl-4 d-flex align-items-center justify-content-center bg-primary mb-4 mb-lg-0"
                     style="height: 100px;">
                     <div class="d-inline-flex text-left">
                         <i class="fa fa-2x fa-envelope text-white m-0 mr-3"></i>
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex align-items-center justify-content-center bg-secondary mb-4 mb-lg-0"
+                <div class="col-xl-4 d-flex align-items-center justify-content-center bg-secondary mb-4 mb-lg-0"
                     style="height: 100px; border-top-right-radius: 15px;">
                     <div class="d-inline-flex text-left">
                         <i class="fa fa-2x fa-phone-alt text-white m-0 mr-3"></i>
@@ -185,7 +185,7 @@
         <div class="container">
             <div data-aos="fade-down">
                 <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Layanan Kami</h6>
-                <h1 class="display-4 text-center mb-5">Kami Tawarkan</h1>
+                <h1 class="display-4 text-center mb-5">Kami Menawarkan</h1>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-md-6 pb-1 zoom-in" data-aos="flip-left">
@@ -215,7 +215,7 @@
                             style="width: 100px; height: 100px;">
                             <i class="fa fa-3x fa-burn text-primary"></i>
                         </div>
-                        <h4 class="font-weight-bold m-0">Laundry Express</h4>
+                        <h4 class="font-weight-bold m-0">Laundry Cepat</h4>
                     </div>
                 </div>
             </div>
@@ -282,19 +282,19 @@
         <!-- Paket -->
         <div class="container-fluid pt-2 pb-3" style="margin-top: 100px;">
             <div class="container" id="paket" data-aos="zoom-in">
-                <h1 class="display-4 text-center mb-5">Paket Laundry</h1>
+                <h1 class="display-4 text-center mb-5">Layanan Laundry</h1>
                 <div class="row justify-content-center">
                     @foreach ($products as $product)
-                        <div class="col-lg-4 mb-4 zoom-in">
+                        <div class="col-lg-4 mb-4 zoom-in card shadow-lg py-4 ">
                             <div class="bg-light text-center mb-2 pt-4">
                                 <div class="d-inline-flex flex-column align-items-center justify-content-center bg-primary shadow mt-2 mb-4 p-3"
-                                    style="width: auto; height: auto; border: 15px solid #ffffff;">
+                                    style="width: auto; height: auto; border: 15px solid #74abff;">
                                     <h1 class="display-4 text-white mb-0">
                                         {{ $product->name }}
                                     </h1>
                                 </div>
                                 <div class="d-flex flex-column align-items-center py-3">
-                                    <p>Rp {{ number_format($product->price, 2, ',', '.') }} per kg</p>
+                                    <p>Rp {{ number_format($product->price, 2, ',', '.') }} per Kg</p>
                                     <p>Garansi Tepat Waktu</p>
                                     <p>Layanan mencakup pencucian, pengeringan, dan penyetrikaan</p>
                                 </div>
@@ -436,7 +436,7 @@
                 <p><i class="fa fa-envelope mr-2"></i>{{ $admin->email }}</p>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-dark mb-4">Quick Links</h4>
+                <h4 class="text-dark mb-4">Pilihan Cepat</h4>
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-dark mb-2" href="#about"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
                     <a class="text-dark mb-2" href="#service"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
@@ -448,8 +448,10 @@
 
     <div class="container-fluid bg-dark text-white py-4 px-sm-3 px-md-5">
         <p class="m-0 text-center text-white">
-            &copy; <a class="text-white font-weight-medium" href="#">{{ env('APP_NAME') }}</a>. All Rights
-            Reserved.
+            &copy; <a class="text-white font-weight-medium" href="#">{{ env('APP_NAME') }}
+                {{ Carbon\Carbon::now()->format('Y') }}</a>
+            {{-- All Rights
+            Reserved. --}}
         </p>
     </div>
     <!-- Footer End -->

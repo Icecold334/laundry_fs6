@@ -135,7 +135,7 @@
                                         <tr>
                                             <th colspan="3">
                                                 <a href="/orders/{{ $order->code }}/edit"
-                                                    class="btn btn-warning btn-block">Proses
+                                                    class="btn btn-warning btn-block text-dark">Proses
                                                     Pesanan</a>
                                             </th>
                                         </tr>

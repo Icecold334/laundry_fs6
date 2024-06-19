@@ -129,9 +129,8 @@ class ProductsController extends Controller
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');
     }
 
-    public function force($id)
+    public function force(Products $product)
     {
-        $product = Products::withTrashed()->findOrFail($id);
         $product->forceDelete();
         return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan berhasil dihapus!');
     }
@@ -151,9 +150,8 @@ class ProductsController extends Controller
         return view('products.trash', $data);
     }
 
-    public function restore($id)
+    public function restore(Products $product)
     {
-        $product = Products::withTrashed()->findOrFail($id);
         $product->restore();
         return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan berhasil dipulihkan!');
     }

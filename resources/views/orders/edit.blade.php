@@ -159,7 +159,7 @@
             $('#next').click(() => {
                 Swal.fire({
                     title: "Apa Kamu Yakin?",
-                    html: "Yakin Melanjutkan Pesanan <b>{{ $order->code }}</b>?",
+                    html: "Yakin melanjutkan pesanan <b>{{ $order->code }}</b>?",
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
