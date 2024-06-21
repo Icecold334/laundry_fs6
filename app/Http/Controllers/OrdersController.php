@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Orders;
 use App\Models\Products;
 use App\Events\AlertEvent;
-use App\Events\OrderEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreOrdersRequest;
@@ -88,15 +87,15 @@ class OrdersController extends Controller
         $order->save();
         $order->user_name = $order->user->name;
         $order->product_name = $order->product->name;
-        event(new AlertEvent(
-            role: [1, 2],
-            user_id: 0,
-            time: Carbon::now()->diffForHumans(),
-            alert: '<b>' . Auth::user()->name . '</b> membuat pesanan baru!',
-            color: 'secondary',
-            icon: 'fa-solid fa-people-carry-box',
-            link: '/orders/' . $order->code
-        ));
+        // event(new AlertEvent(
+        //     role: [1, 2],
+        //     user_id: 0,
+        //     time: Carbon::now()->diffForHumans(),
+        //     alert: '<b>' . Auth::user()->name . '</b> membuat pesanan baru!',
+        //     color: 'secondary',
+        //     icon: 'fa-solid fa-people-carry-box',
+        //     link: '/orders/' . $order->code
+        // ));
         return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat!');
     }
 
@@ -154,15 +153,15 @@ class OrdersController extends Controller
             $order->review = $request->review;
             $order->status = $order->status + 1;
             $order->update();
-            event(new AlertEvent(
-                role: [1, 2],
-                user_id: 0,
-                time: Carbon::now()->diffForHumans(),
-                alert: '<b>' . Auth::user()->name . '</b> menambahkan ulasan!',
-                color: 'secondary',
-                icon: 'fa-solid fa-people-carry-box',
-                link: '/orders/' . $order->code
-            ));
+            // event(new AlertEvent(
+            //     role: [1, 2],
+            //     user_id: 0,
+            //     time: Carbon::now()->diffForHumans(),
+            //     alert: '<b>' . Auth::user()->name . '</b> menambahkan ulasan!',
+            //     color: 'secondary',
+            //     icon: 'fa-solid fa-people-carry-box',
+            //     link: '/orders/' . $order->code
+            // ));
         } else {
             if ($request->status == 1) {
                 $order->quantity = $request->quantity;
@@ -171,46 +170,46 @@ class OrdersController extends Controller
                 $order->staff_id = Auth::user()->id;
                 $order->update();
 
-                event(new AlertEvent(
-                    role: [1, 2],
-                    user_id: 0,
-                    time: Carbon::now()->diffForHumans(),
-                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
-                    color: 'secondary',
-                    icon: 'fa-solid fa-people-carry-box',
-                    link: '/orders/' . $order->code
-                ));
-                event(new AlertEvent(
-                    role: [],
-                    user_id: $order->user_id,
-                    time: Carbon::now()->diffForHumans(),
-                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
-                    color: 'secondary',
-                    icon: 'fa-solid fa-people-carry-box',
-                    link: '/orders/' . $order->code
-                ));
+                // event(new AlertEvent(
+                //     role: [1, 2],
+                //     user_id: 0,
+                //     time: Carbon::now()->diffForHumans(),
+                //     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
+                //     color: 'secondary',
+                //     icon: 'fa-solid fa-people-carry-box',
+                //     link: '/orders/' . $order->code
+                // ));
+                // event(new AlertEvent(
+                //     role: [],
+                //     user_id: $order->user_id,
+                //     time: Carbon::now()->diffForHumans(),
+                //     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menunggu pembayaran!',
+                //     color: 'secondary',
+                //     icon: 'fa-solid fa-people-carry-box',
+                //     link: '/orders/' . $order->code
+                // ));
             } else {
                 $order->staff_id = Auth::user()->id;
                 $order->status = $order->status + 1;
                 $order->update();
-                event(new AlertEvent(
-                    role: [1, 2],
-                    user_id: 0,
-                    time: Carbon::now()->diffForHumans(),
-                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
-                    color: 'secondary',
-                    icon: 'fa-solid fa-people-carry-box',
-                    link: '/orders/' . $order->code
-                ));
-                event(new AlertEvent(
-                    role: [],
-                    user_id: $order->user_id,
-                    time: Carbon::now()->diffForHumans(),
-                    alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
-                    color: 'secondary',
-                    icon: 'fa-solid fa-people-carry-box',
-                    link: '/orders/' . $order->code
-                ));
+                // event(new AlertEvent(
+                //     role: [1, 2],
+                //     user_id: 0,
+                //     time: Carbon::now()->diffForHumans(),
+                //     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
+                //     color: 'secondary',
+                //     icon: 'fa-solid fa-people-carry-box',
+                //     link: '/orders/' . $order->code
+                // ));
+                // event(new AlertEvent(
+                //     role: [],
+                //     user_id: $order->user_id,
+                //     time: Carbon::now()->diffForHumans(),
+                //     alert: 'Pesanan dengan nomor <b>' . $order->code . '</b> menuju tahap selanjutnya!',
+                //     color: 'secondary',
+                //     icon: 'fa-solid fa-people-carry-box',
+                //     link: '/orders/' . $order->code
+                // ));
             }
         }
 

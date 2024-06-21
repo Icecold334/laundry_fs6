@@ -69,101 +69,101 @@
 
 <script>
     let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
-    window.onload = function() {
+    // window.onload = function() {
 
-        var channel = Echo.channel('alert-channel');
-        channel.listen("AlertEvent", function(data) {
-            var icon
-            if (data.color == "secondary") {
-                icon = 'info'
-            } else if (data.icon == 'danger') {
-                icon = 'error'
-            } else {
-                icon = data.color
-            }
-            setTimeout(() => {
-                if (data.user_id == user.id) {
-                    $('#alert').prepend($(
-                        `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
-                    ))
-                    $('#notif-table').prepend($(
-                        `<tr><th class="align-middle" style="width: 10%">
-                                <div class="icon-circle bg-secondary">
-                                    <i class="${data.icon} text-white" aria-hidden="true"></i>
-                                </div>
-                            </th>
-                            <th class="align-middle" style="width: ">
-                                <span class="d-flex small text-gray-500">${data.time}</span>
-                                <a href="${data.link}" class="text-black">${data.alert}</a>
-                            </th>
-                            <th class="align-middle" style="width: 5%">
-                                
-                            </th></tr>`
-                    ))
-                    if ($('#alert a').length >= 3) {
-                        $('#alert a').last().remove();
-                    }
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-start",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    });
-                    Toast.fire({
-                        showCloseButton: true,
-                        icon: icon,
-                        html: data.alert
-                    });
+    //     var channel = Echo.channel('alert-channel');
+    //     channel.listen("AlertEvent", function(data) {
+    //         var icon
+    //         if (data.color == "secondary") {
+    //             icon = 'info'
+    //         } else if (data.icon == 'danger') {
+    //             icon = 'error'
+    //         } else {
+    //             icon = data.color
+    //         }
+    //         setTimeout(() => {
+    //             if (data.user_id == user.id) {
+    //                 $('#alert').prepend($(
+    //                     `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
+    //                 ))
+    //                 $('#notif-table').prepend($(
+    //                     `<tr><th class="align-middle" style="width: 10%">
+    //                             <div class="icon-circle bg-secondary">
+    //                                 <i class="${data.icon} text-white" aria-hidden="true"></i>
+    //                             </div>
+    //                         </th>
+    //                         <th class="align-middle" style="width: ">
+    //                             <span class="d-flex small text-gray-500">${data.time}</span>
+    //                             <a href="${data.link}" class="text-black">${data.alert}</a>
+    //                         </th>
+    //                         <th class="align-middle" style="width: 5%">
 
-                } else if (data.role.includes(user.role)) {
-                    $('#alert').prepend($(
-                        `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
-                    ))
-                    $('#notif-table').prepend($(
-                        `<tr><th class="align-middle" style="width: 10%">
-                                <div class="icon-circle bg-secondary">
-                                    <i class="${data.icon} text-white" aria-hidden="true"></i>
-                                </div>
-                            </th>
-                            <th class="align-middle" style="width: ">
-                                <span class="d-flex small text-gray-500">${data.time}</span>
-                                <a href="${data.link}" class="text-black">${data.alert}</a>
-                            </th>
-                            <th class="align-middle" style="width: 5%">
-                                
-                            </th>
-                            </tr>`
-                    ))
-                    if ($('#alert a').length >= 3) {
-                        $('#alert a').last().remove();
-                    }
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-start",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    });
-                    Toast.fire({
-                        showCloseButton: true,
-                        icon: icon,
-                        html: data.alert,
-                    });
-                }
-            }, 1000);
+    //                         </th></tr>`
+    //                 ))
+    //                 if ($('#alert a').length >= 3) {
+    //                     $('#alert a').last().remove();
+    //                 }
+    //                 var Toast = Swal.mixin({
+    //                     toast: true,
+    //                     position: "top-start",
+    //                     showConfirmButton: false,
+    //                     timer: 3000,
+    //                     timerProgressBar: true,
+    //                     didOpen: (toast) => {
+    //                         toast.onmouseenter = Swal.stopTimer;
+    //                         toast.onmouseleave = Swal.resumeTimer;
+    //                     }
+    //                 });
+    //                 Toast.fire({
+    //                     showCloseButton: true,
+    //                     icon: icon,
+    //                     html: data.alert
+    //                 });
+
+    //             } else if (data.role.includes(user.role)) {
+    //                 $('#alert').prepend($(
+    //                     `<a class="dropdown-item d-flex align-items-center" href="${data.link}"><div class="mr-3"><div class="icon-circle bg-${data.color}"><i class="${data.icon} text-white" aria-hidden="true"></i></div></div><div><div class="small text-gray-500">${data.time}</div><span class="font-weight-bold">${data.alert}</span></div></a>`
+    //                 ))
+    //                 $('#notif-table').prepend($(
+    //                     `<tr><th class="align-middle" style="width: 10%">
+    //                             <div class="icon-circle bg-secondary">
+    //                                 <i class="${data.icon} text-white" aria-hidden="true"></i>
+    //                             </div>
+    //                         </th>
+    //                         <th class="align-middle" style="width: ">
+    //                             <span class="d-flex small text-gray-500">${data.time}</span>
+    //                             <a href="${data.link}" class="text-black">${data.alert}</a>
+    //                         </th>
+    //                         <th class="align-middle" style="width: 5%">
+
+    //                         </th>
+    //                         </tr>`
+    //                 ))
+    //                 if ($('#alert a').length >= 3) {
+    //                     $('#alert a').last().remove();
+    //                 }
+    //                 var Toast = Swal.mixin({
+    //                     toast: true,
+    //                     position: "top-start",
+    //                     showConfirmButton: false,
+    //                     timer: 3000,
+    //                     timerProgressBar: true,
+    //                     didOpen: (toast) => {
+    //                         toast.onmouseenter = Swal.stopTimer;
+    //                         toast.onmouseleave = Swal.resumeTimer;
+    //                     }
+    //                 });
+    //                 Toast.fire({
+    //                     showCloseButton: true,
+    //                     icon: icon,
+    //                     html: data.alert,
+    //                 });
+    //             }
+    //         }, 1000);
 
 
-        })
-    }
+    //     })
+    // }
 </script>
 @if (App\Models\Products::count() == 0 && (Auth::user()->role == 2 || Auth::user()->role == 3))
     <script>

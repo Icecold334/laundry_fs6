@@ -78,15 +78,15 @@ class AuthController extends Controller
 
         $user = User::create($data);
 
-        event(new AlertEvent(
-            role: [1],
-            user_id: 0,
-            time: Carbon::now()->diffForHumans(),
-            alert: '<b>' . $request->name . '</b> berhasil registrasi!',
-            color: 'success',
-            icon: 'fa-solid fa-user-plus',
-            link: '/users/' . $user->id
-        ));
+        // event(new AlertEvent(
+        //     role: [1],
+        //     user_id: 0,
+        //     time: Carbon::now()->diffForHumans(),
+        //     alert: '<b>' . $request->name . '</b> berhasil registrasi!',
+        //     color: 'success',
+        //     icon: 'fa-solid fa-user-plus',
+        //     link: '/users/' . $user->id
+        // ));
         return redirect('/login')->with('daftar', 'success');
     }
 
@@ -116,15 +116,15 @@ class AuthController extends Controller
                 // Login user yang baru dibuat
                 auth()->login($user);
                 session()->regenerate();
-                event(new AlertEvent(
-                    role: [1],
-                    user_id: 0,
-                    time: Carbon::now()->diffForHumans(),
-                    alert: '<b>' . $user->name . '</b> berhasil registrasi!',
-                    color: 'success',
-                    icon: 'fa-solid fa-user-plus',
-                    link: '/users/' . $user->id
-                ));
+                // event(new AlertEvent(
+                //     role: [1],
+                //     user_id: 0,
+                //     time: Carbon::now()->diffForHumans(),
+                //     alert: '<b>' . $user->name . '</b> berhasil registrasi!',
+                //     color: 'success',
+                //     icon: 'fa-solid fa-user-plus',
+                //     link: '/users/' . $user->id
+                // ));
                 return redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!');
             }
             auth()->login($userFromDatabase);

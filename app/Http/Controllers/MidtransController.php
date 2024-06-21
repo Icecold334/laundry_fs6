@@ -45,15 +45,15 @@ class MidtransController extends Controller
         $order = $orders->all()->find($request->id);
         $order->status = 2;
         $order->update();
-        event(new AlertEvent(
-            role: [1, 2],
-            user_id: 0,
-            time: Carbon::now()->diffForHumans(),
-            alert: '<b>' . Auth::user()->name . '</b> berhasil melakukan pembayaran untuk pesanan <b>' . $order->code . '</b>!',
-            color: 'secondary',
-            icon: 'fa-solid fa-people-carry-box',
-            link: '/orders/' . $order->code
-        ));
+        // event(new AlertEvent(
+        //     role: [1, 2],
+        //     user_id: 0,
+        //     time: Carbon::now()->diffForHumans(),
+        //     alert: '<b>' . Auth::user()->name . '</b> berhasil melakukan pembayaran untuk pesanan <b>' . $order->code . '</b>!',
+        //     color: 'secondary',
+        //     icon: 'fa-solid fa-people-carry-box',
+        //     link: '/orders/' . $order->code
+        // ));
         return redirect()->route('orders.index')->with('success', 'Pembayaran berhasil!');
     }
     public function error()
