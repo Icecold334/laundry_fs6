@@ -126,19 +126,21 @@
                                         </th>
                                     </tr>
                                 @endif
-                                @if (
-                                    !($order->status == 1 && $order->method == 1) &&
-                                        $order->status != 3 &&
-                                        $order->status != 4 &&
-                                        Auth::user()->role != 3)
-                                    <tr>
-                                        <th colspan="3">
-                                            <a href="/orders/{{ $order->code }}/edit"
-                                                class="btn btn-warning btn-block">Proses
-                                                Pesanan</a>
-                                        </th>
-                                    </tr>
-                                @endif
+                                @can('update', [App\Models\Orders::class, $order])
+                                    @if (
+                                        !($order->status == 1 && $order->method == 1) &&
+                                            $order->status != 3 &&
+                                            $order->status != 4 &&
+                                            Auth::user()->role != 3)
+                                        <tr>
+                                            <th colspan="3">
+                                                <a href="/orders/{{ $order->code }}/edit"
+                                                    class="btn btn-warning btn-block text-dark">Proses
+                                                    Pesanan</a>
+                                            </th>
+                                        </tr>
+                                    @endif
+                                @endcan
                                 @if ($order->status == 1 && $order->method == 1 && $order->user_id == Auth::user()->id)
                                     <tr>
                                         <th colspan="3">
@@ -176,7 +178,42 @@
                                                                     window.location.href =
                                                                         "/midtrans/success/{{ $order->id }}"; // Redirect to callback URL
                                                                 },
-                                                                onPending: function(result) {},
+                                                                onClose: function(result) {
+                                                                    var Toast = Swal.mixin({
+                                                                        toast: true,
+                                                                        position: "top-start",
+                                                                        showConfirmButton: false,
+                                                                        timer: 3000,
+                                                                        timerProgressBar: true,
+                                                                        didOpen: (toast) => {
+                                                                            toast.onmouseenter = Swal.stopTimer;
+                                                                            toast.onmouseleave = Swal.resumeTimer;
+                                                                        }
+                                                                    });
+                                                                    Toast.fire({
+                                                                        showCloseButton: true,
+                                                                        icon: "error",
+                                                                        title: "Pembayaran gagal!"
+                                                                    });
+                                                                },
+                                                                onPending: function(result) {
+                                                                    var Toast = Swal.mixin({
+                                                                        toast: true,
+                                                                        position: "top-start",
+                                                                        showConfirmButton: false,
+                                                                        timer: 3000,
+                                                                        timerProgressBar: true,
+                                                                        didOpen: (toast) => {
+                                                                            toast.onmouseenter = Swal.stopTimer;
+                                                                            toast.onmouseleave = Swal.resumeTimer;
+                                                                        }
+                                                                    });
+                                                                    Toast.fire({
+                                                                        showCloseButton: true,
+                                                                        icon: "error",
+                                                                        title: "Pembayaran gagal!"
+                                                                    });
+                                                                },
                                                                 onError: function(result) {
                                                                     window.location.href = "/midtrans/error";
                                                                 }

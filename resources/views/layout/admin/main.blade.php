@@ -53,8 +53,10 @@
                         }
                     });
                     Toast.fire({
+                        showCloseButton: true,
                         icon: "success",
-                        title: "{{ session('success') }}"
+                        html: '{!! session('success') !!}',
+
                     });
                 </script>
             @endif
@@ -72,8 +74,9 @@
                         }
                     });
                     Toast.fire({
+                        showCloseButton: true,
                         icon: "error",
-                        title: "{{ session('error') }}"
+                        html: '{!! session('error') !!}'
                     });
                 </script>
             @endif

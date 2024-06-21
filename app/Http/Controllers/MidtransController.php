@@ -45,7 +45,6 @@ class MidtransController extends Controller
         $order = $orders->all()->find($request->id);
         $order->status = 2;
         $order->update();
-        event(new OrderEvent(Orders::all()));
         event(new AlertEvent(
             role: [1, 2],
             user_id: 0,
@@ -55,10 +54,10 @@ class MidtransController extends Controller
             icon: 'fa-solid fa-people-carry-box',
             link: '/orders/' . $order->code
         ));
-        return redirect()->route('orders.index')->with('success', 'Pembayaran Berhasil!');
+        return redirect()->route('orders.index')->with('success', 'Pembayaran berhasil!');
     }
     public function error()
     {
-        return redirect()->route('orders.index')->with('error', 'Pembayaran Gagal!');
+        return redirect()->route('orders.index')->with('error', 'Pembayaran gagal!');
     }
 }

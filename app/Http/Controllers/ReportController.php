@@ -20,15 +20,14 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $orders = Orders::with(['product', 'user'])->where('status', '!=', 0)->orderBy('code')->get();
-        $orders = $request->user ? $orders->where('user_id', '=', $request->user) : $orders;
-        $orders = $request->product ? $orders->where('product_id', '=', $request->product) : $orders;
-        $orders = $request->status ? $orders->where('status', '=', $request->status) : $orders;
+        $orders = $request->user ? $orders->where('user_id', $request->user) : $orders;
+        $orders = $request->product ? $orders->where('product_id', $request->product) : $orders;
+        $orders = $request->status ? $orders->where('status', $request->status) : $orders;
         $orders = $request->from || $request->to ? $orders->whereBetween('created_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']) : $orders;
         $data = [
             'title' => 'Laporan',
             'products' => Products::all(),
-            'product_name' => Products::find($request->product)->name ?? 'Semua',
-            'users' => User::where('role', '=', 3)->get(),
+            'users' => User::where('role', 3)->get(),
             'user_name' => User::find($request->user)->name ?? 'Semua',
             'orders' => $orders,
         ];
@@ -37,9 +36,9 @@ class ReportController extends Controller
     public function export(Request $request)
     {
         $orders = Orders::with(['product', 'user'])->where('status', '!=', 0)->orderBy('code')->get();
-        $orders = $request->user ? $orders->where('user_id', '=', $request->user) : $orders;
-        $orders = $request->product ? $orders->where('product_id', '=', $request->product) : $orders;
-        $orders = $request->status ? $orders->where('status', '=', $request->status) : $orders;
+        $orders = $request->user ? $orders->where('user_id',  $request->user) : $orders;
+        $orders = $request->product ? $orders->where('product_id',  $request->product) : $orders;
+        $orders = $request->status ? $orders->where('status',  $request->status) : $orders;
         $orders = $request->from || $request->to ? $orders->whereBetween('created_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']) : $orders;
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()

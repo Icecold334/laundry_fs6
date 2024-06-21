@@ -57,60 +57,6 @@
                         </td>
                         <td class="text-center">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
                         <td class="text-center">
-                            {{-- @if (Auth::user()->role !== 3 && $order->status == 1 && $order->method == 0)
-                            <a href="#" class="btn badge bg-success text-white px-1">
-                                <i class="fa-solid fa-money-bill"></i>
-                            </a>
-                        @endif --}}
-                            @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
-                                <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
-                                    <i class="fa-solid fa-money-bill"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#pay{{ $order->id }}').click(() => {
-                                            Swal.fire({
-                                                title: "Tunggu Sebentar",
-                                                showConfirmButton: false,
-                                                allowOutsideClick: false
-                                            });
-                                            Swal.showLoading(Swal.getDenyButton());
-                                            // ajax with post method
-                                            $.ajax({
-                                                url: '/midtrans/pay',
-                                                type: 'GET',
-                                                data: {
-                                                    total: {{ $order->total }},
-                                                    item_details: JSON.stringify({
-                                                        id: '{{ $order->code }}',
-                                                        price: {{ $order->product->price }},
-                                                        quantity: Math.floor({{ $order->quantity }}),
-                                                        name: 'Paket {{ $order->product->name }}',
-                                                    }),
-                                                    name: '{{ $order->user->name }}',
-                                                    email: '{{ $order->user->email }}',
-                                                    phone: '{{ $order->user->phone }}',
-                                                },
-                                                success: function(data) {
-                                                    snap.pay(data, {
-                                                        onSuccess: function(result) {
-                                                            window.location.href =
-                                                                "/midtrans/success/{{ $order->id }}"; // Redirect to callback URL
-                                                        },
-                                                        onPending: function(result) {},
-                                                        onError: function(result) {
-                                                            window.location.href = "/midtrans/error";
-                                                        }
-                                                    });
-                                                    Swal.close();
-                                                },
-                                            });
-
-
-                                        });
-                                    </script>
-                                @endpush
-                            @endif
                             <a href="/orders/{{ $order->code }}" class="btn badge bg-info text-white px-1">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
@@ -175,44 +121,6 @@
         </table>
     </div>
     @push('scripts')
-        @if (session('success'))
-            <script>
-                var Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-start",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: "success",
-                    title: "{{ session('success') }}"
-                });
-            </script>
-        @endif
-        @if (session('error'))
-            <script>
-                var Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-start",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: "success",
-                    title: "{{ session('error') }}"
-                });
-            </script>
-        @endif
         <script>
             $("#orders").DataTable({
                 columnDefs: [{

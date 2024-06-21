@@ -25,11 +25,13 @@
                                 <th>:</th>
                                 <th>{{ $user->name }}</th>
                             </tr>
-                            <tr>
-                                <th>Username</th>
-                                <th>:</th>
-                                <th>{{ $user->username ?? '-' }}</th>
-                            </tr>
+                            @if ($user->google_id == null)
+                                <tr>
+                                    <th>Username</th>
+                                    <th>:</th>
+                                    <th>{{ $user->username ?? '-' }}</th>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>No Telepon</th>
                                 <th>:</th>

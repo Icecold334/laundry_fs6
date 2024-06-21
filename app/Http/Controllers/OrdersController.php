@@ -70,10 +70,10 @@ class OrdersController extends Controller
             'address.required' => 'Alamat Tidak Boleh Kosong!',
         ]);
         if (Auth::user()->phone == null) {
-            return redirect()->back()->with('error', 'Isi Nomor Telpon Terlebih Dahulu!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
+            return redirect()->back()->with('error', 'Isi nomor telpon terlebih dahulu!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
         }
         if ($credentials->fails()) {
-            return redirect()->back()->with('error', 'Tambah Pesanan Gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
+            return redirect()->back()->with('error', 'Tambah pesanan gagal!')->withErrors($credentials)->onlyInput('product', 'method', 'before', 'after', 'address', 'note');
         }
         // create a new order
         $order = new Orders();
@@ -97,8 +97,7 @@ class OrdersController extends Controller
             icon: 'fa-solid fa-people-carry-box',
             link: '/orders/' . $order->code
         ));
-        event(new OrderEvent(order: $order));
-        return redirect()->route('orders.index')->with('success', 'Pesanan Berhasil Dibuat!');
+        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat!');
     }
 
     /**
@@ -149,7 +148,7 @@ class OrdersController extends Controller
             ]);
 
             if ($credentials->fails()) {
-                return redirect()->back()->with('error', 'Menambahkan ulasan gagal!')->withErrors($credentials)->onlyInput('review');
+                return redirect()->back()->with('error', 'Tambah ulasan gagal!')->withErrors($credentials)->onlyInput('review');
             }
 
             $order->review = $request->review;
@@ -164,7 +163,6 @@ class OrdersController extends Controller
                 icon: 'fa-solid fa-people-carry-box',
                 link: '/orders/' . $order->code
             ));
-            event(new OrderEvent(Orders::all()));
         } else {
             if ($request->status == 1) {
                 $order->quantity = $request->quantity;
@@ -172,9 +170,7 @@ class OrdersController extends Controller
                 $order->status = 1;
                 $order->staff_id = Auth::user()->id;
                 $order->update();
-                event(
-                    new OrderEvent(order: $order)
-                );
+
                 event(new AlertEvent(
                     role: [1, 2],
                     user_id: 0,
@@ -197,9 +193,6 @@ class OrdersController extends Controller
                 $order->staff_id = Auth::user()->id;
                 $order->status = $order->status + 1;
                 $order->update();
-                event(
-                    new OrderEvent(order: $order)
-                );
                 event(new AlertEvent(
                     role: [1, 2],
                     user_id: 0,
@@ -236,14 +229,14 @@ class OrdersController extends Controller
         // delete product
         $order->delete();
 
-        return redirect()->route('orders.index')->with('success', 'Hapus Pesanan Berhasil!');
+        return redirect()->route('orders.index')->with('success', 'Hapus pesanan berhasil!');
     }
 
     public function force(Orders $order)
     {
         // force delete the order
         $order->forceDelete();
-        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dihapus!');
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan berhasil dihapus!');
     }
 
 
@@ -263,8 +256,13 @@ class OrdersController extends Controller
 
     public function restore(Orders $order)
     {
+        if ($order->user == null) {
+            return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('error', 'Pengguna tidak tersedia!');
+        } elseif ($order->product == null) {
+            return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('error', 'Layanan tidak tersedia!');
+        }
         // restore the order
         $order->restore();
-        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan Berhasil Dipulihkan!');
+        return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan berhasil dipulihkan!');
     }
 }

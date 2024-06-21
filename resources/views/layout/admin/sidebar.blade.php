@@ -1,11 +1,30 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <style>
+        /* Default width for all screens */
+        #logo-app {
+            width: 30%;
+        }
 
+        /* Small screens (mobile) */
+        @media (max-width: 767px) {
+            #logo-app {
+                width: 60%;
+            }
+        }
+
+        /* Extra-large screens */
+        @media (min-width: 1200px) {
+            #logo-app {
+                width: 30%;
+            }
+        }
+    </style>
     <!-- Sidebar - Brand -->
     <div class="sidebar-brand d-flex align-items-center justify-content-center">
         <div class="sidebar-brand-icon">
+            <img src="{{ asset('dashboard/img/logo.png') }}" alt="" id="logo-app">
             {{-- <i class="fas fa-laugh-wink"></i> --}}
-            <img src="{{ asset('dashboard/img/logo.png') }}" alt="" width="30%">
-            <div class="sidebar-brand-text ms-3">{{ env('APP_NAME') }}</div>
+            <div class="sidebar-brand-text">{{ env('APP_NAME') }}</div>
         </div>
     </div>
 

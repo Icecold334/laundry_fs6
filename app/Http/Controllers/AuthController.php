@@ -38,7 +38,7 @@ class AuthController extends Controller
         ];
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return Auth::user()->role == 3 ? redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!') : redirect()->intended('panel')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+            return Auth::user()->role == 3 ? redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!') : redirect()->intended('panel')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!');
         }
 
         return back()->with('login', 'errors')->onlyInput('username');
@@ -58,7 +58,7 @@ class AuthController extends Controller
         $credentials = Validator::make($request->all(), [
             'name' => ['required'],
             'username' => ['required', 'unique:users'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users'],
             'phone' => ['required', 'numeric', 'min_digits:11'],
             'password' => ['required', 'confirmed'],
         ]);
@@ -82,7 +82,7 @@ class AuthController extends Controller
             role: [1],
             user_id: 0,
             time: Carbon::now()->diffForHumans(),
-            alert: $request->name . ' Berhasil Registrasi!',
+            alert: '<b>' . $request->name . '</b> berhasil registrasi!',
             color: 'success',
             icon: 'fa-solid fa-user-plus',
             link: '/users/' . $user->id
@@ -120,16 +120,16 @@ class AuthController extends Controller
                     role: [1],
                     user_id: 0,
                     time: Carbon::now()->diffForHumans(),
-                    alert: $user->name . ' Berhasil Registrasi!',
+                    alert: '<b>' . $user->name . '</b> berhasil registrasi!',
                     color: 'success',
                     icon: 'fa-solid fa-user-plus',
                     link: '/users/' . $user->id
                 ));
-                return redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+                return redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!');
             }
             auth()->login($userFromDatabase);
             session()->regenerate();
-            return redirect()->intended('orders')->with('success', 'Selamat Datang ' . Auth::user()->name . '!');
+            return redirect()->intended('orders')->with('success', 'Selamat Datang <b>' . Auth::user()->name . '</b>!');
         } catch (Exception $e) {
             // Handle jika autentikasi gagal atau dibatalkan
             return redirect()->route('login')->with('login', 'errors');

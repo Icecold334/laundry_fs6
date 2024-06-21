@@ -36,13 +36,13 @@ class ProductsController extends Controller
         Gate::authorize('create', $product);
 
         $credentials = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'min:3'],
             'price' => ['required', 'string'],
             'duration' => ['required', 'numeric', 'max:15'],
         ], [
             'name.required' => 'Nama Layanan Wajib Diisi!',
             'name.string' => 'Nama Layanan Wajib Diisi!',
-            'name.max:255' => 'Nama Layanan Wajib Diisi!',
+            'name.min' => 'Nama Layanan Minimal :min Karakter!',
             'price.required' => 'Harga Layanan Wajib Diisi!',
             'price.string' => 'Harga Layanan Wajib Diisi!',
             'duration.required' => 'Durasi Layanan Wajib Diisi!',
@@ -51,7 +51,7 @@ class ProductsController extends Controller
         ]);
 
         if ($credentials->fails()) {
-            return back()->with('error', 'Tambah Layanan Gagal!')->withErrors($credentials)->onlyInput('name', 'price', 'duration', 'description');
+            return back()->with('error', 'Tambah layanan gagal!')->withErrors($credentials)->onlyInput('name', 'price', 'duration', 'description');
         }
 
         $product = new Products();
@@ -61,7 +61,7 @@ class ProductsController extends Controller
         $product->description = $request->description;
         $product->duration = $request->duration;
         $product->save();
-        return redirect()->route('products.index')->with('success', 'Tambah Layanan Berhasil!');
+        return redirect()->route('products.index')->with('success', 'Tambah layanan berhasil!');
     }
 
     public function show(Products $product)
@@ -107,7 +107,7 @@ class ProductsController extends Controller
         ]);
 
         if ($credentials->fails()) {
-            return back()->with('error', 'Ubah Data Layanan Gagal!')->withErrors($credentials)->onlyInput('name', 'price', 'duration', 'description');
+            return back()->with('error', 'Ubah layanan gagal!')->withErrors($credentials)->onlyInput('name', 'price', 'duration', 'description');
         }
 
         $product->name = $request->name;
@@ -116,24 +116,23 @@ class ProductsController extends Controller
         $product->duration = $request->duration;
         $product->description = $request->description;
         $product->update();
-        return redirect()->route('products.index')->with('success', 'Ubah Layanan Berhasil!');
+        return redirect()->route('products.index')->with('success', 'Ubah layanan berhasil!');
     }
 
     public function destroy(Request $request, Products $product)
     {
         Gate::authorize('delete', $product);
         if (Orders::where('product_id', $product->id)->where('status', '<', 4)->count() > 0) {
-            return redirect()->route('products.index')->with('error', "Pesanan Dengan Layanan $product->name Belum Selesai!");
+            return redirect()->route('products.index')->with('error', "Pesanan dengan layanan <b>$product->name</b> belum selesai!");
         }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Hapus Layanan Berhasil!');
     }
 
-    public function force($id)
+    public function force(Products $product)
     {
-        $product = Products::withTrashed()->findOrFail($id);
         $product->forceDelete();
-        return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan Berhasil Dihapus!');
+        return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan berhasil dihapus!');
     }
 
     public function trash()
@@ -144,17 +143,16 @@ class ProductsController extends Controller
         }
 
         $data = [
-            'title' => 'Layanan Terhapus',
+            'title' => 'Layanan',
             'products' => $trashedProducts
         ];
 
         return view('products.trash', $data);
     }
 
-    public function restore($id)
+    public function restore(Products $product)
     {
-        $product = Products::withTrashed()->findOrFail($id);
         $product->restore();
-        return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan Berhasil Dipulihkan!');
+        return redirect()->route(Products::onlyTrashed()->count() > 0 ? 'products.trash' : 'products.index')->with('success', 'Layanan berhasil dipulihkan!');
     }
 }

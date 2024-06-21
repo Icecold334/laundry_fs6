@@ -216,7 +216,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="button" class="btn btn-danger" id="allbottom" data-bs-dismiss="modal">Hapus
                         Semua</button>
                     @push('scripts')

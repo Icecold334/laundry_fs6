@@ -33,10 +33,10 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         if (Orders::where('user_id', $user->id)->where('status', '<', 4)->count() > 0) {
-            return redirect()->route('users.index')->with('error', "Pesanan Milik $user->name Belum Selesai!");
+            return redirect()->route('users.index')->with('error', "Pesanan milik <b>$user->name</b> belum selesai!");
         }
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'Hapus data berhasil!');
+        return redirect()->route('users.index')->with('success', 'Hapus pengguna berhasil!');
     }
 
     public function trash()
