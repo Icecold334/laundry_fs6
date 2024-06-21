@@ -193,7 +193,6 @@
                 showCancelButton: true,
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                ,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "Tambahkan Layanan",
                 cancelButtonText: "Keluar"
