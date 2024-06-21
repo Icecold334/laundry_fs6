@@ -32,7 +32,9 @@
                         <a href="/" class="nav-item nav-link">Beranda</a>
                         <a href="#about" class="nav-item nav-link">Tentang</a>
                         <a href="#service" class="nav-item nav-link">Layanan</a>
-                        <a href="#paket" class="nav-item nav-link">Paket</a>
+                        @if ($products->count() > 0)
+                            <a href="#paket" class="nav-item nav-link">Paket</a>
+                        @endif
 
                         @can('superadmin')
                             <a href="/panel" class="nav-item nav-link btn btn-primary text-white ml-3">Dashboard</a>
