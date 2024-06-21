@@ -40,7 +40,7 @@
         return angka.replace(/[^\d.]/g, '').toString()
     }
 </script>
-@if (Auth::user()->role == 1)
+{{-- @if (Auth::user()->role == 1)
     <script>
         window.onload = function() {
 
@@ -65,7 +65,7 @@
             })
         }
     </script>
-@endif
+@endif --}}
 
 <script>
     let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
