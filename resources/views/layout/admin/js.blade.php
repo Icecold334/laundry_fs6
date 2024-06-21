@@ -171,6 +171,7 @@
             icon: 'error',
             title: 'Layanan Kosong!',
             text: 'Hubungi pihak laundry untuk informasi lebih lanjut.',
+            allowEscapeKey: false,
             allowOutsideClick: false,
             showCancelButton: false,
             confirmButtonColor: "#3085d6",
@@ -190,7 +191,9 @@
                 title: 'Layanan Kosong!',
                 text: 'Tambahkan layanan laundry anda!',
                 showCancelButton: true,
+                allowEscapeKey: false,
                 allowOutsideClick: false,
+                ,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "Tambahkan Layanan",
                 cancelButtonText: "Keluar"

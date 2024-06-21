@@ -78,6 +78,7 @@
                                             Swal.fire({
                                                 title: "Tunggu Sebentar",
                                                 showConfirmButton: false,
+                                                allowEscapeKey: false,
                                                 allowOutsideClick: false
                                             });
                                             Swal.showLoading(Swal.getDenyButton());
