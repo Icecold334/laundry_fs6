@@ -68,7 +68,7 @@
 @endif --}}
 
 <script>
-    let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
+    // let user = JSON.parse('{!! json_encode(Auth::user()) !!}')
     // window.onload = function() {
 
     //     var channel = Echo.channel('alert-channel');

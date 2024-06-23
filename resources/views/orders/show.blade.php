@@ -83,6 +83,16 @@
                                         <th style="width: 30%">{{ $date }}</th>
                                     </tr>
                                 @endif
+                                <tr>
+                                    <th style="width:  50%">Pengiriman Awal</th>
+                                    <th style="width: 5%">:</th>
+                                    <th style="width: 30%">{{ $order->before == 0 ? 'Diantar' : 'Diambil' }}</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:  50%">Pengiriman Akhir</th>
+                                    <th style="width: 5%">:</th>
+                                    <th style="width: 30%">{{ $order->after == 0 ? 'Diambil' : 'Diantar' }}</th>
+                                </tr>
                                 @if ($order->before == 1 || $order->after == 1)
                                     <tr>
                                         <th style="width:  50%">Alamat</th>
