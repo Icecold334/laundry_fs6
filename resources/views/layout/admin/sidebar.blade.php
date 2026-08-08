@@ -45,11 +45,11 @@
             <span>Layanan</span></a>
     </li>
     @can('superadmin')
-        <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
+        {{-- <li class="nav-item {{ Request::is('people*') ? 'active ' : '' }}">
             <a class="nav-link " href="/people">
                 <i class="fa-solid fa-people-group"></i>
                 <span>Karyawan</span></a>
-        </li>
+        </li> --}}
         <li class="nav-item {{ Request::is('users*') ? 'active ' : '' }}">
             <a class="nav-link " href="/users">
                 <i class="fa-solid fa-users"></i>

@@ -473,9 +473,9 @@
                             </div>
 
                             <input type="submit" value="Login" class="sign-btn" />
-                            <button type="button" class="sign-google" id="google"><i
+                            {{-- <button type="button" class="sign-google" id="google"><i
                                     class="fa-brands fa-google"></i> Login Dengan
-                                Google</button>
+                                Google</button> --}}
                         </div>
                     </form>
 

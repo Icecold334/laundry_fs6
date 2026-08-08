@@ -6,7 +6,7 @@
 
     <div class="row">
         <!-- Pesanan Masuk -->
-        <div class="col-xl-3 col-md-3 col-sm-12 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-4 col-sm-12  mb-4">
             <div class="card border-left-secondary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <!-- Pendapatan -->
-        <div class="col-xl-3 col-md-3 col-sm-12 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-4 col-sm-12  mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- Total Karyawan -->
-        <div class="col-xl-3 col-md-3 col-sm-12 col-md-6 mb-4">
+        {{-- <div class="col-xl-4 col-md-4 col-sm-12  mb-4">
             <div class="card border-left-danger shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -55,9 +55,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Total Pengguna -->
-        <div class="col-xl-3 col-md-3 col-sm-12 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-4 col-sm-12  mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
