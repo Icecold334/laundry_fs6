@@ -29,7 +29,7 @@
             width: 100%;
             min-height: 100vh;
             overflow: hidden;
-            background-color: #0d6efd;
+            background-color: #072847;
             padding: 2rem;
             display: flex;
             align-items: center;
@@ -186,7 +186,7 @@
             display: inline-block;
             width: 100%;
             height: 43px;
-            background-color: #0d6efd;
+            background-color: #072847;
             color: #fff;
             border: none;
             cursor: pointer;
@@ -256,7 +256,7 @@
             width: 55%;
             left: 45%;
             top: 0;
-            background-color: #74abff;
+            background-color: #e6cea2;
             border-radius: 2rem;
             display: grid;
             grid-template-rows: auto 1fr;
