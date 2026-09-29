@@ -64,10 +64,11 @@
                                         aria-label="Pilih Status" id="status" name="status">
                                         <option value=""></option>
                                         <option value="1" @selected('1' == request()->status)>Menunggu Konfirmasi Ongkir</option>
-                                        <option value="2" @selected('2' == request()->status)>Menunggu Pembayaran</option>
-                                        <option value="3" @selected('3' == request()->status)>Pesanan Diproses</option>
-                                        <option value="4" @selected('4' == request()->status)>Pesanan Siap Diambil / Diantar</option>
-                                        <option value="5" @selected('5' == request()->status)>Pesanan Selesai</option>
+                                        <option value="2" @selected('2' == request()->status)>Menunggu Ditimbang</option>
+                                        <option value="3" @selected('3' == request()->status)>Menunggu Pembayaran</option>
+                                        <option value="4" @selected('4' == request()->status)>Pesanan Diproses</option>
+                                        <option value="5" @selected('5' == request()->status)>Pesanan Siap Diambil / Diantar</option>
+                                        <option value="6" @selected('6' == request()->status)>Pesanan Selesai</option>
                                     </select>
                                     @error('status')
                                         <div id="status" class="invalid-feedback">

@@ -140,10 +140,10 @@ class OrdersController extends Controller
         if (Auth::user()->role == 3) {
             // validate
             $credentials = Validator::make($request->all(), [
-                'review' => ['required', 'min:30'],
+                'review' => ['required', 'min:10'],
             ], [
                 'review.required' => 'Ulasan Tidak Boleh Kosong!',
-                'review.min' => 'Ulasan minimal 30 karakter!',
+                'review.min' => 'Ulasan minimal 10 karakter!',
             ]);
 
             if ($credentials->fails()) {
@@ -164,13 +164,15 @@ class OrdersController extends Controller
             // ));
         } else {
             if ($request->has('status')) {
-                $order->quantity = $request->quantity;
-                $order->total = str_replace('.', '', $request->total);
                 if ($request->status == 1) {
+                    // Admin input ongkir saja
                     $order->shipping_cost = str_replace('.', '', $request->shipping_cost ?? '0');
                     $order->status = 1;
-                } else {
-                    $order->status = 2;
+                } elseif ($request->status == 3) {
+                    // Admin input jumlah timbangan & total layanan
+                    $order->quantity = $request->quantity;
+                    $order->total = str_replace('.', '', $request->total);
+                    $order->status = 3;
                 }
                 $order->staff_id = Auth::user()->id;
                 $order->update();
@@ -276,7 +278,7 @@ class OrdersController extends Controller
         if ($order->status == 1 && Auth::user()->id == $order->user_id) {
             $order->status = 2;
             $order->update();
-            return redirect()->back()->with('success', 'Ongkir disetujui, silakan lakukan pembayaran.');
+            return redirect()->back()->with('success', 'Ongkir disetujui, menunggu ditimbang.');
         }
         return redirect()->back()->with('error', 'Tidak dapat menyetujui ongkir.');
     }

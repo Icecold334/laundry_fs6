@@ -43,7 +43,7 @@ class MidtransController extends Controller
     public function success(Request $request, Orders $orders)
     {
         $order = $orders->all()->find($request->id);
-        $order->status = 3;
+        $order->status = 4;
         $order->update();
         // event(new AlertEvent(
         //     role: [1, 2],

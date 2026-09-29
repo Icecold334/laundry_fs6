@@ -43,7 +43,7 @@ class OrdersPolicy
         if ($order->trashed()) {
             return false;
         } else {
-            return $order->status == 3 ? false : $user->role != 3 && $order->status != 4 && !($order->status == 1 && $order->method == 1);
+            return $order->status == 5 ? false : $user->role != 5 && $order->status != 6 && !($order->status == 3 && $order->method == 1);
         }
     }
 

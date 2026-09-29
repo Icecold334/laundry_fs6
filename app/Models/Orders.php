@@ -28,16 +28,18 @@ class Orders extends Model
 
     public const STATUS_CREATED = 0;
     public const STATUS_WAITING_SHIPPING_CONFIRM = 1;
-    public const STATUS_WAITING_PAYMENT = 2;
-    public const STATUS_PROCESSING = 3;
-    public const STATUS_READY = 4;
-    public const STATUS_COMPLETED = 5;
+    public const STATUS_WAITING_WEIGH = 2;
+    public const STATUS_WAITING_PAYMENT = 3;
+    public const STATUS_PROCESSING = 4;
+    public const STATUS_READY = 5;
+    public const STATUS_COMPLETED = 6;
 
     public function getStatusLabelAttribute(): string
     {
         return match ((int) $this->status) {
             self::STATUS_CREATED => 'Pesanan Dibuat',
             self::STATUS_WAITING_SHIPPING_CONFIRM => 'Menunggu Konfirmasi Ongkir',
+            self::STATUS_WAITING_WEIGH => 'Menunggu Ditimbang',
             self::STATUS_WAITING_PAYMENT => 'Menunggu Pembayaran',
             self::STATUS_PROCESSING => 'Pesanan Diproses',
             self::STATUS_READY => 'Pesanan Siap Diambil / Diantar',
@@ -51,6 +53,7 @@ class Orders extends Model
         return match ((int) $this->status) {
             self::STATUS_CREATED => '<span class="badge bg-secondary text-white">Pesanan Dibuat</span>',
             self::STATUS_WAITING_SHIPPING_CONFIRM => '<span class="badge bg-warning text-dark">Menunggu Konfirmasi Ongkir</span>',
+            self::STATUS_WAITING_WEIGH => '<span class="badge bg-warning text-dark">Menunggu Ditimbang</span>',
             self::STATUS_WAITING_PAYMENT => '<span class="badge bg-warning text-dark">Menunggu Pembayaran</span>',
             self::STATUS_PROCESSING => '<span class="badge bg-info text-white">Pesanan Diproses</span>',
             self::STATUS_READY => '<span class="badge bg-primary text-white">Pesanan Siap Diambil / Diantar</span>',

@@ -98,7 +98,7 @@
                                 <th style="width: 30%">{{ $order->address }}</th>
                             </tr>
                             @endif
-                            @if ($order->status == 4 && Auth::user()->id == $order->user_id)
+                            @if ($order->status == 5 && Auth::user()->id == $order->user_id)
                             <form action="/orders/{{ $order->code }}" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -126,7 +126,7 @@
                                 </tr>
                             </form>
                             @endif
-                            @if ($order->status == 5)
+                            @if ($order->status == 6)
                             <tr>
                                 <th style="width:  50%">Ulasan</th>
                                 <th style="width: 5%">:</th>
@@ -154,9 +154,9 @@
                             @can('update', [App\Models\Orders::class, $order])
                             @if (
                             $order->status != 1 &&
-                            !($order->status == 2 && $order->method == 1 && $order->quantity != null) &&
-                            $order->status != 4 &&
+                            !($order->status == 3 && $order->method == 1) &&
                             $order->status != 5 &&
+                            $order->status != 6 &&
                             Auth::user()->role != 3)
                             <tr>
                                 <th colspan="3">
@@ -167,7 +167,7 @@
                             </tr>
                             @endif
                             @endcan
-                            @if ($order->status == 2 && $order->quantity != null && $order->method == 1 &&
+                            @if ($order->status == 3 && $order->method == 1 &&
                             $order->user_id == Auth::user()->id)
                             <tr>
                                 <th colspan="3">

@@ -1,60 +1,61 @@
 @extends('layout.admin.main')
 @section('content')
-    <h1>
-        Daftar Pesanan
-        @can('create', App\Models\Orders::class)
-            <a href="/orders/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
-        @endcan
-        @can('restore', [App\Models\Orders::class, App\Models\Orders::onlyTrashed()])
-            <a href="/orders/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
-        @endcan
-    </h1>
-    @csrf
-    <div class="table-responsive">
-        <table class="table" id="orders">
-            <thead>
-                <tr>
-                    <th class="text-center" style="width: 5%">#</th>
-                    <th class="text-center" style="width: 10%">Nomor</th>
-                    @if (Auth::user()->role !== 3)
-                        <th class="text-center" style="width: 10%">Atas Nama</th>
-                    @endif
-                    <th class="text-center" style="width: 15%">Layanan</th>
-                    <th class="text-center">Jumlah</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Pembayaran</th>
-                    <th class="text-center" style="width: 10%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                @endphp
-                @foreach ($orders as $order)
-                    <tr id="{{ $order->id }}">
-                        <td class="text-center number">{{ $loop->iteration }}</td>
-                        <td class="code">{{ $order->code }}</td>
-                        @if (Auth::user()->role !== 3)
-                            <td class="name">{{ $order->user->name ?? '-' }}</td>
-                        @endif
-                        <td class="product">{{ $order->product->name ?? '-' }}</td>
-                        <td class="{{ $order->quantity ? 'text-right' : 'text-center' }} qty">
-                            {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
-                        <td class="{{ $order->total ? 'text-right' : 'text-center' }} total">
-                            {{ $order->total ? 'Rp ' . number_format((int)$order->total + (int)$order->shipping_cost, 2, ',', '.') : '-' }}
-                        </td>
-                        <td class="text-center status">
-                            {!! $order->status_badge !!}
-                        </td>
-                        <td class="text-center method">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
-                        <td class="text-center pay">
-                            @if (Auth::user()->role == 3 && $order->status == 2 && $order->quantity != null && $order->method == 1)
-                                <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
-                                    <i class="fa-solid fa-money-bill"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#pay{{ $order->id }}').click(() => {
+<h1>
+    Daftar Pesanan
+    @can('create', App\Models\Orders::class)
+    <a href="/orders/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
+    @endcan
+    @can('restore', [App\Models\Orders::class, App\Models\Orders::onlyTrashed()])
+    <a href="/orders/trash" class="btn btn-warning text-dark"><i class="fa-solid fa-recycle"></i> Sampah</a>
+    @endcan
+</h1>
+@csrf
+<div class="table-responsive">
+    <table class="table" id="orders">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 5%">#</th>
+                <th class="text-center" style="width: 10%">Nomor</th>
+                @if (Auth::user()->role !== 3)
+                <th class="text-center" style="width: 10%">Atas Nama</th>
+                @endif
+                <th class="text-center" style="width: 15%">Layanan</th>
+                <th class="text-center">Jumlah</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Pembayaran</th>
+                <th class="text-center" style="width: 10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+            @endphp
+            @foreach ($orders as $order)
+            <tr id="{{ $order->id }}">
+                <td class="text-center number">{{ $loop->iteration }}</td>
+                <td class="code">{{ $order->code }}</td>
+                @if (Auth::user()->role !== 3)
+                <td class="name">{{ $order->user->name ?? '-' }}</td>
+                @endif
+                <td class="product">{{ $order->product->name ?? '-' }}</td>
+                <td class="{{ $order->quantity ? 'text-right' : 'text-center' }} qty">
+                    {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
+                <td class="{{ $order->total ? 'text-right' : 'text-center' }} total">
+                    {{ $order->total ? 'Rp ' . number_format((int)$order->total + (int)$order->shipping_cost, 2, ',',
+                    '.') : '-' }}
+                </td>
+                <td class="text-center status">
+                    {!! $order->status_badge !!}
+                </td>
+                <td class="text-center method">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
+                <td class="text-center pay">
+                    @if (Auth::user()->role == 3 && $order->status == 3 && $order->method == 1)
+                    <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
+                        <i class="fa-solid fa-money-bill"></i>
+                    </button>
+                    @push('scripts')
+                    <script>
+                        $('#pay{{ $order->id }}').click(() => {
                                             Swal.fire({
                                                 title: "Tunggu Sebentar",
                                                 showConfirmButton: false,
@@ -140,31 +141,31 @@
 
 
                                         });
-                                    </script>
-                                @endpush
-                            @endif
-                            <a href="/orders/{{ $order->code }}" class="btn badge bg-info text-white px-1">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </a>
-                            @can('update', [App\Models\Orders::class, $order])
-                                @if ($order->status !== 5 && $order->status !== 1 && ($order->status !== 2 || $order->method == 0 || $order->quantity == null))
-                                    <a href="/orders/{{ $order->code }}/edit" class="btn badge bg-warning text-white px-1">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                @endif
-                            @endcan
-                            @can('delete', [App\Models\Orders::class, $order])
-                                <form class="d-inline" action="/orders/{{ $order->code }}" method="POST"
-                                    id="formDel{{ $order->code }}">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->code }}">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                                @push('scripts')
-                                    <script>
-                                        $('#delete{{ $order->code }}').click(() => {
+                    </script>
+                    @endpush
+                    @endif
+                    <a href="/orders/{{ $order->code }}" class="btn badge bg-info text-white px-1">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                    @can('update', [App\Models\Orders::class, $order])
+                    @if ($order->status !== 6 && $order->status !== 1 && ($order->status !== 3 || $order->method == 0))
+                    <a href="/orders/{{ $order->code }}/edit" class="btn badge bg-warning text-white px-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    @endif
+                    @endcan
+                    @can('delete', [App\Models\Orders::class, $order])
+                    <form class="d-inline" action="/orders/{{ $order->code }}" method="POST"
+                        id="formDel{{ $order->code }}">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                    <button class="btn badge bg-danger text-white px-1" id="delete{{ $order->code }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    @push('scripts')
+                    <script>
+                        $('#delete{{ $order->code }}').click(() => {
                                             Swal.fire({
                                                 title: "Apa Kamu Yakin?",
                                                 html: "Yakin Hapus Pesanan <b>{{ $order->code }}</b>?",
@@ -181,18 +182,18 @@
                                                 }
                                             });
                                         });
-                                    </script>
-                                @endpush
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    @push('scripts')
-        <script>
-            $("#orders").DataTable({
+                    </script>
+                    @endpush
+                    @endcan
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@push('scripts')
+<script>
+    $("#orders").DataTable({
                 columnDefs: [{
                     orderable: false,
                     targets: 7
@@ -230,6 +231,6 @@
                 },
             });
             // set local storage
-        </script>
-    @endpush
+</script>
+@endpush
 @endsection

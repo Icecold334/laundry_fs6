@@ -52,7 +52,7 @@
                                         <th style="width: 30%">{{ $order->address }}</th>
                                     </tr>
                                 @endif
-                                @if ($order->status !== 0 && !($order->status == 2 && $order->quantity == null))
+                                @if ($order->status !== 0 && $order->status !== 2 && $order->quantity != null)
                                     <form action="/orders/{{ $order->code }}" method="POST" id="status">
                                         @csrf
                                         @method('PUT')
@@ -102,7 +102,7 @@
                                                 </th>
                                             </tr>
                                         @else
-                                            <input type="hidden" value="2" name="status">
+                                            <input type="hidden" value="3" name="status">
                                             <tr>
                                                 <th style="width:  50%">Jumlah Pesanan</th>
                                                 <th style="width: 5%">:</th>
@@ -134,11 +134,11 @@
                                             </tr>
                                         @endif
                                     </form>
-                                @elseif ($order->status == 2 && $order->quantity == null)
+                                @elseif ($order->status == 2)
                                     <form action="/orders/{{ $order->code }}" method="POST" id="status">
                                         @csrf
                                         @method('PUT')
-                                        <input type="hidden" value="2" name="status">
+                                        <input type="hidden" value="3" name="status">
                                         <tr>
                                             <th style="width:  50%">Jumlah Pesanan</th>
                                             <th style="width: 5%">:</th>
@@ -174,7 +174,7 @@
                                     <th colspan="3">
                                         <div class="d-grid gap-2">
                                             <button id="next"
-                                                class="btn btn-primary btn-block  @if (($order->status == 0 && $order->before == 0 && $order->after == 0) || ($order->status == 2 && $order->quantity == null)) disabled @endif">
+                                                class="btn btn-primary btn-block  @if (($order->status == 0 && $order->before == 0 && $order->after == 0) || $order->status == 2) disabled @endif">
                                                 Lanjutkan Pesanan Ke Tahap Selanjutnya
                                             </button>
                                         </div>
