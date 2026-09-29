@@ -63,10 +63,11 @@
                                     <select class="custom-select @error('status') is-invalid @enderror"
                                         aria-label="Pilih Status" id="status" name="status">
                                         <option value=""></option>
-                                        <option value="1" @selected('1' == request()->status)>Menunggu Pembayaran</option>
-                                        <option value="2" @selected('2' == request()->status)>Pesanan Diproses</option>
-                                        <option value="3" @selected('3' == request()->status)>Pesanan Siap Diambil</option>
-                                        <option value="4" @selected('4' == request()->status)>Pesanan Selesai</option>
+                                        <option value="1" @selected('1' == request()->status)>Menunggu Konfirmasi Ongkir</option>
+                                        <option value="2" @selected('2' == request()->status)>Menunggu Pembayaran</option>
+                                        <option value="3" @selected('3' == request()->status)>Pesanan Diproses</option>
+                                        <option value="4" @selected('4' == request()->status)>Pesanan Siap Diambil / Diantar</option>
+                                        <option value="5" @selected('5' == request()->status)>Pesanan Selesai</option>
                                     </select>
                                     @error('status')
                                         <div id="status" class="invalid-feedback">
@@ -213,27 +214,7 @@
                                         {{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
                                     </td>
                                     <td class="text-center">
-                                        @switch($order->status)
-                                            @case(0)
-                                                <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
-                                            @break
-
-                                            @case(1)
-                                                <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
-                                            @break
-
-                                            @case(2)
-                                                <span class="badge bg-info text-white">Pesanan Diproses</span>
-                                            @break
-
-                                            @case(3)
-                                                <span class="badge bg-primary text-white">Pesanan Siap Diambil</span>
-                                            @break
-
-                                            @case(4)
-                                                <span class="badge bg-success text-white">Pesanan Selesai</span>
-                                            @break
-                                        @endswitch
+                                        {!! $order->status_badge !!}
                                     </td>
 
                                 </tr>

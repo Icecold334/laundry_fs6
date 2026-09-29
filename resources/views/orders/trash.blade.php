@@ -33,27 +33,7 @@
                             {{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
                         </td>
                         <td class="text-center">
-                            @switch($order->status)
-                                @case(0)
-                                    <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
-                                @break
-
-                                @case(1)
-                                    <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
-                                @break
-
-                                @case(2)
-                                    <span class="badge bg-info text-white">Pesanan Diproses</span>
-                                @break
-
-                                @case(3)
-                                    <span class="badge bg-primary text-white">Pesanan Siap Diambil</span>
-                                @break
-
-                                @case(4)
-                                    <span class="badge bg-success text-white">Pesanan Selesai</span>
-                                @break
-                            @endswitch
+                            {!! $order->status_badge !!}
                         </td>
                         <td class="text-center">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
                         <td class="text-center">

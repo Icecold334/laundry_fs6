@@ -51,6 +51,7 @@ Route::resource('/people', PeopleController::class)->withTrashed()->middleware('
 Route::get('/orders/trash', [OrdersController::class, 'trash'])->name('orders.trash')->middleware('superadmin');
 Route::delete('/orders/force/{order:code}', [OrdersController::class, 'force'])->withTrashed()->name('orders.force')->middleware('superadmin');
 Route::get('/orders/restore/{order:code}', [OrdersController::class, 'restore'])->withTrashed()->name('orders.restore')->middleware('superadmin');
+Route::put('/orders/{order:code}/confirm-shipping', [OrdersController::class, 'confirmShipping'])->middleware('auth');
 Route::resource('/orders', OrdersController::class)->withTrashed()->middleware('auth');
 
 Route::get('/users/trash', [UsersController::class, 'trash'])->name('users.trash')->middleware('superadmin');

@@ -41,34 +41,14 @@
                         <td class="{{ $order->quantity ? 'text-right' : 'text-center' }} qty">
                             {{ $order->quantity ? $order->quantity . ' Kg' : '-' }} </td>
                         <td class="{{ $order->total ? 'text-right' : 'text-center' }} total">
-                            {{ $order->total ? 'Rp ' . number_format($order->total, 2, ',', '.') : '-' }}
+                            {{ $order->total ? 'Rp ' . number_format((int)$order->total + (int)$order->shipping_cost, 2, ',', '.') : '-' }}
                         </td>
                         <td class="text-center status">
-                            @switch($order->status)
-                                @case(0)
-                                    <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
-                                @break
-
-                                @case(1)
-                                    <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
-                                @break
-
-                                @case(2)
-                                    <span class="badge bg-info text-white">Pesanan Diproses</span>
-                                @break
-
-                                @case(3)
-                                    <span class="badge bg-primary text-white">Pesanan Siap Diambil</span>
-                                @break
-
-                                @case(4)
-                                    <span class="badge bg-success text-white">Pesanan Selesai</span>
-                                @break
-                            @endswitch
+                            {!! $order->status_badge !!}
                         </td>
                         <td class="text-center method">{{ $order->method ? 'Non-Tunai' : 'Tunai' }} </td>
                         <td class="text-center pay">
-                            @if (Auth::user()->role == 3 && $order->status == 1 && $order->method == 1)
+                            @if (Auth::user()->role == 3 && $order->status == 2 && $order->quantity != null && $order->method == 1)
                                 <button id="pay{{ $order->id }}" class="btn badge bg-success text-white px-1">
                                     <i class="fa-solid fa-money-bill"></i>
                                 </button>
@@ -87,13 +67,23 @@
                                                 url: '/midtrans/pay',
                                                 type: 'GET',
                                                 data: {
-                                                    total: {{ $order->total }},
-                                                    item_details: JSON.stringify({
-                                                        id: '{{ $order->code }}',
-                                                        price: {{ $order->product->price }},
-                                                        quantity: Math.floor({{ $order->quantity }}),
-                                                        name: 'Paket {{ $order->product->name }}',
-                                                    }),
+                                                    total: {{ (int)$order->total + (int)$order->shipping_cost }},
+                                                    item_details: JSON.stringify([
+                                                        {
+                                                            id: '{{ $order->code }}',
+                                                            price: {{ $order->product->price }},
+                                                            quantity: Math.floor({{ $order->quantity }}),
+                                                            name: 'Paket {{ $order->product->name }}',
+                                                        }
+                                                        @if($order->shipping_cost > 0)
+                                                        ,{
+                                                            id: 'ONGKIR-{{ $order->code }}',
+                                                            price: {{ $order->shipping_cost }},
+                                                            quantity: 1,
+                                                            name: 'Biaya Ongkir',
+                                                        }
+                                                        @endif
+                                                    ]),
                                                     name: '{{ $order->user->name }}',
                                                     email: '{{ $order->user->email }}',
                                                     phone: '{{ $order->user->phone }}',
@@ -157,7 +147,7 @@
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
                             @can('update', [App\Models\Orders::class, $order])
-                                @if ($order->status !== 4 && ($order->status !== 1 || $order->method == 0))
+                                @if ($order->status !== 5 && $order->status !== 1 && ($order->status !== 2 || $order->method == 0 || $order->quantity == null))
                                     <a href="/orders/{{ $order->code }}/edit" class="btn badge bg-warning text-white px-1">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>

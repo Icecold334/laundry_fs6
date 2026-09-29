@@ -76,7 +76,7 @@ class OrdersController extends Controller
         }
         // create a new order
         $order = new Orders();
-        $order->code = Products::find($request->product)->code . sprintf("%06s", (int)substr(Orders::withTrashed()->where('code', 'like', Products::find($request->product)->code . '%')->get()->last()->code ?? 0, -6) + 1);
+        $order->code = Products::find($request->product)->code . sprintf("%06s", (int) substr(Orders::withTrashed()->where('code', 'like', Products::find($request->product)->code . '%')->get()->last()->code ?? 0, -6) + 1);
         $order->user_id = Auth::user()->id;
         $order->product_id = $request->product;
         $order->method = $request->method;
@@ -163,10 +163,15 @@ class OrdersController extends Controller
             //     link: '/orders/' . $order->code
             // ));
         } else {
-            if ($request->status == 1) {
+            if ($request->has('status')) {
                 $order->quantity = $request->quantity;
                 $order->total = str_replace('.', '', $request->total);
-                $order->status = 1;
+                if ($request->status == 1) {
+                    $order->shipping_cost = str_replace('.', '', $request->shipping_cost ?? '0');
+                    $order->status = 1;
+                } else {
+                    $order->status = 2;
+                }
                 $order->staff_id = Auth::user()->id;
                 $order->update();
 
@@ -263,5 +268,16 @@ class OrdersController extends Controller
         // restore the order
         $order->restore();
         return redirect()->route(Orders::onlyTrashed()->count() > 0 ? 'orders.trash' : 'orders.index')->with('success', 'Pesanan berhasil dipulihkan!');
+    }
+
+    public function confirmShipping(Orders $order)
+    {
+        Gate::authorize('view', $order);
+        if ($order->status == 1 && Auth::user()->id == $order->user_id) {
+            $order->status = 2;
+            $order->update();
+            return redirect()->back()->with('success', 'Ongkir disetujui, silakan lakukan pembayaran.');
+        }
+        return redirect()->back()->with('error', 'Tidak dapat menyetujui ongkir.');
     }
 }

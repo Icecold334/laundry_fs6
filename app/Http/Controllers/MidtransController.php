@@ -29,7 +29,7 @@ class MidtransController extends Controller
                 'order_id' => rand(),
                 'gross_amount' => $request->total,
             ],
-            'item_details' => [json_decode($request->item_details, true)],
+            'item_details' => json_decode($request->item_details, true),
             'customer_details' => [
                 'first_name' => $request->name,
                 'email' => $request->email,
@@ -43,7 +43,7 @@ class MidtransController extends Controller
     public function success(Request $request, Orders $orders)
     {
         $order = $orders->all()->find($request->id);
-        $order->status = 2;
+        $order->status = 3;
         $order->update();
         // event(new AlertEvent(
         //     role: [1, 2],

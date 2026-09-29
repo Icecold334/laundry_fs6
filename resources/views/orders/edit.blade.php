@@ -29,27 +29,7 @@
                                     <th style="width:  50%">Status</th>
                                     <th style="width: 5%">:</th>
                                     <th style="width: 30%">
-                                        @switch($order->status)
-                                            @case(0)
-                                                <span class="badge bg-secondary text-white">Pesanan Dibuat</span>
-                                            @break
-
-                                            @case(1)
-                                                <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
-                                            @break
-
-                                            @case(2)
-                                                <span class="badge bg-info text-white">Pesanan Diproses</span>
-                                            @break
-
-                                            @case(3)
-                                                <span class="badge bg-primary text-white">Pesanan Siap Diambil</span>
-                                            @break
-
-                                            @case(4)
-                                                <span class="badge bg-success text-white">Pesanan Selesai</span>
-                                            @break
-                                        @endswitch
+                                        {!! $order->status_badge !!}
                                     </th>
                                 </tr>
                                 @if ($order->status > 0 && Auth::user()->role != 3)
@@ -72,7 +52,7 @@
                                         <th style="width: 30%">{{ $order->address }}</th>
                                     </tr>
                                 @endif
-                                @if ($order->status !== 0)
+                                @if ($order->status !== 0 && !($order->status == 2 && $order->quantity == null))
                                     <form action="/orders/{{ $order->code }}" method="POST" id="status">
                                         @csrf
                                         @method('PUT')
@@ -83,9 +63,23 @@
                                         <th style="width: 30%">{{ $order->quantity }} Kg</th>
                                     </tr>
                                     <tr>
-                                        <th style="width:  50%">Total Bayar</th>
+                                        <th style="width:  50%">Biaya Layanan</th>
                                         <th style="width: 5%">:</th>
-                                        <th style="width: 30%">{{ 'Rp ' . number_format($order->total, 2, ',', '.') }}
+                                        <th style="width: 30%">{{ 'Rp ' . number_format((int)$order->total, 2, ',', '.') }}
+                                        </th>
+                                    </tr>
+                                    @if ($order->shipping_cost > 0)
+                                    <tr>
+                                        <th style="width:  50%">Biaya Antar/Jemput (Ongkir)</th>
+                                        <th style="width: 5%">:</th>
+                                        <th style="width: 30%">{{ 'Rp ' . number_format((int)$order->shipping_cost, 2, ',', '.') }}
+                                        </th>
+                                    </tr>
+                                    @endif
+                                    <tr>
+                                        <th style="width:  50%">Total Keseluruhan</th>
+                                        <th style="width: 5%">:</th>
+                                        <th style="width: 30%">{{ 'Rp ' . number_format((int)$order->total + (int)$order->shipping_cost, 2, ',', '.') }}
                                         </th>
                                     </tr>
                                 @endif
@@ -93,7 +87,58 @@
                                     <form action="/orders/{{ $order->code }}" method="POST" id="status">
                                         @csrf
                                         @method('PUT')
-                                        <input type="hidden" value="1" name="status">
+                                        @if ($order->before == 1 || $order->after == 1)
+                                            <input type="hidden" value="1" name="status">
+                                            <tr>
+                                                <th style="width:  50%">Biaya Antar/Jemput (Ongkir)</th>
+                                                <th style="width: 5%">:</th>
+                                                <th style="width: 30%">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input value="{{ old('shipping_cost') ?? 0 }}" type="text"
+                                                            class="form-control @error('shipping_cost') is-invalid @enderror"
+                                                            name="shipping_cost" id="shipping_cost">
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        @else
+                                            <input type="hidden" value="2" name="status">
+                                            <tr>
+                                                <th style="width:  50%">Jumlah Pesanan</th>
+                                                <th style="width: 5%">:</th>
+                                                <th style="width: 30%">
+                                                    <div class="input-group">
+                                                        <input value="{{ old('quantity') }}" type="text"
+                                                            class="form-control @error('quantity') is-invalid @enderror"
+                                                            name="quantity" id="quantity">
+                                                        @error('quantity')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                        <span class="input-group-text">Kg</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:  50%">Total Bayar (Layanan)</th>
+                                                <th style="width: 5%">:</th>
+                                                <th style="width: 30%">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input value="{{ old('total') ?? 0 }}" type="text"
+                                                            class="form-control @error('total') is-invalid @enderror"
+                                                            name="total" id="total" readonly>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        @endif
+                                    </form>
+                                @elseif ($order->status == 2 && $order->quantity == null)
+                                    <form action="/orders/{{ $order->code }}" method="POST" id="status">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" value="2" name="status">
                                         <tr>
                                             <th style="width:  50%">Jumlah Pesanan</th>
                                             <th style="width: 5%">:</th>
@@ -112,7 +157,7 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th style="width:  50%">Total Bayar</th>
+                                            <th style="width:  50%">Total Bayar (Layanan)</th>
                                             <th style="width: 5%">:</th>
                                             <th style="width: 30%">
                                                 <div class="input-group">
@@ -129,7 +174,7 @@
                                     <th colspan="3">
                                         <div class="d-grid gap-2">
                                             <button id="next"
-                                                class="btn btn-primary btn-block  @if ($order->status == 0 && $order->method == 0) disabled @endif">
+                                                class="btn btn-primary btn-block  @if (($order->status == 0 && $order->before == 0 && $order->after == 0) || ($order->status == 2 && $order->quantity == null)) disabled @endif">
                                                 Lanjutkan Pesanan Ke Tahap Selanjutnya
                                             </button>
                                         </div>
@@ -144,6 +189,11 @@
     </div>
     @push('scripts')
         <script>
+            $('#shipping_cost').keyup((e) => {
+                let cost = mustNumeric($('#shipping_cost').val());
+                $('#shipping_cost').val(rupiah(`${cost}`));
+            });
+
             $('#quantity').keyup((e) => {
                 let quantity = mustNumeric($('#quantity').val());
                 $('#quantity').val(quantity);
