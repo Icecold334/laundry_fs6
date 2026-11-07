@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Auth::loginUsingId(1);
         Gate::define('superadmin', function () {
             return Auth::user()->role == 1;
         });

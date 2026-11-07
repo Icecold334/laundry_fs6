@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Orders;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Products;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,94 +13,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 1. Akun Admin
+        User::firstOrCreate(
+            ['email' => 'adminadmin@gmail.com'],
+            [
+                'name' => 'Admin',
+                'username' => 'admin',
+                'role' => 1,
+                'phone' => '088888888888',
+                'password' => Hash::make('admin'),
+                'status' => 1,
+                'email_verified_at' => now(),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'role' => 1,
-            'email' => 'adminadmin@gmail.com',
-            'phone' => '088888888888',
-            'password' => Hash::make('admin')
+        // 2. Akun Staff / Karyawan
+        User::firstOrCreate(
+            ['email' => 'staff@example.com'],
+            [
+                'name' => 'Staff',
+                'username' => 'staff',
+                'role' => 2,
+                'phone' => '087777777777',
+                'password' => Hash::make('staff'),
+                'status' => 1,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // 3. Panggil Seeders (Produk, Pelanggan, dan Transaksi Laundry)
+        $this->call([
+            ProductsSeeder::class,
+            CustomerSeeder::class,
+            OrdersSeeder::class,
         ]);
-        // User::factory()->create([
-        //     'name' => 'Staff',
-        //     'username' => 'staff',
-        //     'role' => 2,
-        //     'email' => 'staff@example.com',
-        //     'phone' => '088888888888',
-        //     'password' => Hash::make('staff')
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'User',
-        //     'username' => 'user',
-        //     'role' => 3,
-        //     'email' => 'user@example.com',
-        //     'phone' => '088888888888',
-        //     'password' => Hash::make('user')
-        // ]);
-        // Products::factory()->create([
-        //     'name' => 'Reguler',
-        //     'price' => 4000,
-        //     'duration' => 3,
-        //     'code' => 'REG',
-        //     'description' => 'Paket Cuci + Setrika 3 Hari'
-        // ]);
-        // Products::factory()->create([
-        //     'name' => 'Instan',
-        //     'price' => 7000,
-        //     'duration' => 1,
-        //     'code' => 'INS',
-        //     'description' => 'Paket Cuci + Setrika 1 Hari'
-        // ]);
-        // Orders::factory()->create([
-        //     'code' => 'INS000001',
-        //     'product_id' => 2,
-        //     'staff_id' => 1,
-        //     'user_id' => 3,
-        //     'before' => 0,
-        //     'after' => 0,
-        //     'method' => 0,
-        //     'status' => 0
-        // ]);
-        // Orders::factory()->create([
-        //     'code' => 'INS000002',
-        //     'product_id' => 2,
-        //     'staff_id' => 1,
-        //     'user_id' => 3,
-        //     'before' => 0,
-        //     'after' => 0,
-        //     'method' => 0,
-        //     'status' => 0
-        // ]);
-        // Orders::factory()->create([
-        //     'code' => 'INS000003',
-        //     'product_id' => 2,
-        //     'staff_id' => 1,
-        //     'user_id' => 3,
-        //     'before' => 0,
-        //     'after' => 0,
-        //     'method' => 0,
-        //     'status' => 0
-        // ]);
-        // Orders::factory()->create([
-        //     'code' => 'INS000004',
-        //     'product_id' => 2,
-        //     'staff_id' => 1,
-        //     'user_id' => 3,
-        //     'before' => 0,
-        //     'after' => 0,
-        //     'method' => 0,
-        //     'status' => 0
-        // ]);
-        // Orders::factory()->create([
-        //     'code' => 'INS000005',
-        //     'product_id' => 2,
-        //     'staff_id' => 1,
-        //     'user_id' => 3,
-        //     'before' => 0,
-        //     'after' => 0,
-        //     'method' => 0,
-        //     'status' => 0
-        // ]);
     }
 }

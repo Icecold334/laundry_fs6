@@ -13,12 +13,14 @@ class Orders extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'user_id',
+        'staff_id',
         'code',
         'product_id',
         'quantity',
         'before',
         'after',
         'method',
+        'review',
         'link',
         'address',
         'status',
